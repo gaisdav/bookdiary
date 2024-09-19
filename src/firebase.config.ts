@@ -1,8 +1,10 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { FirebaseApp } from "@firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { initializeApp } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
+import { FirebaseApp } from '@firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
+
+console.log(import.meta.env);
 
 const firebaseConfig = {
   apiKey: import.meta.env.BOOK_FIREBASE_API_KEY,
