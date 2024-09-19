@@ -34,9 +34,9 @@ export default defineConfig(({ mode }) => {
         },
 
         manifest: {
-          name: 'bookbox',
-          short_name: 'bookbox',
-          description: 'bookbox',
+          name: 'Book diary',
+          short_name: 'BD',
+          description: 'Book diary',
           theme_color: '#ffffff',
         },
 
