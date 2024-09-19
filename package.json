@@ -1,7 +1,6 @@
 {
   "name": "my-vue-app",
   "private": true,
-  "homepage": "https://gaisdav.github.io/book-diary",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
