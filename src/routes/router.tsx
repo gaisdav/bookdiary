@@ -1,14 +1,19 @@
-import { createBrowserRouter } from "react-router-dom";
-import Library from "../pages/Library.tsx";
-import { Layout } from "../Layout.tsx";
+import { createBrowserRouter, createHashRouter } from 'react-router-dom';
+import Library from '../pages/Library.tsx';
+import { Layout } from '../Layout.tsx';
 
 export enum ROUTE {
-  HOME = "/",
-  LIBRARY = "library",
-  PROFILE = "profile",
+  HOME = '/',
+  LIBRARY = 'library',
+  PROFILE = 'profile',
 }
 
-export const router = createBrowserRouter([
+console.log(import.meta.env);
+
+const createRouter =
+  import.meta.env.MODE === 'gh-pages' ? createHashRouter : createBrowserRouter;
+
+export const router = createRouter([
   {
     path: ROUTE.HOME,
     Component: Layout,
