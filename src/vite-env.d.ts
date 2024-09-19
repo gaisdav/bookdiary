@@ -12,6 +12,7 @@ interface ImportMetaEnv {
   BOOK_FIREBASE_MESSAGING_SENDER_ID: string;
   BOOK_FIREBASE_APP_ID: string;
   BOOK_FIREBASE_MEASUREMENT_ID: string;
+  BOOK_CUSTOM_MODE: string;
 }
 
 interface ImportMeta {

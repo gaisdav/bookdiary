@@ -1,4 +1,4 @@
-import { createHashRouter } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import Library from '../pages/Library.tsx';
 import { Layout } from '../Layout.tsx';
 
@@ -8,12 +8,12 @@ export enum ROUTE {
   PROFILE = 'profile',
 }
 
-console.log(import.meta.env);
+const createRouter =
+  import.meta.env.BOOK_CUSTOM_MODE === 'gh-pages'
+    ? createHashRouter
+    : createBrowserRouter;
 
-// const createRouter =
-//   import.meta.env.MODE === 'gh-pages' ? createHashRouter : createBrowserRouter;
-
-export const router = createHashRouter([
+export const router = createRouter([
   {
     path: ROUTE.HOME,
     Component: Layout,
