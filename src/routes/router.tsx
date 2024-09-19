@@ -13,7 +13,7 @@ console.log(import.meta.env);
 const createRouter =
   import.meta.env.MODE === 'gh-pages' ? createHashRouter : createBrowserRouter;
 
-export const router = createRouter([
+export const router = createHashRouter([
   {
     path: ROUTE.HOME,
     Component: Layout,
