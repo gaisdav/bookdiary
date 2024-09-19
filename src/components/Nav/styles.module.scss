@@ -1,0 +1,38 @@
+.nav {
+  margin: auto;
+  width: 100%;
+  max-width: 50%;
+  padding: 8px 32px;
+}
+
+.ul {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.link {
+  user-select: none;
+
+  svg {
+    --svg-size: 2.3rem;
+    height: var(--svg-size);
+    width: var(--svg-size);
+    transition: fill 0.3s;
+  }
+}
+
+.activeLink {
+  svg {
+    fill: var(--color-text);
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    max-width: 100%;
+  }
+}
