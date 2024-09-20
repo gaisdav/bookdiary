@@ -1,8 +1,8 @@
-import { useBooksController } from "../сontrollerHooks/useBooksController.tsx";
-import { useState } from "react";
+import { useBooksController } from '../сontrollers/useBooksController.tsx';
+import { useState } from 'react';
 
 function Library() {
-  const [bookTitleValue, setBookTitleValue] = useState("");
+  const [bookTitleValue, setBookTitleValue] = useState('');
   const { books, createBook, removeBook, getBook, listLoading } =
     useBooksController();
 
@@ -22,7 +22,7 @@ function Library() {
       </div>
       <div>
         {listLoading
-          ? "Loading..."
+          ? 'Loading...'
           : books.map((book) => (
               <div key={book.id}>
                 <div>{book.title}</div>

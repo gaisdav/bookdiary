@@ -34,9 +34,9 @@ export default defineConfig(({ mode }) => {
         },
 
         manifest: {
-          name: 'Book diary',
-          short_name: 'Book diary',
-          description: 'Book diary',
+          name: 'Bookdiary',
+          short_name: 'Bookdiary',
+          description: 'Bookdiary',
           theme_color: '#ffffff',
         },
 

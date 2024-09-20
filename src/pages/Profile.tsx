@@ -1,17 +1,12 @@
 import { FC } from 'react';
+import { useChangeTheme } from '../hooks/useChangeTheme.tsx';
 
 export const Profile: FC = () => {
-  const handleThemeChange = () => {
-    const themeValue = document.documentElement.getAttribute('data-theme');
-    const theme = themeValue === 'light' ? 'dark' : 'light';
-
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('data-theme', theme);
-  };
+  const { switchTheme } = useChangeTheme();
 
   return (
     <div>
-      <button onClick={handleThemeChange}>change theme</button>
+      <button onClick={switchTheme}>change theme</button>
     </div>
   );
 };
