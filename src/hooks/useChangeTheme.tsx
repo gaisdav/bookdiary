@@ -1,8 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-
 export interface IChangeTheme {
-  theme: 'light' | 'dark';
-  setTheme: (theme: 'light' | 'dark') => void;
   switchTheme: () => void;
 }
 
@@ -11,34 +7,19 @@ export interface IChangeTheme {
  * Also updates the color of the status bar based on the theme.
  */
 export const useChangeTheme = (): IChangeTheme => {
-  const [theme, setTheme] = useState<IChangeTheme['theme']>(() => {
-    return (localStorage.getItem('data-theme') ||
-      document.documentElement.getAttribute('data-theme') ||
-      'light') as IChangeTheme['theme'];
-  });
-
-  const refs = useRef({
-    html: document.querySelector('html'),
-    // themeColorMeta: document.querySelector("meta[name='theme-color']"),
-  });
-
-  useEffect(() => {
-    // if (refs.current.html && refs.current.themeColorMeta) {
-    if (refs.current.html) {
-      refs.current.html.setAttribute('data-theme', theme);
-
-      // const themeColor = getComputedStyle(
-      //   document.documentElement,
-      // ).getPropertyValue('--color-bg');
-      // refs.current.themeColorMeta.setAttribute('content', themeColor);
-    }
-  }, [theme]);
-
   const switchTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('data-theme', newTheme); // Persist the theme in localStorage
+    const themeValue = document.documentElement.getAttribute('data-theme');
+    const theme = themeValue === 'light' ? 'dark' : 'light';
+
+    document.documentElement.setAttribute('data-theme', theme);
+    const themeColor = getComputedStyle(
+      document.documentElement,
+    ).getPropertyValue('--color-bg');
+    document
+      .querySelector("meta[name='theme-color']")
+      ?.setAttribute('content', themeColor);
+    localStorage.setItem('data-theme', theme);
   };
 
-  return { theme, setTheme, switchTheme };
+  return { switchTheme };
 };

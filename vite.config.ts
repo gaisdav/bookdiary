@@ -37,7 +37,7 @@ export default defineConfig(({ mode }) => {
           name: 'Bookdiary',
           short_name: 'Bookdiary',
           description: 'Bookdiary',
-          theme_color: '#ffffff',
+          theme_color: '#1c1c1e',
         },
 
         workbox: {

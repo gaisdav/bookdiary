@@ -1,19 +1,40 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="./variables.css" />
     <meta charset="UTF-8" />
-    <!--    <meta name="theme-color" content="#1c1c1e" />-->
-    <!--    <meta name="mobile-web-app-capable" content="yes" />-->
-    <!--    <meta-->
-    <!--      name="apple-mobile-web-app-status-bar-style"-->
-    <!--      content="black-translucent"-->
-    <!--    />-->
+    <meta name="theme-color" content="#1c1c1e" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
-    <link rel="stylesheet" href="./variables.css" />
     <title>Bookdiary</title>
+
+    <style>
+      body {
+        margin: 0;
+        min-width: 320px;
+        height: 100%;
+        background-color: var(--color-bg);
+      }
+
+      #root {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        margin: 0 auto;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+    </style>
 
     <script>
       const isDeviceDark = window.matchMedia(
@@ -22,13 +43,13 @@
       const theme =
         localStorage.getItem('data-theme') || (isDeviceDark ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', theme);
-
-      // const themeColorMeta = document.querySelector("meta[name='theme-color']");
-      // const themeColor = getComputedStyle(
-      //   document.documentElement,
-      // ).getPropertyValue('--color-bg');
-      //
-      // themeColorMeta.setAttribute('content', themeColor);
+      const themeColor = getComputedStyle(
+        document.documentElement,
+      ).getPropertyValue('--color-bg');
+      document
+        .querySelector("meta[name='theme-color']")
+        ?.setAttribute('content', themeColor);
+      localStorage.setItem('data-theme', theme);
     </script>
   </head>
   <body>
