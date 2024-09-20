@@ -37,6 +37,22 @@
   --shadow-sm: 0px 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0px 3px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0px 10px 20px rgba(0, 0, 0, 0.2);
+
+  /* html tag styles */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh; /* old browsers */
+  height: 100dvh; /* new browsers */
+  width: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family-sans), sans-serif;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  transition: all 0.1s ease-out;
 }
 
 [data-theme='dark']:root {
@@ -61,9 +77,3 @@
   --shadow-md: 0px 3px 6px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0px 10px 20px rgba(0, 0, 0, 0.6);
 }
-
-$screen-xs: 320px;
-$screen-sm: 576px;
-$screen-md: 768px;
-$screen-lg: 1024px;
-$screen-xl: 1200px;

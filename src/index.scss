@@ -1,20 +1,3 @@
-html {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 100vh; /* old browsers */
-  height: 100dvh; /* new browsers */
-  width: 100%;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-family-sans), sans-serif;
-  font-size: var(--font-size-base);
-  line-height: var(--line-height-base);
-  transition: all 0.1s ease-out;
-}
-
 a {
   font-weight: 500;
   color: #646cff;

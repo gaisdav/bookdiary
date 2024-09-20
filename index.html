@@ -12,6 +12,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
+    <link rel="stylesheet" href="./variables.css" />
     <title>Bookdiary</title>
 
     <script>
@@ -26,6 +27,7 @@
       const themeColor = getComputedStyle(
         document.documentElement,
       ).getPropertyValue('--color-bg');
+
       themeColorMeta.setAttribute('content', themeColor);
     </script>
   </head>
