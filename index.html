@@ -21,6 +21,12 @@
       const theme =
         localStorage.getItem('data-theme') || (isDeviceDark ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', theme);
+
+      const themeColorMeta = document.querySelector("meta[name='theme-color']");
+      const themeColor = getComputedStyle(
+        document.documentElement,
+      ).getPropertyValue('--color-bg');
+      themeColorMeta.setAttribute('content', themeColor);
     </script>
   </head>
   <body>
