@@ -46,6 +46,7 @@
       const themeColor = getComputedStyle(
         document.documentElement,
       ).getPropertyValue('--color-bg');
+      console.log(getComputedStyle(document.documentElement));
       console.log(themeColor);
       console.log(document.querySelector("meta[name='theme-color']"));
       document
