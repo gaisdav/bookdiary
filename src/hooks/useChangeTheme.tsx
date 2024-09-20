@@ -25,8 +25,11 @@ export const useChangeTheme = (): IChangeTheme => {
   useEffect(() => {
     if (refs.current.html && refs.current.themeColorMeta) {
       refs.current.html.setAttribute('data-theme', theme);
-      // const themeColor = getComputedStyle(refs.current.html).backgroundColor;
-      // refs.current.themeColorMeta.setAttribute('content', themeColor);
+
+      const themeColor = getComputedStyle(
+        document.documentElement,
+      ).getPropertyValue('--color-bg');
+      refs.current.themeColorMeta.setAttribute('content', themeColor);
     }
   }, [theme]);
 
