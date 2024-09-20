@@ -1,6 +1,6 @@
 :root {
-  --font-family-sans: "Inter", sans-serif;
-  --font-family-serif: "Merriweather", serif;
+  --font-family-sans: 'Inter', sans-serif;
+  --font-family-serif: 'Merriweather', serif;
   --font-size-base: 16px;
   --line-height-base: 1.5;
   --border-radius: 4px;
@@ -31,10 +31,6 @@
   --shadow-sm: 0px 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0px 3px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0px 10px 20px rgba(0, 0, 0, 0.2);
-
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-family-sans), sans-serif;
 }
 
 //@media (prefers-color-scheme: dark) {

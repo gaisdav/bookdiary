@@ -1,6 +1,6 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import Library from '../pages/Library.tsx';
-import { Layout } from '../Layout.tsx';
+import { Layout } from '../components/Layout/Layout.tsx';
 
 export enum ROUTE {
   HOME = '/',
