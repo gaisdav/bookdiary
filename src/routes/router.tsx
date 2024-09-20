@@ -1,6 +1,7 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import Library from '../pages/Library.tsx';
 import { Layout } from '../components/Layout/Layout.tsx';
+import { Profile } from '../pages/Profile.tsx';
 
 export enum ROUTE {
   HOME = '/',
@@ -28,7 +29,7 @@ export const router = createRouter([
       },
       {
         path: ROUTE.PROFILE,
-        element: <div>profile</div>,
+        element: <Profile />,
       },
     ],
   },
