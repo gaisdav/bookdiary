@@ -1,9 +1,9 @@
-import { ROUTE } from "../../routes/router.tsx";
-import { NavLink } from "react-router-dom";
-import HomeIcon from "../../assets/icons/home.svg";
-import LibraryIcon from "../../assets/icons/library.svg";
-import PersonIcon from "../../assets/icons/person.svg";
-import css from "./styles.module.scss";
+import { ROUTE } from '../../routes/router.tsx';
+import { NavLink } from 'react-router-dom';
+import HomeIcon from '../../assets/icons/home.svg';
+import LibraryIcon from '../../assets/icons/library.svg';
+import PersonIcon from '../../assets/icons/person.svg';
+import css from './styles.module.scss';
 
 export const Navigation = () => {
   const links = [
@@ -25,7 +25,7 @@ export const Navigation = () => {
     <nav className={css.nav}>
       <ul className={css.ul}>
         {links.map(({ to, icon }) => (
-          <li key={to}>
+          <li key={to} className={css.li}>
             <NavLink
               to={to}
               className={({ isActive }) =>

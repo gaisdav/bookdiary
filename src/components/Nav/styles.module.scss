@@ -2,7 +2,7 @@
   margin: auto;
   width: 100%;
   max-width: 50%;
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 2rem calc(0.5em + env(safe-area-inset-bottom));
 }
 
 .ul {
@@ -14,8 +14,16 @@
   margin: 0;
 }
 
+.li {
+  flex: 1;
+}
+
 .link {
+  display: flex;
+  height: 100%;
+  width: 100%;
   user-select: none;
+  justify-content: center;
 
   svg {
     --svg-size: 2rem;
