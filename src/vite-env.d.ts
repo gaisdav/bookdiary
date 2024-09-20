@@ -18,3 +18,5 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare const SWITCH_THEME: (themeValue: string) => void;

@@ -11,14 +11,7 @@ export const useChangeTheme = (): IChangeTheme => {
     const themeValue = document.documentElement.getAttribute('data-theme');
     const theme = themeValue === 'light' ? 'dark' : 'light';
 
-    document.documentElement.setAttribute('data-theme', theme);
-    const themeColor = getComputedStyle(
-      document.documentElement,
-    ).getPropertyValue('--color-bg');
-    document
-      .querySelector("meta[name='theme-color']")
-      ?.setAttribute('content', themeColor);
-    localStorage.setItem('data-theme', theme);
+    SWITCH_THEME(theme);
   };
 
   return { switchTheme };

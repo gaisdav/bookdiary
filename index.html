@@ -42,17 +42,19 @@
       ).matches;
       const theme =
         localStorage.getItem('data-theme') || (isDeviceDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-      const themeColor = getComputedStyle(
-        document.documentElement,
-      ).getPropertyValue('--color-bg');
-      console.log(getComputedStyle(document.documentElement));
-      console.log(themeColor);
-      console.log(document.querySelector("meta[name='theme-color']"));
-      document
-        .querySelector("meta[name='theme-color']")
-        ?.setAttribute('content', themeColor);
-      localStorage.setItem('data-theme', theme);
+
+      const SWITCH_THEME = (themeValue) => {
+        document.documentElement.setAttribute('data-theme', themeValue);
+        document
+          .querySelector("meta[name='theme-color']")
+          ?.setAttribute(
+            'content',
+            themeValue === 'dark' ? '#1c1c1e' : '#ffffff',
+          );
+        localStorage.setItem('data-theme', themeValue);
+      };
+
+      SWITCH_THEME(theme);
     </script>
   </head>
   <body>
