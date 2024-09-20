@@ -7,6 +7,7 @@ export const Profile: FC = () => {
   return (
     <div>
       <button onClick={switchTheme}>change theme</button>
+      <div>Profile</div>
     </div>
   );
 };
