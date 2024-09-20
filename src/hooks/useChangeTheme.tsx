@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export interface IChangeTheme {
   theme: 'light' | 'dark';
@@ -12,7 +12,7 @@ export interface IChangeTheme {
  */
 export const useChangeTheme = (): IChangeTheme => {
   const [theme, setTheme] = useState<IChangeTheme['theme']>(() => {
-    return (localStorage.getItem('theme') ||
+    return (localStorage.getItem('data-theme') ||
       document.documentElement.getAttribute('data-theme') ||
       'light') as IChangeTheme['theme'];
   });
@@ -22,18 +22,18 @@ export const useChangeTheme = (): IChangeTheme => {
     themeColorMeta: document.querySelector("meta[name='theme-color']"),
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (refs.current.html && refs.current.themeColorMeta) {
       refs.current.html.setAttribute('data-theme', theme);
-      const themeColor = getComputedStyle(refs.current.html).backgroundColor;
-      refs.current.themeColorMeta.setAttribute('content', themeColor);
+      // const themeColor = getComputedStyle(refs.current.html).backgroundColor;
+      // refs.current.themeColorMeta.setAttribute('content', themeColor);
     }
   }, [theme]);
 
   const switchTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
-    localStorage.setItem('theme', newTheme); // Persist the theme in localStorage
+    localStorage.setItem('data-theme', newTheme); // Persist the theme in localStorage
   };
 
   return { theme, setTheme, switchTheme };
