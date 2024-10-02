@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { FirebaseApp } from '@firebase/app';
 import { getDatabase } from 'firebase/database';
+import { getAuth } from 'firebase/auth';
+import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: import.meta.env.BOOK_FIREBASE_API_KEY,
@@ -15,8 +17,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app: FirebaseApp = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-// const auth = getAuth(app);
-const db = getDatabase(app);
 
-export { app, db };
+const auth = getAuth(app);
+const db = getDatabase(app);
+getAnalytics(app);
+
+export { app, db, auth };

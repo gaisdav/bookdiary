@@ -2,11 +2,13 @@ import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import Library from '../pages/Library.tsx';
 import { Layout } from '../components/Layout/Layout.tsx';
 import { Profile } from '../pages/Profile.tsx';
+import { Login } from '../pages/Login.tsx';
 
 export enum ROUTE {
   HOME = '/',
-  LIBRARY = 'library',
-  PROFILE = 'profile',
+  LIBRARY = '/library',
+  LOGIN = '/login',
+  PROFILE = '/profile',
 }
 
 const createRouter =
@@ -30,6 +32,10 @@ export const router = createRouter([
       {
         path: ROUTE.PROFILE,
         element: <Profile />,
+      },
+      {
+        path: ROUTE.LOGIN,
+        element: <Login />,
       },
     ],
   },
