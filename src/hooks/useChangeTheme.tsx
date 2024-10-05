@@ -11,6 +11,9 @@ export const useChangeTheme = (): IChangeTheme => {
     const themeValue = document.documentElement.getAttribute('data-theme');
     const theme = themeValue === 'light' ? 'dark' : 'light';
 
+    /**
+     * SWITCH_THEME is a global function from ./index.html
+     */
     SWITCH_THEME(theme);
   };
 
