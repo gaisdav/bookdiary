@@ -12,7 +12,8 @@ export const useChangeTheme = (): IChangeTheme => {
     const theme = themeValue === 'light' ? 'dark' : 'light';
 
     /**
-     * SWITCH_THEME is a global function from ./index.html
+     * SWITCH_THEME is a global
+     * function from ./index.html
      */
     SWITCH_THEME(theme);
   };
