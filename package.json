@@ -1,7 +1,7 @@
 {
   "name": "bookdiary",
   "private": false,
-  "homepage": "https://gaisdav.github.io/book-diary/",
+  "homepage": "https://gaisdav.github.io/bookdiary/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
