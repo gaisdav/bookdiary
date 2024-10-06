@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
       port: 5001,
     },
     envPrefix: 'BOOK',
-    base: isDev ? '/' : '/book-diary/',
+    base: isDev ? '/' : '/bookdiary/',
     plugins: [
       react(),
       svgr({
