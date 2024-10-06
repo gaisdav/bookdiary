@@ -2,13 +2,15 @@ import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import Library from '../pages/Library.tsx';
 import { Layout } from '../components/Layout/Layout.tsx';
 import { Profile } from '../pages/Profile.tsx';
-import { Login } from '../pages/Login.tsx';
+import { Login } from '../pages/Login/Login.tsx';
+import { Registration } from '../pages/Registration/Registration.tsx';
 
 export enum ROUTE {
   HOME = '/',
   LIBRARY = '/library',
-  LOGIN = '/login',
   PROFILE = '/profile',
+  LOGIN = '/login',
+  REGISTRATION = '/registration',
 }
 
 const createRouter =
@@ -36,6 +38,10 @@ export const router = createRouter([
       {
         path: ROUTE.LOGIN,
         element: <Login />,
+      },
+      {
+        path: ROUTE.REGISTRATION,
+        element: <Registration />,
       },
     ],
   },

@@ -1,4 +1,9 @@
-export interface IUser {
+import { UserInfo } from '@firebase/auth';
+
+export interface IUser extends UserInfo {}
+
+export type TCreatUser = {
   email: string;
-  username: string;
-}
+  password: string;
+  firsName: string;
+};
