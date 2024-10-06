@@ -3,7 +3,7 @@ import { useAuthController } from '../../сontrollers/useAuth.tsx';
 import css from './styles.module.scss';
 import { TCreatUser } from '../../enitites/user';
 
-export const Registration: FC = () => {
+const Registration: FC = () => {
   const { createUser } = useAuthController();
 
   const submit: FormEventHandler<HTMLFormElement> = async (event) => {
@@ -25,3 +25,5 @@ export const Registration: FC = () => {
     </form>
   );
 };
+
+export default Registration;

@@ -1,9 +1,13 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
-import Library from '../pages/Library.tsx';
 import { Layout } from '../components/Layout/Layout.tsx';
-import { Profile } from '../pages/Profile.tsx';
-import { Login } from '../pages/Login/Login.tsx';
-import { Registration } from '../pages/Registration/Registration.tsx';
+import { lazy, Suspense } from 'react';
+
+const Library = lazy(() => import('../pages/Library.tsx'));
+const Profile = lazy(() => import('../pages/Profile.tsx'));
+const Login = lazy(() => import('../pages/Login/Login.tsx'));
+const Registration = lazy(
+  () => import('../pages/Registration/Registration.tsx'),
+);
 
 export enum ROUTE {
   HOME = '/',
@@ -29,19 +33,35 @@ export const router = createRouter([
       },
       {
         path: ROUTE.LIBRARY,
-        element: <Library />,
+        element: (
+          <Suspense fallback={<>Library Loading</>}>
+            <Library />
+          </Suspense>
+        ),
       },
       {
         path: ROUTE.PROFILE,
-        element: <Profile />,
+        element: (
+          <Suspense fallback={<>Profile Loading</>}>
+            <Profile />
+          </Suspense>
+        ),
       },
       {
         path: ROUTE.LOGIN,
-        element: <Login />,
+        element: (
+          <Suspense fallback={<>Login Loading</>}>
+            <Login />
+          </Suspense>
+        ),
       },
       {
         path: ROUTE.REGISTRATION,
-        element: <Registration />,
+        element: (
+          <Suspense fallback={<>Registration Loading</>}>
+            <Registration />
+          </Suspense>
+        ),
       },
     ],
   },

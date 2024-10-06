@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useChangeTheme } from '../hooks/useChangeTheme.tsx';
 import { useAuthController } from '../сontrollers/useAuth.tsx';
 
-export const Profile: FC = () => {
+const Profile: FC = () => {
   const { switchTheme } = useChangeTheme();
   const { logout } = useAuthController();
 
@@ -14,3 +14,5 @@ export const Profile: FC = () => {
     </div>
   );
 };
+
+export default Profile;

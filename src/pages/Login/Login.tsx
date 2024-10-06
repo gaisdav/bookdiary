@@ -3,7 +3,7 @@ import { useAuthController } from '../../сontrollers/useAuth.tsx';
 import { Link } from 'react-router-dom';
 import { ROUTE } from '../../routes/router.tsx';
 
-export const Login: FC = () => {
+const Login: FC = () => {
   const { login } = useAuthController();
 
   const submitLogin: FormEventHandler<HTMLFormElement> = async (event) => {
@@ -26,3 +26,5 @@ export const Login: FC = () => {
     </form>
   );
 };
+
+export default Login;
