@@ -63,7 +63,7 @@ export const useAuthController = () => {
   const createUser = async ({
     email,
     password,
-    firstName: displayName,
+    firsName: displayName
   }: TCreatUser) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
