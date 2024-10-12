@@ -6,6 +6,7 @@
 #  BOOK_FIREBASE_MESSAGING_SENDER_ID: string;
 #  BOOK_FIREBASE_APP_ID: string;
 #  BOOK_FIREBASE_MEASUREMENT_ID: string;
+#  BOOK_GOOGLE_API_KEY: string;
 
 # Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
@@ -45,6 +46,7 @@ jobs:
       BOOK_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.BOOK_FIREBASE_MESSAGING_SENDER_ID }}
       BOOK_FIREBASE_APP_ID: ${{ secrets.BOOK_FIREBASE_APP_ID }}
       BOOK_FIREBASE_MEASUREMENT_ID: ${{ secrets.BOOK_FIREBASE_MEASUREMENT_ID }}
+      BOOK_GOOGLE_API_KEY: ${{ secrets.BOOK_GOOGLE_API_KEY }}
       BOOK_CUSTOM_MODE: gh-pages
     steps:
       - name: Checkout
