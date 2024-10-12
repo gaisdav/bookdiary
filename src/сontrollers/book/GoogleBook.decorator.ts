@@ -13,14 +13,14 @@ export class GoogleBookItems implements TBookList {
         (book) =>
           new BookEntity({
             id: book.id,
+            publishedDate: book.volumeInfo.publishedDate,
             title: book.volumeInfo.title,
             authors: book.volumeInfo.authors,
             categories: book.volumeInfo.categories,
-            cover: book.volumeInfo.imageLinks.thumbnail,
+            cover: book.volumeInfo.imageLinks?.thumbnail,
             description: book.volumeInfo.description,
             language: book.volumeInfo.language,
             pageCount: book.volumeInfo.pageCount,
-            publishedDate: book.volumeInfo.publishedDate,
             publisher: book.volumeInfo.publisher,
           }),
       ) || [];
