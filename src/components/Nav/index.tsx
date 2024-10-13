@@ -12,7 +12,7 @@ export const Navigation = () => {
       icon: <HomeIcon />,
     },
     {
-      to: ROUTE.LIBRARY,
+      to: ROUTE.BOOKS,
       icon: <LibraryIcon />,
     },
     {

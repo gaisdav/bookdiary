@@ -4,6 +4,16 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "module": "ESNext",
     "jsx": "react-jsx"
-  }
+  },
+  "composite": true,
+  "references": [
+    {
+      "path": "./tsconfig.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

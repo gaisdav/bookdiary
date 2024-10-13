@@ -1,10 +1,11 @@
 import { useBooksController } from '@/сontrollers/book/useBooksController';
 import { FormEventHandler } from 'react';
+import { BookItem } from '@/pages/Search/components/BookItem';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
-function Library() {
-  const { bookList, searching, searchBook } = useBooksController();
+function Search() {
+  const { bookList, searching, searchBook, getBook } = useBooksController();
 
   const search: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -30,29 +31,11 @@ function Library() {
         {searching
           ? 'Loading...'
           : bookList?.items.map((book) => (
-              <div key={book.id}>
-                <br />
-                {book.cover && (
-                  <img
-                    loading={'lazy'}
-                    src={book.cover}
-                    alt={`${book.title} ${book.authors.join(', ')}`}
-                  />
-                )}
-                <div>{book.title}</div>
-                <div>{book.authors}</div>
-                <div>{book.categories}</div>
-                <div>{book.description}</div>
-                <div>{book.language}</div>
-                <div>{book.pageCount}</div>
-                <div>{book.publishedDate}</div>
-                <br />
-                <hr />
-              </div>
+              <BookItem key={book.id} book={book} openBook={getBook} />
             ))}
       </div>
     </>
   );
 }
 
-export default Library;
+export default Search;
