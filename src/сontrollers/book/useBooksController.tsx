@@ -3,6 +3,7 @@ import { ref, set, push, child } from 'firebase/database';
 import { db } from '@/firebase.config';
 import { TBookList, TGoogleBookSearch } from './types.ts';
 import { GoogleBookItems } from './GoogleBook.decorator.ts';
+import { IBook } from '@/enitites/book/types';
 
 const key = 'books/';
 const booksRef = ref(db, key);
@@ -10,6 +11,7 @@ const booksRef = ref(db, key);
 export const useBooksController = () => {
   const [searching, setSearching] = useState(false);
   const [bookList, setBookList] = useState<TBookList | null>(null);
+  const [book, setBook] = useState<IBook | null>(null);
 
   // useEffect(() => {
   //   setListLoading(true);
@@ -49,9 +51,9 @@ export const useBooksController = () => {
 
       console.log(result);
 
-      // const data = (await result.json()) as TGoogleBookSearch;
-      //
-      // const decoratedData = new GoogleBookItems(data);
+      const data = (await result.json()) as TGoogleBookSearch;
+
+      const decoratedData = new GoogleBookItems(data);
 
       // setBookList(decoratedData);
     } catch (error) {
@@ -89,6 +91,7 @@ export const useBooksController = () => {
     removeBook,
     getBook,
     createBook,
+    book,
   };
 };
 

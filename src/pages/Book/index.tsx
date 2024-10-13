@@ -6,6 +6,7 @@ export const Book: FC = () => {
   const { bookId } = useParams();
   const { getBook } = useBooksController();
 
+  // TODO calling twice
   useEffect(() => {
     getBook(bookId);
   }, []);
