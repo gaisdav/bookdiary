@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { useChangeTheme } from '../hooks/useChangeTheme.tsx';
-import { useAuthController } from '../сontrollers/useAuth.tsx';
+import { useChangeTheme } from '@/hooks/useChangeTheme';
+import { useAuthController } from '@/сontrollers/useAuth';
 
 const Profile: FC = () => {
   const { switchTheme } = useChangeTheme();

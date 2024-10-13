@@ -1,4 +1,4 @@
-import { useBooksController } from '../сontrollers/book/useBooksController.tsx';
+import { useBooksController } from '@/сontrollers/book/useBooksController';
 import { FormEventHandler } from 'react';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
