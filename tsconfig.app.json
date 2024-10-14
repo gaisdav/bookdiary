@@ -1,6 +1,10 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": false,
+    "strict": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -9,9 +13,5 @@
     "jsx": "react-jsx"
   },
   "composite": true,
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "include": ["vite.config.ts"]
 }

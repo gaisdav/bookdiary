@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IBook } from '@/enitites/book/types.ts';
+import { IBook } from '@/enitites/book/types';
 import { Link } from 'react-router-dom';
 
 type TBookItem = {
