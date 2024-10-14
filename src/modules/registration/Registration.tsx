@@ -1,7 +1,7 @@
 import { FC, FormEventHandler } from 'react';
 import { useAuthController } from '../login/hooks/useAuth.tsx';
 import css from './styles.module.scss';
-import { TCreatUser } from '../../enitites/user';
+import { TCreatUser } from '@/enitites/user';
 
 const Registration: FC = () => {
   const { createUser } = useAuthController();

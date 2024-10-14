@@ -5,11 +5,11 @@ import {
   updateProfile,
   signOut,
 } from 'firebase/auth';
-import { ROUTE } from '../../../routes/router.tsx';
-import { auth } from '../../../firebase.config.ts';
+import { ROUTE } from '@/routes/router.tsx';
+import { auth } from '@/firebase.config.ts';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IUser, TCreatUser } from '../../../enitites/user';
+import { IUser, TCreatUser } from '@/enitites/user';
 
 export const useAuthController = () => {
   const location = useLocation();

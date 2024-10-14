@@ -17,7 +17,5 @@ export const useBooks = () => {
     },
   });
 
-  console.log(rest);
-
   return { search: mutate, ...rest };
 };
