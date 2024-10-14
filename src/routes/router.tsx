@@ -1,14 +1,10 @@
-import {
-  createBrowserRouter,
-  createHashRouter,
-  Outlet,
-} from 'react-router-dom';
+import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import { Layout } from '@/components/Layout/Layout';
-import Search from '../pages/Search/Search.tsx';
-import Profile from '../pages/Profile.tsx';
-import Login from '../pages/Login/Login.tsx';
-import Registration from '../pages/Registration/Registration.tsx';
-import { Book } from '@/pages/Book';
+import Search from '@/modules/book/pages/Search/Search.tsx';
+import Profile from '@/modules/Profile.tsx';
+import Login from '@/modules/login/Login.tsx';
+import Registration from '@/modules/registration/Registration.tsx';
+import { Book } from '@/modules/book/pages/Book';
 
 export enum ROUTE {
   HOME = '/',

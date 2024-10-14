@@ -1,23 +1,23 @@
-import { useBooksController } from '@/сontrollers/book/useBooksController';
 import { FormEventHandler } from 'react';
-import { BookItem } from '@/pages/Search/components/BookItem';
+import { BookItem } from '@/modules/book/pages/Search/components/BookItem';
+import { useBooks } from '@/modules/book/hooks/useBooks.tsx';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
 function Search() {
-  const { bookList, searching, searchBook, getBook } = useBooksController();
+  const { search, isPending, data } = useBooks();
 
-  const search: FormEventHandler<HTMLFormElement> = async (event) => {
+  const searchBook: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
-    await searchBook(bookTitle);
+    await search(bookTitle);
   };
 
   return (
     <>
       <div>
-        <form onSubmit={search}>
+        <form onSubmit={searchBook}>
           <input
             type="text"
             placeholder="book title"
@@ -28,11 +28,9 @@ function Search() {
         </form>
       </div>
       <div>
-        {searching
+        {isPending
           ? 'Loading...'
-          : bookList?.items.map((book) => (
-              <BookItem key={book.id} book={book} openBook={getBook} />
-            ))}
+          : data?.items.map((book) => <BookItem key={book.id} book={book} />)}
       </div>
     </>
   );

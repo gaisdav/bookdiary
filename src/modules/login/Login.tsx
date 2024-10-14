@@ -1,5 +1,5 @@
 import { FC, FormEventHandler } from 'react';
-import { useAuthController } from '../../сontrollers/useAuth.tsx';
+import { useAuthController } from './hooks/useAuth.tsx';
 import { Link } from 'react-router-dom';
 import { ROUTE } from '../../routes/router.tsx';
 

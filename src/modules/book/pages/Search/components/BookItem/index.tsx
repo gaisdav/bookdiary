@@ -1,18 +1,12 @@
 import { FC } from 'react';
-import { IBook } from '@/enitites/book/types';
+import { IBook } from '@/enitites/book/types.ts';
 import { Link } from 'react-router-dom';
-import { ROUTE } from '@/routes/router';
 
 type TBookItem = {
   book: IBook;
-  openBook: (id: string) => void;
 };
 
-export const BookItem: FC<TBookItem> = ({ book, openBook }) => {
-  const handleOpenBook = async () => {
-    await openBook(book.id);
-  };
-
+export const BookItem: FC<TBookItem> = ({ book }) => {
   return (
     <div>
       <br />
@@ -24,6 +18,7 @@ export const BookItem: FC<TBookItem> = ({ book, openBook }) => {
         />
       )}
       <div>{book.title}</div>
+      <div>{book.subtitle}</div>
       <div>{book.authors}</div>
       <div>{book.categories}</div>
       <div>{book.description}</div>

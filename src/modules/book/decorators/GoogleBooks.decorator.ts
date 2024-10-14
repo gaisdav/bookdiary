@@ -1,6 +1,6 @@
-import { IBook } from '../../enitites/book/types.ts';
-import { TBookList, TGoogleBookSearch } from './types.ts';
-import { BookEntity } from '../../enitites/book/BookEntity.ts';
+import { IBook } from '@/enitites/book/types.ts';
+import { TBookList, TGoogleBookSearch } from '../hooks/types.ts';
+import { BookEntity } from '@/enitites/book/BookEntity.ts';
 
 export class GoogleBookItems implements TBookList {
   totalItems: number = 0;
@@ -15,6 +15,7 @@ export class GoogleBookItems implements TBookList {
             id: book.id,
             publishedDate: book.volumeInfo.publishedDate,
             title: book.volumeInfo.title,
+            subtitle: book.volumeInfo.subtitle,
             authors: book.volumeInfo.authors,
             categories: book.volumeInfo.categories,
             cover: book.volumeInfo.imageLinks?.thumbnail,

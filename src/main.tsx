@@ -4,14 +4,19 @@ import './index.scss';
 import { RouterProvider } from 'react-router-dom';
 import PWABadge from './PWABadge.tsx';
 import { router } from './routes/router.tsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const root = document.getElementById('root');
 
 if (root) {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <RouterProvider router={router} />
-      <PWABadge />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <PWABadge />
+      </QueryClientProvider>
     </React.StrictMode>,
   );
 } else {

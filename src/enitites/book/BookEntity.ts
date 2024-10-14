@@ -3,6 +3,7 @@ import { IBook } from './types.ts';
 export class BookEntity implements IBook {
   id: string;
   title: string;
+  subtitle: string;
   authors: string[] = [];
   publisher?: string;
   description?: string;
@@ -15,6 +16,7 @@ export class BookEntity implements IBook {
   constructor(bookInfo: IBook) {
     this.id = bookInfo.id;
     this.title = bookInfo.title || '';
+    this.subtitle = bookInfo.subtitle || '';
     this.authors = bookInfo.authors || [];
     this.publisher = bookInfo.publisher || '';
     this.description = bookInfo.description || '';

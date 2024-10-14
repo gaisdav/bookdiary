@@ -1,4 +1,4 @@
-import { IBook } from '../../enitites/book/types.ts';
+import { IBook } from '@/enitites/book/types.ts';
 
 export type TGoogleBook = {
   kind: string;
@@ -7,6 +7,7 @@ export type TGoogleBook = {
   selfLink: string;
   volumeInfo: {
     title: string;
+    subtitle: string;
     authors: string[];
     publisher: string;
     publishedDate: string;
