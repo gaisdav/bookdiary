@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
         include: '**/*.svg',
       }),
       VitePWA({
-        registerType: 'autoUpdate',
+        registerType: 'prompt',
         injectRegister: false,
 
         pwaAssets: {
