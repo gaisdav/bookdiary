@@ -8,9 +8,7 @@ export const Layout = () => {
 
   return (
     <>
-      <main className={css.main}>
-        <Outlet />
-      </main>
+      <main className={css.main}>{user ? <Outlet /> : 'initializing'}</main>
       {user && <Navigation />}
     </>
   );
