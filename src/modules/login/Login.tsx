@@ -1,6 +1,6 @@
 import { FC, FormEventHandler } from 'react';
 import { useAuthController } from './hooks/useAuth.tsx';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ROUTE } from '../../routes/router.tsx';
 
 const Login: FC = () => {
@@ -22,7 +22,7 @@ const Login: FC = () => {
       <input type="password" name="password" required />
 
       <button type="submit">Login</button>
-      <Link to={ROUTE.REGISTRATION}>REGISTRATION</Link>
+      <NavLink to={ROUTE.REGISTRATION}>REGISTRATION</NavLink>
     </form>
   );
 };

@@ -1,18 +1,18 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import { Layout } from '@/components/Layout/Layout';
 import Search from '@/modules/book/pages/Search/Search.tsx';
-import Profile from '@/modules/Profile.tsx';
+import Profile from '@/modules/profile/Profile.tsx';
 import Login from '@/modules/login/Login.tsx';
 import Registration from '@/modules/registration/Registration.tsx';
 import { Book } from '@/modules/book/pages/Book';
 
 export enum ROUTE {
   HOME = '/',
-  BOOKS = 'books',
-  BOOK = 'books/:bookId',
-  PROFILE = 'profile',
-  LOGIN = 'login',
-  REGISTRATION = 'registration',
+  BOOKS = '/books',
+  BOOK = '/books/:bookId',
+  PROFILE = '/profile',
+  LOGIN = '/login',
+  REGISTRATION = '/registration',
 }
 
 const createRouter =
