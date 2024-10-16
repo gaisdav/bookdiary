@@ -4,7 +4,7 @@ import { BookEntity } from '@/enitites/book/BookEntity.ts';
 
 export class GoogleBookItems implements TBookList {
   totalItems: number = 0;
-  items: IBook[] = [];
+  items: IBook[] | null = null;
 
   constructor(info: { totalItems: number } & TGoogleBookSearch) {
     this.totalItems = info.totalItems;

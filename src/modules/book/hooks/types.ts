@@ -42,7 +42,7 @@ export type TGoogleBook = {
 
 export type TBookList = {
   totalItems: number;
-  items: IBook[];
+  items: IBook[] | null;
 };
 
 export type TGoogleBookSearch = {

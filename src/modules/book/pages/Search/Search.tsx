@@ -19,7 +19,7 @@ function Search() {
       <div>
         <form onSubmit={searchBook}>
           <input
-            type="text"
+            type="search"
             placeholder="book title"
             name={BOOK_TITLE_FIELD}
             required
@@ -30,7 +30,13 @@ function Search() {
       <div>
         {isPending
           ? 'Loading...'
-          : data?.items.map((book) => <BookItem key={book.id} book={book} />)}
+          : Array.isArray(data?.items)
+            ? data?.items.length > 0
+              ? data?.items.map((book) => (
+                  <BookItem key={book.id} book={book} />
+                ))
+              : 'No data'
+            : 'Type something to search'}
       </div>
     </>
   );
