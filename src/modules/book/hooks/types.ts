@@ -43,9 +43,17 @@ export type TGoogleBook = {
 export type TBookList = {
   totalItems: number;
   items: IBook[] | null;
+  limit: number;
+  page: number;
 };
 
 export type TGoogleBookSearch = {
   totalItems: number;
   items: TGoogleBook[];
+};
+
+export type TGoogleBookSearchParams = {
+  query: string;
+  page?: number;
+  limit?: number;
 };

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { IBook } from '@/enitites/book/types';
 import { Link } from 'react-router-dom';
+import css from './BookItem.module.scss';
 
 type TBookItem = {
   book: IBook;
@@ -21,7 +22,7 @@ export const BookItem: FC<TBookItem> = ({ book }) => {
       <div>{book.subtitle}</div>
       <div>{book.authors}</div>
       <div>{book.categories}</div>
-      <div>{book.description}</div>
+      <div className={css.description}>{book.description}</div>
       <div>{book.language}</div>
       <div>{book.pageCount}</div>
       <div>{book.publishedDate}</div>

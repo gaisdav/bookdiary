@@ -5,8 +5,16 @@ import { BookEntity } from '@/enitites/book/BookEntity.ts';
 export class GoogleBookItems implements TBookList {
   totalItems: number = 0;
   items: IBook[] | null = null;
+  limit: number = 0;
+  page: number = 0;
 
-  constructor(info: { totalItems: number } & TGoogleBookSearch) {
+  constructor(
+    info: { totalItems: number } & TGoogleBookSearch,
+    limit: number,
+    page: number,
+  ) {
+    this.limit = limit;
+    this.page = page;
     this.totalItems = info.totalItems;
     this.items =
       info.items?.map(

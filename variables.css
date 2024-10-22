@@ -33,6 +33,17 @@
   --color-border: #d1d1d6;
   --color-border-hover: #c7c7cc;
 
+  /* Status Colors */
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-error: #dc3545;
+  --color-info: #17a2b8;
+
+  --color-success-bg: #d4edda;
+  --color-warning-bg: #fff3cd;
+  --color-error-bg: #f8d7da;
+  --color-info-bg: #d1ecf1;
+
   /* Shadows */
   --shadow-sm: 0px 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-md: 0px 3px 6px rgba(0, 0, 0, 0.1);
@@ -73,6 +84,17 @@
 
   --color-border: #3a3a3c;
   --color-border-hover: #48484a;
+
+  /* Status Colors (Dark Theme) */
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-error: #ff453a;
+  --color-info: #5ac8fa;
+
+  --color-success-bg: #204b2e;
+  --color-warning-bg: #534400;
+  --color-error-bg: #4b1b1e;
+  --color-info-bg: #1b4b54;
 
   /* Shadows */
   --shadow-sm: 0px 1px 3px rgba(0, 0, 0, 0.4);
