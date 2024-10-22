@@ -39,7 +39,7 @@ function PWABadge() {
               <span id="toast-message">App ready to work offline</span>
             ) : (
               <span id="toast-message">
-                New updates available, click on "Update" button to update.
+                New updates available
               </span>
             )}
           </div>
