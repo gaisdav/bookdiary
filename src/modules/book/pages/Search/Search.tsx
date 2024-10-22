@@ -18,8 +18,9 @@ function Search() {
 
   const handleScroll: UIEventHandler<HTMLDivElement> = async (event) => {
     const target = event.target as HTMLDivElement;
+    const isScrollAtBottom = Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1;
     if (
-      target.scrollHeight - target.scrollTop === target.clientHeight &&
+      isScrollAtBottom &&
       data?.items?.length
     ) {
       if (!formRef.current) {
