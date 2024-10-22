@@ -15,7 +15,11 @@
   --spacing-lg: 24px;
   --spacing-xl: 32px;
 
-  --border-radius: 4px;
+  /* Border Radius */
+  --border-radius-sm: 2px;
+  --border-radius-md: 4px;
+  --border-radius-lg: 8px;
+  --border-radius-full: 50%; /* для круглых элементов */
 
   /* Colors */
   --color-primary: #007aff;
