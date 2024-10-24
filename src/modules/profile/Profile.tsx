@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { useChangeTheme } from '@/hooks/useChangeTheme.tsx';
+import { useTheme } from '@/hooks/useTheme.tsx';
 import { useAuthController } from '@/modules/login/hooks/useAuth.tsx';
 import { useUser } from '@/modules/profile/hooks/useUser.tsx';
 
 const Profile: FC = () => {
-  const { switchTheme } = useChangeTheme();
+  const { switchTheme } = useTheme();
   const { logout } = useAuthController();
   const { user } = useUser();
 

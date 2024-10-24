@@ -1,5 +1,4 @@
 import css from './PWABadge.module.css';
-
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
 // TODO написать статью про кастомную модалку (установки и обновления) для PWA
@@ -38,9 +37,7 @@ function PWABadge() {
             {offlineReady ? (
               <span id="toast-message">App ready to work offline</span>
             ) : (
-              <span id="toast-message">
-                New updates available
-              </span>
+              <span id="toast-message">New updates available</span>
             )}
           </div>
           <div className={css['PWABadge-buttons']}>

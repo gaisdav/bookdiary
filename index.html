@@ -40,22 +40,29 @@
     </style>
 
     <script>
-      const isDeviceDark = window.matchMedia(
-        '(prefers-color-scheme: dark)',
-      ).matches;
-      const theme =
-        localStorage.getItem('data-theme') || (isDeviceDark ? 'dark' : 'light');
+      const THEME_ATTRIBUTE_KEY = 'data-theme';
+      const GET_THEME = () => {
+        const isDeviceDark = window.matchMedia(
+          '(prefers-color-scheme: dark)',
+        ).matches;
+        return (
+          localStorage.getItem(THEME_ATTRIBUTE_KEY) ||
+          (isDeviceDark ? 'dark' : 'light')
+        );
+      };
 
       const SWITCH_THEME = (themeValue) => {
-        document.documentElement.setAttribute('data-theme', themeValue);
+        document.documentElement.setAttribute(THEME_ATTRIBUTE_KEY, themeValue);
         document
           .querySelector("meta[name='theme-color']")
           ?.setAttribute(
             'content',
             themeValue === 'dark' ? '#1c1c1e' : '#ffffff',
           );
-        localStorage.setItem('data-theme', themeValue);
+        localStorage.setItem(THEME_ATTRIBUTE_KEY, themeValue);
       };
+
+      const theme = GET_THEME();
 
       SWITCH_THEME(theme);
     </script>
