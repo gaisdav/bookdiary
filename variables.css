@@ -76,7 +76,7 @@
     color var(--transition-default);
 }
 
-[data-theme='dark']:root {
+.dark:root {
   /* Colors */
   --color-primary: #0a84ff;
   --color-secondary: #ff9f0a;

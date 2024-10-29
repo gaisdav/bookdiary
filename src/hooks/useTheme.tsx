@@ -13,15 +13,16 @@ export const useTheme = (): IChangeTheme => {
   useEffect(() => {
     const mutationCallback = (mutationsList: MutationRecord[]) => {
       for (const mutation of mutationsList) {
+        console.log(mutation.attributeName);
         if (
           mutation.type !== 'attributes' ||
-          mutation.attributeName !== THEME_ATTRIBUTE_KEY
+          mutation.attributeName !== 'class'
         ) {
           return;
         }
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        setTheme(mutation.target.getAttribute(THEME_ATTRIBUTE_KEY));
+        setTheme(mutation.target.getAttribute('class'));
       }
     };
 
