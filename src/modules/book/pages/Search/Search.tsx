@@ -2,6 +2,8 @@ import { FormEventHandler, UIEventHandler, useRef } from 'react';
 import { BookItem } from '@/modules/book/pages/Search/components/BookItem';
 import { useBooks } from '@/modules/book/hooks/useBooks.tsx';
 import css from './styles.module.scss';
+import { Input } from '@/components/ui/input.tsx';
+import { Button } from '@/components/ui/button.tsx';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
@@ -18,11 +20,10 @@ function Search() {
 
   const handleScroll: UIEventHandler<HTMLDivElement> = async (event) => {
     const target = event.target as HTMLDivElement;
-    const isScrollAtBottom = Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) < 1;
-    if (
-      isScrollAtBottom &&
-      data?.items?.length
-    ) {
+    const isScrollAtBottom =
+      Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) <
+      1;
+    if (isScrollAtBottom && data?.items?.length) {
       if (!formRef.current) {
         return;
       }
@@ -41,13 +42,13 @@ function Search() {
     <div onScroll={handleScroll} className={css.wrapper}>
       <div>
         <form onSubmit={searchBook} ref={formRef}>
-          <input
+          <Input
             type="search"
             placeholder="book title"
             name={BOOK_TITLE_FIELD}
             required
           />
-          <button type="submit">search</button>
+          <Button type="submit">Search</Button>
         </form>
       </div>
 
