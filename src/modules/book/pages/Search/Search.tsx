@@ -4,6 +4,7 @@ import { useBooks } from '@/modules/book/hooks/useBooks.tsx';
 import css from './styles.module.scss';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import { PageWrapper } from '@/components/PageWrapper';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
@@ -39,18 +40,18 @@ function Search() {
   };
 
   return (
-    <div onScroll={handleScroll} className={css.wrapper}>
-      <div>
-        <form onSubmit={searchBook} ref={formRef}>
-          <Input
-            type="search"
-            placeholder="book title"
-            name={BOOK_TITLE_FIELD}
-            required
-          />
-          <Button type="submit">Search</Button>
-        </form>
-      </div>
+    <PageWrapper onScroll={handleScroll} className={css.wrapper}>
+      <form className={css.form} onSubmit={searchBook} ref={formRef}>
+        <Input
+          type="search"
+          placeholder="Book title"
+          name={BOOK_TITLE_FIELD}
+          required
+        />
+        <Button variant="outline" type="submit">
+          Search
+        </Button>
+      </form>
 
       {error && <div className={css.error}>{error.message}</div>}
 
@@ -65,7 +66,7 @@ function Search() {
               : 'No data'
             : 'Type something to search'}
       </div>
-    </div>
+    </PageWrapper>
   );
 }
 

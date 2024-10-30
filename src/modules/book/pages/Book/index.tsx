@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useBook } from '@/modules/book/hooks/useBook.tsx';
+import { PageWrapper } from '@/components/PageWrapper';
 
 export const Book: FC = () => {
   const { isPending, error, data: book } = useBook();
@@ -17,7 +18,7 @@ export const Book: FC = () => {
   }
 
   return (
-    <div>
+    <PageWrapper>
       {book.cover && (
         <img
           loading={'lazy'}
@@ -33,6 +34,6 @@ export const Book: FC = () => {
       <div>{book.language}</div>
       <div>{book.pageCount}</div>
       <div>{book.publishedDate}</div>
-    </div>
+    </PageWrapper>
   );
 };

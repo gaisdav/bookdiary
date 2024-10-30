@@ -2,6 +2,10 @@ import { FC, FormEventHandler } from 'react';
 import { useAuthController } from './hooks/useAuth.tsx';
 import { NavLink } from 'react-router-dom';
 import { ROUTE } from '../../routes/router.tsx';
+import { PageWrapper } from '@/components/PageWrapper';
+import { Input } from '@/components/ui/input.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import css from './styles.module.scss';
 
 const Login: FC = () => {
   const { login } = useAuthController();
@@ -17,13 +21,20 @@ const Login: FC = () => {
   };
 
   return (
-    <form onSubmit={submitLogin}>
-      <input type="email" name="login" required />
-      <input type="password" name="password" required />
-
-      <button type="submit">Login</button>
-      <NavLink to={ROUTE.REGISTRATION}>REGISTRATION</NavLink>
-    </form>
+    <PageWrapper>
+      <form className={css.form} onSubmit={submitLogin}>
+        <Input type="email" name="login" required />
+        <Input type="password" name="password" required />
+        <div className={css.actions}>
+          <Button variant="outline" size="sm" type="submit">
+            Login
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <NavLink to={ROUTE.REGISTRATION}>Registration</NavLink>
+          </Button>
+        </div>
+      </form>
+    </PageWrapper>
   );
 };
 

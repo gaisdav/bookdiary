@@ -5,6 +5,7 @@ import Profile from '@/modules/profile/Profile.tsx';
 import Login from '@/modules/login/Login.tsx';
 import Registration from '@/modules/registration/Registration.tsx';
 import { Book } from '@/modules/book/pages/Book';
+import Home from '@/modules/home';
 
 export enum ROUTE {
   HOME = '/',
@@ -27,7 +28,7 @@ export const router = createRouter([
     children: [
       {
         path: ROUTE.HOME,
-        element: <h1>Top book</h1>,
+        element: <Home />,
       },
       {
         path: ROUTE.BOOKS,

@@ -2,6 +2,9 @@ import { FC } from 'react';
 import { useTheme } from '@/hooks/useTheme.tsx';
 import { useAuthController } from '@/modules/login/hooks/useAuth.tsx';
 import { useUser } from '@/modules/profile/hooks/useUser.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import { PageWrapper } from '@/components/PageWrapper';
+import css from './styles.module.scss';
 
 const Profile: FC = () => {
   const { switchTheme } = useTheme();
@@ -13,14 +16,20 @@ const Profile: FC = () => {
   }
 
   return (
-    <div>
-      <button onClick={switchTheme}>change theme</button>
-      <button onClick={logout}>logout</button>
+    <PageWrapper>
+      <div className={css.actions}>
+        <Button variant="outline" size="sm" onClick={switchTheme}>
+          Change theme
+        </Button>
+        <Button variant="outline" size="sm" onClick={logout}>
+          Logout
+        </Button>
+      </div>
       <div>Profile</div>
       <div>{user.displayName}</div>
       <div>{user.email}</div>
       <div>{user.photoURL}</div>
-    </div>
+    </PageWrapper>
   );
 };
 

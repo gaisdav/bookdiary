@@ -35,7 +35,7 @@
 
 .activeLink {
   svg {
-    fill: var(--color-text);
+    fill: hsl(var(--foreground));
   }
 }
 
