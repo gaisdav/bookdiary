@@ -30,7 +30,6 @@
   --color-secondary: #ff9500;
   --color-accent: #5856d6;
 
-  --color-bg: #ffffff;
   --color-bg-alt: #f7f7f7;
   --color-bg-hover: #f1f1f1;
 
@@ -66,8 +65,7 @@
   height: 100vh; /* old browsers */
   height: 100dvh; /* new browsers */
   width: 100%;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: hsl(var(--background));
   font-family: var(--font-family-sans), sans-serif;
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
@@ -82,7 +80,7 @@
   --color-secondary: #ff9f0a;
   --color-accent: #5e5ce6;
 
-  --color-bg: #1c1c1e;
+  --background: 240 3% 11%;
   --color-bg-alt: #2c2c2e;
   --color-bg-hover: #3a3a3c;
 
