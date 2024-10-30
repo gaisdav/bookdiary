@@ -13,7 +13,6 @@ export const useTheme = (): IChangeTheme => {
   useEffect(() => {
     const mutationCallback = (mutationsList: MutationRecord[]) => {
       for (const mutation of mutationsList) {
-        console.log(mutation.attributeName);
         if (
           mutation.type !== 'attributes' ||
           mutation.attributeName !== 'class'

@@ -61,7 +61,7 @@ function Search() {
 
       {error && <div className={css.error}>{error.message}</div>}
 
-      <div>
+      <div className={css.list}>
         {isLoading
           ? 'Loading...'
           : Array.isArray(data?.items)
