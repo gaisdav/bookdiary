@@ -1,4 +1,19 @@
 .actions {
   display: flex;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
+}
+
+.themeIcon {
+  animation: scaleIn 0.3s;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

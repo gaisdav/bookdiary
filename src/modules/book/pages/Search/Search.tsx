@@ -5,6 +5,7 @@ import css from './styles.module.scss';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
@@ -48,8 +49,13 @@ function Search() {
           name={BOOK_TITLE_FIELD}
           required
         />
-        <Button variant="outline" type="submit">
-          Search
+        <Button
+          className={css.searchBtn}
+          variant="outline"
+          type="submit"
+          size="icon"
+        >
+          <MagnifyingGlassIcon />
         </Button>
       </form>
 
