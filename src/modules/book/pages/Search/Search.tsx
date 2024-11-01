@@ -54,6 +54,8 @@ function Search() {
         return;
       }
 
+      console.log('handleScroll');
+
       const formData = new FormData(formRef.current);
       const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
       fetchList({
