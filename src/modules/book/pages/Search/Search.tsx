@@ -1,23 +1,42 @@
-import { FormEventHandler, UIEventHandler, useRef } from 'react';
-import { BookItem } from '@/modules/book/pages/Search/components/BookItem';
-import { useBooks } from '@/modules/book/hooks/useBooks.tsx';
+import { FormEventHandler, UIEventHandler, useEffect, useRef } from 'react';
 import css from './styles.module.scss';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { useSearchParams } from 'react-router-dom';
+import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
+import { BookItem } from '@/modules/book/pages/Search/components/BookItem';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
 function Search() {
+  const data = useBookStore((state) => state.list);
+  const firstPageIsLoading = useBookStore(
+    (state) => state.listLoading && !state.list,
+  );
+  const otherPagesAreLoading = useBookStore(
+    (state) => state.listLoading && state.list,
+  );
+  const fetchList = useBookStore((state) => state.fetchPaginatedList);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const formRef = useRef<HTMLFormElement>(null);
-  const { search, isLoading, data, error } = useBooks();
+  const bookTitleField = useRef<HTMLInputElement>(null);
+
+  const query = searchParams.get('query');
+
+  useEffect(() => {
+    if (bookTitleField.current && query) {
+      bookTitleField.current.value = query;
+    }
+  }, [query]);
 
   const searchBook: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
-    search({ query: bookTitle });
+    setSearchParams({ query: bookTitle });
   };
 
   const handleScroll: UIEventHandler<HTMLDivElement> = async (event) => {
@@ -25,14 +44,19 @@ function Search() {
     const isScrollAtBottom =
       Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) <
       1;
-    if (isScrollAtBottom && data?.items?.length) {
+    if (
+      data &&
+      data.items &&
+      isScrollAtBottom &&
+      data.totalItems > data.items?.length
+    ) {
       if (!formRef.current) {
         return;
       }
 
       const formData = new FormData(formRef.current);
       const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
-      search({
+      fetchList({
         query: bookTitle,
         limit: data.limit,
         page: data.page + 1,
@@ -44,6 +68,7 @@ function Search() {
     <PageWrapper onScroll={handleScroll} className={css.wrapper}>
       <form className={css.form} onSubmit={searchBook} ref={formRef}>
         <Input
+          ref={bookTitleField}
           type="search"
           placeholder="Book title"
           name={BOOK_TITLE_FIELD}
@@ -59,18 +84,25 @@ function Search() {
         </Button>
       </form>
 
-      {error && <div className={css.error}>{error.message}</div>}
+      {/*{error && <div className={css.error}>{error.message}</div>}*/}
 
       <div className={css.list}>
-        {isLoading
-          ? 'Loading...'
-          : Array.isArray(data?.items)
-            ? data?.items.length > 0
-              ? data?.items.map((book) => (
-                  <BookItem key={book.id} book={book} />
-                ))
-              : 'No data'
-            : 'Type something to search'}
+        {firstPageIsLoading ? (
+          'Loading...'
+        ) : Array.isArray(data?.items) ? (
+          data?.items.length > 0 ? (
+            <>
+              {data?.items.map((book) => (
+                <BookItem key={book.id} book={book} />
+              ))}
+              {otherPagesAreLoading && <div>Loading...</div>}
+            </>
+          ) : (
+            'No data'
+          )
+        ) : (
+          'Type something to search'
+        )}
       </div>
     </PageWrapper>
   );

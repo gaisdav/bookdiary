@@ -1,10 +1,10 @@
 import { IBook } from '@/enitites/book/types.ts';
-import { TBookList, TGoogleBookSearch } from '../hooks/types.ts';
+import { IBookList, TGoogleBookSearch } from '../hooks/types.ts';
 import { BookEntity } from '@/enitites/book/BookEntity.ts';
 
-export class GoogleBookItems implements TBookList {
+export class GoogleBookItems implements IBookList {
   totalItems: number = 0;
-  items: IBook[] | null = null;
+  items: IBook[] = [];
   limit: number = 0;
   page: number = 0;
 

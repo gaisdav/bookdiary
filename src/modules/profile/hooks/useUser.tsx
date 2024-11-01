@@ -3,11 +3,11 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
-import { ROUTE } from '@/routes/router';
 import { auth } from '@/firebase.config';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IUser, TCreatUser } from '@/enitites/user';
+import { ROUTE } from '@/routes/routes.ts';
 
 export const useUser = () => {
   const location = useLocation();

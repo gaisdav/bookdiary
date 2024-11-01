@@ -1,16 +1,12 @@
 import { FC } from 'react';
-import { useBook } from '@/modules/book/hooks/useBook.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
+import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
 
 export const Book: FC = () => {
-  const { isPending, error, data: book } = useBook();
-
+  const isPending = useBookStore().bookLoading;
+  const book = useBookStore().book;
   if (isPending) {
     return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error?.message}</div>;
   }
 
   if (!book) {

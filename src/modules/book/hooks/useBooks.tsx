@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import {
-  TBookList,
+  IBookList,
   TGoogleBookSearch,
   TGoogleBookSearchParams,
 } from '@/modules/book/hooks/types.ts';
@@ -29,9 +29,9 @@ export const useBooks = () => {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(defaultPage);
   const [limit, setLimit] = useState(defaultLimit);
-  const [data, setData] = useState<TBookList | null>(null);
+  const [data, setData] = useState<IBookList | null>(null);
 
-  const booksQuery = useQuery<TBookList>({
+  const booksQuery = useQuery<IBookList>({
     queryKey: ['books', query, page, limit],
     placeholderData: keepPreviousData,
     staleTime: 1000,
@@ -83,5 +83,5 @@ export const useBooks = () => {
     setPage(page);
   };
 
-  return { data, search, ...rest };
+  return { data, search, setData, ...rest };
 };

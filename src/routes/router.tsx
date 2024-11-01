@@ -6,15 +6,10 @@ import Login from '@/modules/login/Login.tsx';
 import Registration from '@/modules/registration/Registration.tsx';
 import { Book } from '@/modules/book/pages/Book';
 import Home from '@/modules/home';
+import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
+import { ROUTE } from '@/routes/routes.ts';
 
-export enum ROUTE {
-  HOME = '/',
-  BOOKS = '/books',
-  BOOK = '/books/:bookId',
-  PROFILE = '/profile',
-  LOGIN = '/login',
-  REGISTRATION = '/registration',
-}
+const { fetchFirstList, fetchBook } = useBookStore.getState();
 
 const createRouter =
   import.meta.env.BOOK_CUSTOM_MODE === 'gh-pages'
@@ -32,11 +27,27 @@ export const router = createRouter([
       },
       {
         path: ROUTE.BOOKS,
+        loader: ({ request }) => {
+          const query = new URL(request.url).searchParams.get('query');
+          if (query) {
+            fetchFirstList({ query });
+          }
+
+          return null;
+        },
         element: <Search />,
       },
       {
         path: ROUTE.BOOK,
         element: <Book />,
+        loader: ({ params }) => {
+          const bookId = params.bookId;
+          if (bookId) {
+            fetchBook({ bookId });
+          }
+
+          return null;
+        },
       },
       {
         path: ROUTE.PROFILE,
