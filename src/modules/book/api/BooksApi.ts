@@ -4,8 +4,8 @@ import {
   constructGoogleBookUrl,
 } from '@/modules/book/api/utils.ts';
 import { TGoogleBookSearchParams } from '@/modules/book/api/types.ts';
-import { TGoogleBook } from '@/modules/book/hooks/types.ts';
 import { GoogleBook } from '@/modules/book/decorators/GoogleBook.decorator.ts';
+import { TGoogleBook } from '@/modules/book/stores/types.ts';
 
 const defaultPage = 1;
 const defaultLimit = 10;
