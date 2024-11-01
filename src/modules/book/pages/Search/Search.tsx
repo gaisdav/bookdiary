@@ -37,6 +37,8 @@ function Search() {
     const formData = new FormData(event.currentTarget);
     const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
     setSearchParams({ query: bookTitle });
+    // to hide keyboard on mobile
+    event.currentTarget.blur();
   };
 
   const handleScroll: UIEventHandler<HTMLDivElement> = async (event) => {
