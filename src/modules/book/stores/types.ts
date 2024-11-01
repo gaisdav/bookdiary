@@ -40,12 +40,12 @@ export type TGoogleBook = {
   };
 };
 
-export type TBookList = {
+export interface IBookList {
   totalItems: number;
-  items: IBook[] | null;
+  items: IBook[];
   limit: number;
   page: number;
-};
+}
 
 export type TGoogleBookSearch = {
   totalItems: number;

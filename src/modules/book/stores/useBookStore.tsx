@@ -1,8 +1,8 @@
 import { create } from 'zustand/index';
 import { IBook } from '@/enitites/book/types.ts';
-import { IBookList } from '@/modules/book/hooks/types.ts';
 import { TGoogleBookSearchParams } from '@/modules/book/api/types.ts';
 import { BooksApi } from '@/modules/book/api/BooksApi.ts';
+import { IBookList } from '@/modules/book/stores/types.ts';
 
 interface BooksState {
   listLoading: boolean;

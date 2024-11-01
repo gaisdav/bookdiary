@@ -45,6 +45,7 @@ function Search() {
       Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) <
       1;
     if (
+      !otherPagesAreLoading &&
       data &&
       data.items &&
       isScrollAtBottom &&
@@ -53,8 +54,6 @@ function Search() {
       if (!formRef.current) {
         return;
       }
-
-      console.log('handleScroll');
 
       const formData = new FormData(formRef.current);
       const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
