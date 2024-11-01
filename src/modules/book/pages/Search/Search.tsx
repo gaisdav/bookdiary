@@ -51,14 +51,16 @@ function Search() {
       data &&
       data.items &&
       isScrollAtBottom &&
-      data.totalItems > data.items?.length
+      data.totalItems > data.items?.length &&
+      formRef.current
     ) {
-      if (!formRef.current) {
+      const formData = new FormData(formRef.current);
+      const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
+
+      if (!bookTitle) {
         return;
       }
 
-      const formData = new FormData(formRef.current);
-      const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
       fetchList({
         query: bookTitle,
         limit: data.limit,
