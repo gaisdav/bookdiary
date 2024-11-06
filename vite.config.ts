@@ -40,6 +40,17 @@ export default defineConfig(({ mode }) => {
           description: 'Bookdiary',
           theme_color: '#1c1c1e',
           background_color: '#1c1c1e',
+          shortcuts: [
+            {
+              name: 'Find book',
+              url: '/books',
+              description: 'Find your favorite book',
+            },
+            {
+              name: 'Profile',
+              url: '/profile',
+            },
+          ],
           screenshots: [
             {
               src: 'search.jpeg',
