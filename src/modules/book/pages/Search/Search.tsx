@@ -46,14 +46,16 @@ function Search() {
     const isScrollAtBottom =
       Math.abs(target.scrollHeight - target.scrollTop - target.clientHeight) <
       1;
-    if (
+
+    const canLoadMore =
       !otherPagesAreLoading &&
+      isScrollAtBottom &&
+      formRef.current &&
       data &&
       data.items &&
-      isScrollAtBottom &&
-      data.totalItems > data.items?.length &&
-      formRef.current
-    ) {
+      data.totalItems > data.items?.length;
+
+    if (canLoadMore) {
       const formData = new FormData(formRef.current);
       const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
 

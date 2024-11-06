@@ -39,6 +39,23 @@ export default defineConfig(({ mode }) => {
           short_name: 'Bookdiary',
           description: 'Bookdiary',
           theme_color: '#1c1c1e',
+          background_color: '#1c1c1e',
+          screenshots: [
+            {
+              src: 'search.jpeg',
+              sizes: '591x1280',
+              type: 'image/webp',
+            },
+          ],
+          categories: [
+            'books',
+            'reading',
+            'library',
+            'diary',
+            'notes',
+            'bookmarks',
+            'reviews',
+          ],
         },
 
         workbox: {

@@ -2,15 +2,15 @@ import { GoogleBookItems } from '@/modules/book/decorators/GoogleBooks.decorator
 import {
   constructGoogleBooksUrl,
   constructGoogleBookUrl,
-} from '@/modules/book/api/utils.ts';
-import { TGoogleBookSearchParams } from '@/modules/book/api/types.ts';
+} from '@/modules/book/services/utils.ts';
+import { TGoogleBookSearchParams } from '@/modules/book/services/types.ts';
 import { GoogleBook } from '@/modules/book/decorators/GoogleBook.decorator.ts';
 import { TGoogleBook } from '@/modules/book/stores/types.ts';
 
 const defaultPage = 1;
 const defaultLimit = 10;
 
-export class BooksApi {
+export class BooksService {
   static async getBooks(
     params: TGoogleBookSearchParams = {
       page: defaultPage,

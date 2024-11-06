@@ -1,7 +1,7 @@
 import { create } from 'zustand/index';
 import { IBook } from '@/enitites/book/types.ts';
-import { TGoogleBookSearchParams } from '@/modules/book/api/types.ts';
-import { BooksApi } from '@/modules/book/api/BooksApi.ts';
+import { TGoogleBookSearchParams } from '@/modules/book/services/types.ts';
+import { BooksService } from '@/modules/book/services/BooksService.ts';
 import { IBookList } from '@/modules/book/stores/types.ts';
 
 interface BooksState {
@@ -38,7 +38,7 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
     set(() => ({ listLoading: true }));
 
     try {
-      const books = await BooksApi.getBooks(params);
+      const books = await BooksService.getBooks(params);
 
       set({ list: books });
     } finally {
@@ -50,7 +50,7 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
     set(() => ({ listLoading: true }));
 
     try {
-      const books = await BooksApi.getBooks(params);
+      const books = await BooksService.getBooks(params);
 
       set(({ list }) => ({
         list: {
@@ -74,7 +74,7 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
   fetchBook: async ({ bookId }) => {
     set(() => ({ bookLoading: true }));
     try {
-      const book = await BooksApi.getBook(bookId);
+      const book = await BooksService.getBook(bookId);
 
       set({ book });
     } finally {
