@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { PageWrapper } from '@/components/PageWrapper';
 import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
 import { Img } from '@/components/Img';
+import { Card, CardContent } from '@/components/ui/card.tsx';
 
 export const Book: FC = () => {
   const isPending = useBookStore().bookLoading;
@@ -18,7 +19,7 @@ export const Book: FC = () => {
     <PageWrapper>
       {book.cover && (
         <Img
-          loading={'lazy'}
+          loading="lazy"
           src={book.cover}
           alt={`${book.title} ${book.authors.join(', ')}`}
         />
@@ -31,6 +32,9 @@ export const Book: FC = () => {
       <div>{book.language}</div>
       <div>{book.pageCount}</div>
       <div>{book.publishedDate}</div>
+      <Card>
+        <CardContent>Card content</CardContent>
+      </Card>
     </PageWrapper>
   );
 };

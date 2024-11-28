@@ -14,13 +14,12 @@
 
 .card {
   margin-bottom: var(--spacing-md);
-  padding-top: 1.5rem;
 }
 
 .cover {
   width: 40%;
   max-width: 100px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .mainInfo {
