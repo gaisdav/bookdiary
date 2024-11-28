@@ -25,6 +25,10 @@
 .mainInfo {
   display: flex;
   gap: var(--spacing-md);
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 }
 
 .titles {

@@ -50,6 +50,14 @@
     --border-radius-lg: 8px;
     --border-radius-full: 50%; /* для круглых элементов */
 
+    /* Media Queries */
+    --breakpoint-sxx: 320px;
+    --breakpoint-sx: 480px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+
     /* html tag styles */
     position: fixed;
     top: 0;

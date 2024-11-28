@@ -1,0 +1,21 @@
+.mainInfo {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.cover {
+  width: 40%;
+  max-width: 100px;
+  object-fit: contain;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

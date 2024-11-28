@@ -2,7 +2,13 @@ import { FC } from 'react';
 import { PageWrapper } from '@/components/PageWrapper';
 import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
 import { Img } from '@/components/Img';
-import { Card, CardContent } from '@/components/ui/card.tsx';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from '@/components/ui/card.tsx';
+import css from './Book.module.scss';
 
 export const Book: FC = () => {
   const isPending = useBookStore().bookLoading;
@@ -17,23 +23,37 @@ export const Book: FC = () => {
 
   return (
     <PageWrapper>
-      {book.cover && (
-        <Img
-          loading="lazy"
-          src={book.cover}
-          alt={`${book.title} ${book.authors.join(', ')}`}
-        />
-      )}
-      <div>{book.title}</div>
-      <div>{book.subtitle}</div>
-      <div>{book.authors}</div>
-      <div>{book.description}</div>
-      <div>{book.categories}</div>
-      <div>{book.language}</div>
-      <div>{book.pageCount}</div>
-      <div>{book.publishedDate}</div>
       <Card>
-        <CardContent>Card content</CardContent>
+        <CardContent>
+          <div className={css.mainInfo}>
+            {book.cover && (
+              <Img
+                className={css.cover}
+                loading="lazy"
+                src={book.cover}
+                alt={`${book.title} ${book.authors.join(', ')}`}
+              />
+            )}
+            <div className={css.titles}>
+              {book.title && <CardTitle>{book.title}</CardTitle>}
+              {book.subtitle && (
+                <CardDescription>{book.subtitle}</CardDescription>
+              )}
+              {book.authors && (
+                <CardDescription>{book.authors}</CardDescription>
+              )}
+              {book.categories && (
+                <CardDescription>{book.categories}</CardDescription>
+              )}
+              {book.publishedDate && (
+                <CardDescription>{book.publishedDate}</CardDescription>
+              )}
+            </div>
+          </div>
+          {book.description && (
+            <CardDescription>{book.description}</CardDescription>
+          )}
+        </CardContent>
       </Card>
     </PageWrapper>
   );
