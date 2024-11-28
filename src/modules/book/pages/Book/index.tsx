@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { PageWrapper } from '@/components/PageWrapper';
 import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
+import { Img } from '@/components/Img';
 
 export const Book: FC = () => {
   const isPending = useBookStore().bookLoading;
@@ -16,7 +17,7 @@ export const Book: FC = () => {
   return (
     <PageWrapper>
       {book.cover && (
-        <img
+        <Img
           loading={'lazy'}
           src={book.cover}
           alt={`${book.title} ${book.authors.join(', ')}`}

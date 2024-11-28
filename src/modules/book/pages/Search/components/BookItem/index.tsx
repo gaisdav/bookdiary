@@ -8,6 +8,7 @@ import {
   CardDescription,
   CardTitle,
 } from '@/components/ui/card.tsx';
+import { Img } from '@/components/Img';
 
 type TBookItem = {
   book: IBook;
@@ -20,9 +21,9 @@ export const BookItem: FC<TBookItem> = ({ book }) => {
         <Link to={book.id} className={css.content}>
           <div className={css.mainInfo}>
             {book.cover && (
-              <img
+              <Img
                 className={css.cover}
-                loading={'lazy'}
+                loading="lazy"
                 src={book.cover}
                 alt={`${book.title} ${book.authors.join(', ')}`}
               />
