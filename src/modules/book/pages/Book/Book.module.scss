@@ -1,3 +1,9 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
 .mainInfo {
   display: flex;
   gap: var(--spacing-md);

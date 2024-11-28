@@ -21,8 +21,10 @@ export const Book: FC = () => {
     return <div>No data</div>;
   }
 
+  const title = book.title || 'Book';
+
   return (
-    <PageWrapper>
+    <PageWrapper title={title} className={css.pageWrapper}>
       <Card>
         <CardContent>
           <div className={css.mainInfo}>
@@ -53,6 +55,11 @@ export const Book: FC = () => {
           {book.description && (
             <CardDescription>{book.description}</CardDescription>
           )}
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent>
+          <form action=""></form>
         </CardContent>
       </Card>
     </PageWrapper>
