@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Navigation } from '../Nav';
 import css from './layout.module.scss';
-import { useUser } from '@/modules/profile/hooks/useUser.tsx';
+import { useUser } from '@/ui/profile/hooks/useUser.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
 
 export const Layout = () => {

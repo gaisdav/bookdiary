@@ -1,12 +1,12 @@
 import { createBrowserRouter, createHashRouter } from 'react-router-dom';
 import { Layout } from '@/components/Layout/Layout';
-import Search from '@/modules/book/pages/Search/Search.tsx';
-import Profile from '@/modules/profile/Profile.tsx';
-import Login from '@/modules/login/Login.tsx';
-import Registration from '@/modules/registration/Registration.tsx';
-import { Book } from '@/modules/book/pages/Book';
-import Home from '@/modules/home';
-import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
+import Search from '@/ui/book/pages/Search/Search.tsx';
+import Profile from '@/ui/profile/Profile.tsx';
+import Login from '@/ui/login/Login.tsx';
+import Registration from '@/ui/registration/Registration.tsx';
+import { Book } from '@/ui/book/pages/Book';
+import Home from '@/ui/home';
+import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { ROUTE } from '@/routes/routes.ts';
 
 const { fetchFirstList, fetchBook } = useBookStore.getState();

@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useSearchParams } from 'react-router-dom';
-import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
-import { BookItem } from '@/modules/book/pages/Search/components/BookItem';
+import { useBookStore } from '@/stores/books/useBookStore.tsx';
+import { BookItem } from '@/ui/book/pages/Search/components/BookItem';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 

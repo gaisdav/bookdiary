@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { IBook } from '@/enitites/book/types';
+import { IBook } from '@/data/books/enitites/book/types';
 import { Link } from 'react-router-dom';
 import css from './BookItem.module.scss';
 import {

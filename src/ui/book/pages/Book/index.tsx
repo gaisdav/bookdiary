@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { PageWrapper } from '@/components/PageWrapper';
-import { useBookStore } from '@/modules/book/stores/useBookStore.tsx';
+import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { Img } from '@/components/Img';
 import {
   Card,

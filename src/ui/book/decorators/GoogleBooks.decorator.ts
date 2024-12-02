@@ -1,6 +1,6 @@
-import { IBook } from '@/enitites/book/types.ts';
-import { BookEntity } from '@/enitites/book/BookEntity.ts';
-import { IBookList, TGoogleBookSearch } from '@/modules/book/stores/types.ts';
+import { IBook } from '@/data/books/enitites/book/types.ts';
+import { BookEntity } from '@/data/books/enitites/book/BookEntity.ts';
+import { IBookList, TGoogleBookSearch } from '@/stores/books/types.ts';
 
 export class GoogleBookItems implements IBookList {
   totalItems: number = 0;

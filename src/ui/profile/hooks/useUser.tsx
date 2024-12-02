@@ -6,7 +6,7 @@ import {
 import { auth } from '@/firebase.config';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IUser, TCreatUser } from '@/enitites/user';
+import { IUser, TCreatUser } from '@/data/user/enitites/user';
 import { ROUTE } from '@/routes/routes.ts';
 
 export const useUser = () => {

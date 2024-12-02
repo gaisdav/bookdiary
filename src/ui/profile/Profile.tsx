@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useTheme } from '@/hooks/useTheme.tsx';
-import { useAuthController } from '@/modules/login/hooks/useAuth.tsx';
-import { useUser } from '@/modules/profile/hooks/useUser.tsx';
+import { useAuthController } from '@/ui/login/hooks/useAuth.tsx';
+import { useUser } from '@/ui/profile/hooks/useUser.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
 import css from './styles.module.scss';

@@ -1,4 +1,4 @@
-import { IBook } from '@/enitites/book/types.ts';
+import { IBook } from '@/data/books/enitites/book/types.ts';
 
 export type TGoogleBook = {
   kind: string;

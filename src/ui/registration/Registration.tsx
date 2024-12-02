@@ -1,7 +1,7 @@
 import { FC, FormEventHandler } from 'react';
 import css from './styles.module.scss';
-import { TCreatUser } from '@/enitites/user';
-import { useUser } from '@/modules/profile/hooks/useUser.tsx';
+import { TCreatUser } from '@/data/user/enitites/user';
+import { useUser } from '@/ui/profile/hooks/useUser.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
