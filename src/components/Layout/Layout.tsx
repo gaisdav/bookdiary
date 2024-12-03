@@ -1,18 +1,18 @@
 import { Outlet } from 'react-router-dom';
 import { Navigation } from '../Nav';
 import css from './layout.module.scss';
-import { useUser } from '@/ui/profile/hooks/useUser.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
+import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 
 export const Layout = () => {
-  const { user, loading } = useUser();
+  const profile = useProfileStore().profile;
 
   return (
     <>
       <main className={css.main}>
-        {!loading ? <Outlet /> : <PageWrapper>initializing</PageWrapper>}
+        {profile ? <Outlet /> : <PageWrapper>initializing</PageWrapper>}
       </main>
-      {user && <Navigation />}
+      {profile && <Navigation />}
     </>
   );
 };

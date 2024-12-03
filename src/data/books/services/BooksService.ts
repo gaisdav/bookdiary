@@ -11,7 +11,6 @@ import { GoogleBook } from '@/ui/book/decorators/GoogleBook.decorator.ts';
 import { TGoogleBook } from '@/stores/books/types.ts';
 import { setDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase.config.ts';
-import { isBookStatus } from '@/data/books/utils.ts';
 
 const defaultPage = 1;
 const defaultLimit = 10;
@@ -32,20 +31,16 @@ export class BooksService {
     return new GoogleBookItems(data, limit, page);
   }
 
-  static async getBook(bookId: string) {
+  static async getBook({ bookId, userId }: Omit<TAddToCollection, 'status'>) {
     const url = constructGoogleBookUrl(bookId);
     const result = await fetch(url);
     const data = (await result.json()) as TGoogleBook;
     const documentData = await BooksService.getBookStatus({
-      userId: 'MeR0sA0i8zdYJyrBVQ8ZHTz7lPI2',
+      userId,
       bookId,
     });
 
-    if (!isBookStatus(documentData?.status)) {
-      return;
-    }
-
-    return new GoogleBook({ ...data, status: documentData.status });
+    return new GoogleBook({ ...data, status: documentData?.status });
   }
 
   static async addToCollection({ userId, bookId, status }: TAddToCollection) {
@@ -81,7 +76,6 @@ export class BooksService {
     bookId,
   }: Omit<TAddToCollection, 'status'>) {
     try {
-      // Создаем ссылку на документ для пользователя с userId
       const docRef = doc(db, 'collections', userId, 'books', bookId);
 
       const docSnap = await getDoc(docRef);

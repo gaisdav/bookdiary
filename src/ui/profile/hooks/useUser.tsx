@@ -6,21 +6,16 @@ import {
 import { auth } from '@/lib/firebase.config.ts';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IUser, TCreatUser } from '@/data/user/enitites/user';
+import { TCreatUser } from '@/data/user/enitites/user';
 import { ROUTE } from '@/routes/routes.ts';
 
 export const useUser = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<IUser | null>(null);
   const [error, setError] = useState<string | null>(null); // New error state
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-
       // Navigate to appropriate routes based on authentication state
       if (
         !user &&
@@ -63,5 +58,5 @@ export const useUser = () => {
     }
   };
 
-  return { user, error, createUser, loading };
+  return { error, createUser };
 };

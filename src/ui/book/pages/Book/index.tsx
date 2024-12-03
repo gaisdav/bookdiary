@@ -17,10 +17,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { TBookStatus } from '@/data/books/enitites/book/types.ts';
-import { useUser } from '@/ui/profile/hooks/useUser.tsx';
+import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 
 export const Book: FC = () => {
-  const { user } = useUser();
+  const profile = useProfileStore().profile;
   const isPending = useBookStore().bookLoading;
   const book = useBookStore().book;
   const addBookToCollection = useBookStore().addToCollection;
@@ -35,18 +35,18 @@ export const Book: FC = () => {
   }
 
   const handleStatusChange = (status: string = '') => {
-    if (!user) {
+    if (!profile) {
       return;
     }
 
     if (status === 'reset') {
       removeFromCollection({
-        userId: user.uid,
+        userId: profile.uid,
         bookId: book.id,
       });
     } else {
       addBookToCollection({
-        userId: user.uid,
+        userId: profile.uid,
         bookId: book.id,
         status: status as TBookStatus,
       });

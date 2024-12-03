@@ -1,19 +1,19 @@
 import { FC } from 'react';
 import { useTheme } from '@/hooks/useTheme.tsx';
 import { useAuthController } from '@/ui/login/hooks/useAuth.tsx';
-import { useUser } from '@/ui/profile/hooks/useUser.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { PageWrapper } from '@/components/PageWrapper';
 import css from './styles.module.scss';
 import { MoonIcon, SunIcon, ExitIcon } from '@radix-ui/react-icons';
+import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 
 const Profile: FC = () => {
   const { switchTheme } = useTheme();
   const { logout } = useAuthController();
   const { theme } = useTheme();
-  const { user } = useUser();
+  const profile = useProfileStore().profile;
 
-  if (!user) {
+  if (!profile) {
     return <div>user not found</div>;
   }
 
@@ -31,11 +31,12 @@ const Profile: FC = () => {
           <ExitIcon /> Logout
         </Button>
       </div>
-      <div>Profile</div>
-      <div>{user.uid}</div>
-      <div>{user.displayName}</div>
-      <div>{user.email}</div>
-      <div>{user.photoURL}</div>
+      <div>
+        User ID: <pre>{profile.uid}</pre>
+      </div>
+      <div>{profile.displayName}</div>
+      <div>{profile.email}</div>
+      <div>{profile.photoURL}</div>
     </PageWrapper>
   );
 };

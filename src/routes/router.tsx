@@ -8,6 +8,7 @@ import { Book } from '@/ui/book/pages/Book';
 import Home from '@/ui/home';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { ROUTE } from '@/routes/routes.ts';
+import { IUser } from '@/data/user/enitites/user';
 
 const { fetchFirstList, fetchBook } = useBookStore.getState();
 
@@ -16,51 +17,54 @@ const createRouter =
     ? createHashRouter
     : createBrowserRouter;
 
-export const router = createRouter([
-  {
-    path: ROUTE.HOME,
-    Component: Layout,
-    children: [
-      {
-        path: ROUTE.HOME,
-        element: <Home />,
-      },
-      {
-        path: ROUTE.BOOKS,
-        loader: ({ request }) => {
-          const query = new URL(request.url).searchParams.get('query');
-          if (query) {
-            fetchFirstList({ query });
-          }
-
-          return null;
+export const initRouter = (profile: IUser) => {
+  return createRouter([
+    {
+      path: ROUTE.HOME,
+      Component: Layout,
+      children: [
+        {
+          path: ROUTE.HOME,
+          element: <Home />,
         },
-        element: <Search />,
-      },
-      {
-        path: ROUTE.BOOK,
-        element: <Book />,
-        loader: async ({ params }) => {
-          const bookId = params.bookId;
-          if (bookId) {
-            fetchBook({ bookId });
-          }
+        {
+          path: ROUTE.BOOKS,
+          loader: ({ request }) => {
+            const query = new URL(request.url).searchParams.get('query');
+            if (query) {
+              fetchFirstList({ query });
+            }
 
-          return null;
+            return null;
+          },
+          element: <Search />,
         },
-      },
-      {
-        path: ROUTE.PROFILE,
-        element: <Profile />,
-      },
-      {
-        path: ROUTE.LOGIN,
-        element: <Login />,
-      },
-      {
-        path: ROUTE.REGISTRATION,
-        element: <Registration />,
-      },
-    ],
-  },
-]);
+        {
+          path: ROUTE.BOOK,
+          element: <Book />,
+          loader: async ({ params }) => {
+            const bookId = params.bookId;
+
+            if (bookId && profile) {
+              fetchBook({ userId: profile.uid, bookId });
+            }
+
+            return null;
+          },
+        },
+        {
+          path: ROUTE.PROFILE,
+          element: <Profile />,
+        },
+        {
+          path: ROUTE.LOGIN,
+          element: <Login />,
+        },
+        {
+          path: ROUTE.REGISTRATION,
+          element: <Registration />,
+        },
+      ],
+    },
+  ]);
+};

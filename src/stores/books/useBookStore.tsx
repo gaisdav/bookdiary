@@ -20,7 +20,7 @@ interface BooksActions {
   resetAll: () => void;
   fetchPaginatedList: (params: TGoogleBookSearchParams) => void;
   fetchFirstList: (params: TGoogleBookSearchParams) => void;
-  fetchBook: (params: { bookId: string }) => void;
+  fetchBook: (params: Omit<TAddToCollection, 'status'>) => void;
   addToCollection: (params: TAddToCollection) => void;
   removeFromCollection: (params: Omit<TAddToCollection, 'status'>) => void;
 }
@@ -76,10 +76,10 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
     }
   },
 
-  fetchBook: async ({ bookId }) => {
+  fetchBook: async ({ bookId, userId }) => {
     set(() => ({ bookLoading: true }));
     try {
-      const book = await BooksService.getBook(bookId);
+      const book = await BooksService.getBook({ bookId, userId });
 
       set({ book });
     } finally {
