@@ -1,6 +1,9 @@
 import { create } from 'zustand/index';
 import { IBook } from '@/data/books/enitites/book/types.ts';
-import { TGoogleBookSearchParams } from '@/data/books/services/types.ts';
+import {
+  TAddToCollection,
+  TGoogleBookSearchParams,
+} from '@/data/books/services/types.ts';
 import { BooksService } from '@/data/books/services/BooksService.ts';
 import { IBookList } from '@/stores/books/types.ts';
 
@@ -18,6 +21,8 @@ interface BooksActions {
   fetchPaginatedList: (params: TGoogleBookSearchParams) => void;
   fetchFirstList: (params: TGoogleBookSearchParams) => void;
   fetchBook: (params: { bookId: string }) => void;
+  addToCollection: (params: TAddToCollection) => void;
+  removeFromCollection: (params: Omit<TAddToCollection, 'status'>) => void;
 }
 
 const initialState: BooksState = {
@@ -38,7 +43,7 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
     set(() => ({ listLoading: true }));
 
     try {
-      const books = await BooksService.getBooks(params);
+      const books = await BooksService.searchBooks(params);
 
       set({ list: books });
     } finally {
@@ -50,7 +55,7 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
     set(() => ({ listLoading: true }));
 
     try {
-      const books = await BooksService.getBooks(params);
+      const books = await BooksService.searchBooks(params);
 
       set(({ list }) => ({
         list: {
@@ -77,6 +82,42 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
       const book = await BooksService.getBook(bookId);
 
       set({ book });
+    } finally {
+      set({ bookLoading: false });
+    }
+  },
+
+  addToCollection: async (params: TAddToCollection) => {
+    set(() => ({ bookLoading: true }));
+
+    try {
+      await BooksService.addToCollection(params);
+
+      set((state) => {
+        if (!state.book) {
+          return state;
+        }
+
+        return { ...state, book: { ...state.book, status: params.status } };
+      });
+    } finally {
+      set({ bookLoading: false });
+    }
+  },
+
+  removeFromCollection: async (params) => {
+    set(() => ({ bookLoading: true }));
+
+    try {
+      await BooksService.removeFromCollection(params);
+
+      set((state) => {
+        if (!state.book) {
+          return state;
+        }
+
+        return { ...state, book: { ...state.book, status: undefined } };
+      });
     } finally {
       set({ bookLoading: false });
     }

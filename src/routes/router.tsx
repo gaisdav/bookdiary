@@ -40,7 +40,7 @@ export const router = createRouter([
       {
         path: ROUTE.BOOK,
         element: <Book />,
-        loader: ({ params }) => {
+        loader: async ({ params }) => {
           const bookId = params.bookId;
           if (bookId) {
             fetchBook({ bookId });

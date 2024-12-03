@@ -32,6 +32,7 @@ const Profile: FC = () => {
         </Button>
       </div>
       <div>Profile</div>
+      <div>{user.uid}</div>
       <div>{user.displayName}</div>
       <div>{user.email}</div>
       <div>{user.photoURL}</div>

@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '@/firebase.config.ts';
+import { auth } from '@/lib/firebase.config.ts';
 import { useState } from 'react';
 
 export const useAuthController = () => {

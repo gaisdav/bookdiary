@@ -3,7 +3,7 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from 'firebase/auth';
-import { auth } from '@/firebase.config';
+import { auth } from '@/lib/firebase.config.ts';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IUser, TCreatUser } from '@/data/user/enitites/user';

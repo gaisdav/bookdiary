@@ -23,3 +23,5 @@ interface ImportMeta {
 declare const SWITCH_THEME: (themeValue: string) => void;
 declare const GET_THEME: () => 'light' | 'dark';
 declare const THEME_ATTRIBUTE_KEY: string;
+
+type Optional<T> = T | undefined;

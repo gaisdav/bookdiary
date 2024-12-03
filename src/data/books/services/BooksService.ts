@@ -3,15 +3,21 @@ import {
   constructGoogleBooksUrl,
   constructGoogleBookUrl,
 } from '@/data/books/services/utils.ts';
-import { TGoogleBookSearchParams } from '@/data/books/services/types.ts';
+import {
+  TAddToCollection,
+  TGoogleBookSearchParams,
+} from '@/data/books/services/types.ts';
 import { GoogleBook } from '@/ui/book/decorators/GoogleBook.decorator.ts';
 import { TGoogleBook } from '@/stores/books/types.ts';
+import { setDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase.config.ts';
+import { isBookStatus } from '@/data/books/utils.ts';
 
 const defaultPage = 1;
 const defaultLimit = 10;
 
 export class BooksService {
-  static async getBooks(
+  static async searchBooks(
     params: TGoogleBookSearchParams = {
       page: defaultPage,
       limit: defaultLimit,
@@ -30,7 +36,60 @@ export class BooksService {
     const url = constructGoogleBookUrl(bookId);
     const result = await fetch(url);
     const data = (await result.json()) as TGoogleBook;
+    const documentData = await BooksService.getBookStatus({
+      userId: 'MeR0sA0i8zdYJyrBVQ8ZHTz7lPI2',
+      bookId,
+    });
 
-    return new GoogleBook(data);
+    if (!isBookStatus(documentData?.status)) {
+      return;
+    }
+
+    return new GoogleBook({ ...data, status: documentData.status });
+  }
+
+  static async addToCollection({ userId, bookId, status }: TAddToCollection) {
+    try {
+      // Создаем ссылку на документ для пользователя с userId
+      const docRef = doc(db, 'collections', userId, 'books', bookId);
+
+      // Обновляем или создаем данные в Firestore
+      await setDoc(docRef, {
+        status: status,
+      });
+    } catch (e) {
+      console.error('Error adding document: ', e);
+    }
+  }
+
+  static async removeFromCollection({
+    userId,
+    bookId,
+  }: Omit<TAddToCollection, 'status'>) {
+    try {
+      // Создаем ссылку на документ для пользователя с userId
+      const docRef = doc(db, 'collections', userId, 'books', bookId);
+
+      await deleteDoc(docRef);
+    } catch (e) {
+      console.error('Error removing document: ', e);
+    }
+  }
+
+  static async getBookStatus({
+    userId,
+    bookId,
+  }: Omit<TAddToCollection, 'status'>) {
+    try {
+      // Создаем ссылку на документ для пользователя с userId
+      const docRef = doc(db, 'collections', userId, 'books', bookId);
+
+      const docSnap = await getDoc(docRef);
+
+      return docSnap.data();
+    } catch (e) {
+      console.error('Error getting document: ', e);
+      return null;
+    }
   }
 }

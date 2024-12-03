@@ -1,9 +1,9 @@
-import { IBook } from '@/data/books/enitites/book/types.ts';
+import { IBook, TBookStatus } from '@/data/books/enitites/book/types.ts';
 import { BookEntity } from '@/data/books/enitites/book/BookEntity.ts';
 import { TGoogleBook } from '@/stores/books/types.ts';
 
 export class GoogleBook extends BookEntity implements IBook {
-  constructor(info: TGoogleBook) {
+  constructor(info: TGoogleBook & { status: TBookStatus }) {
     super({
       id: info.id,
       title: info.volumeInfo.title || '',
@@ -16,6 +16,7 @@ export class GoogleBook extends BookEntity implements IBook {
       categories: info.volumeInfo.categories || [],
       language: info.volumeInfo.language,
       pageCount: info.volumeInfo.pageCount,
+      status: info.status,
     });
   }
 }

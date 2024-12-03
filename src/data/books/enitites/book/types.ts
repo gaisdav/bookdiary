@@ -10,4 +10,8 @@ export interface IBook {
   categories?: string[];
   language?: string;
   pageCount?: number;
+
+  status?: TBookStatus;
 }
+
+export type TBookStatus = 'read' | 'reading' | 'want-to-read';

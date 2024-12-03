@@ -7,3 +7,14 @@ export type TCreatUser = {
   password: string;
   name: string;
 };
+
+export interface IUserBook {
+  id: string;
+  userId: string;
+  bookId: string;
+  status: string;
+  rating: number;
+  review: string;
+  createdAt: string;
+  updatedAt: string;
+}
