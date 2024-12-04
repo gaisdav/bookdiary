@@ -1,35 +1,15 @@
 import { create } from 'zustand/index';
-import { IBook } from '@/data/books/enitites/book/types.ts';
-import {
-  TAddToCollection,
-  TGoogleBookSearchParams,
-} from '@/data/books/services/types.ts';
+import { TAddToCollection } from '@/data/books/services/types.ts';
 import { BooksService } from '@/data/books/services/BooksService.ts';
-import { IBookList } from '@/stores/books/types.ts';
-
-interface BooksState {
-  listLoading: boolean;
-  bookLoading: boolean;
-  list: IBookList | null;
-  book: IBook | null;
-}
-
-interface BooksActions {
-  resetBook: () => void;
-  resetList: () => void;
-  resetAll: () => void;
-  fetchPaginatedList: (params: TGoogleBookSearchParams) => void;
-  fetchFirstList: (params: TGoogleBookSearchParams) => void;
-  fetchBook: (params: Omit<TAddToCollection, 'status'>) => void;
-  addToCollection: (params: TAddToCollection) => void;
-  removeFromCollection: (params: Omit<TAddToCollection, 'status'>) => void;
-}
+import { BooksActions, BooksState } from '@/stores/books/types.ts';
 
 const initialState: BooksState = {
   bookLoading: false,
   listLoading: false,
+  collectionLoading: false,
   list: null,
   book: null,
+  collection: null,
 };
 
 export const useBookStore = create<BooksState & BooksActions>((set) => ({
@@ -120,6 +100,19 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
       });
     } finally {
       set({ bookLoading: false });
+    }
+  },
+
+  //TODO вынести в отдельную стори
+  fetchUserCollection: async (userId) => {
+    set(() => ({ collectionLoading: true }));
+
+    try {
+      const collection = await BooksService.getUserCollection(userId);
+
+      set({ collection });
+    } finally {
+      set({ collectionLoading: false });
     }
   },
 }));

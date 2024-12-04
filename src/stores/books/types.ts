@@ -1,4 +1,8 @@
 import { IBook } from '@/data/books/enitites/book/types.ts';
+import {
+  TAddToCollection,
+  TGoogleBookSearchParams,
+} from '@/data/books/services/types.ts';
 
 export type TGoogleBook = {
   kind: string;
@@ -51,3 +55,24 @@ export type TGoogleBookSearch = {
   totalItems: number;
   items: TGoogleBook[];
 };
+
+export interface BooksState {
+  listLoading: boolean;
+  bookLoading: boolean;
+  collectionLoading: boolean;
+  list: IBookList | null;
+  book: IBook | null;
+  collection: IBook[] | null;
+}
+
+export interface BooksActions {
+  resetBook: () => void;
+  resetList: () => void;
+  resetAll: () => void;
+  fetchPaginatedList: (params: TGoogleBookSearchParams) => void;
+  fetchFirstList: (params: TGoogleBookSearchParams) => void;
+  fetchBook: (params: Omit<TAddToCollection, 'status'>) => void;
+  addToCollection: (params: TAddToCollection) => void;
+  removeFromCollection: (params: Omit<TAddToCollection, 'status'>) => void;
+  fetchUserCollection: (userId: string) => void;
+}

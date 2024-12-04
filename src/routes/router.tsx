@@ -9,8 +9,10 @@ import Home from '@/ui/home';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { ROUTE } from '@/routes/routes.ts';
 import { IUser } from '@/data/user/enitites/user';
+import Collection from '@/ui/collection';
 
-const { fetchFirstList, fetchBook } = useBookStore.getState();
+const { fetchFirstList, fetchBook, fetchUserCollection } =
+  useBookStore.getState();
 
 const createRouter =
   import.meta.env.BOOK_CUSTOM_MODE === 'gh-pages'
@@ -47,6 +49,17 @@ export const initRouter = (profile: IUser) => {
 
             if (bookId && profile) {
               fetchBook({ userId: profile.uid, bookId });
+            }
+
+            return null;
+          },
+        },
+        {
+          path: ROUTE.COLLECTION,
+          element: <Collection />,
+          loader: async () => {
+            if (profile) {
+              fetchUserCollection(profile.uid);
             }
 
             return null;

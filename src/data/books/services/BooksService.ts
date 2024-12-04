@@ -9,8 +9,16 @@ import {
 } from '@/data/books/services/types.ts';
 import { GoogleBook } from '@/ui/book/decorators/GoogleBook.decorator.ts';
 import { TGoogleBook } from '@/stores/books/types.ts';
-import { setDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import {
+  setDoc,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+} from 'firebase/firestore';
 import { db } from '@/lib/firebase.config.ts';
+import { ICollection } from '@/data/collection/enitites/types.ts';
 
 const defaultPage = 1;
 const defaultLimit = 10;
@@ -84,6 +92,38 @@ export class BooksService {
     } catch (e) {
       console.error('Error getting document: ', e);
       return null;
+    }
+  }
+
+  static async getUserCollection(userId: string) {
+    try {
+      // Создаем ссылку на подколлекцию "collections" пользователя
+      const booksCollectionRef = collection(db, 'collections', userId, 'books');
+
+      // Получаем все документы из коллекции
+      const querySnapshot = await getDocs(booksCollectionRef);
+
+      // Преобразуем документы в массив объектов
+      const collections: ICollection[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id, // ID документа (bookId)
+        ...doc.data(), // Остальные данные документа (status)
+      }));
+
+      const googleBooks = await Promise.all(
+        collections.map((collection) =>
+          fetch(
+            `https://www.googleapis.com/books/v1/volumes/${collection.id}`,
+          ).then((res) => res.json()),
+        ),
+      );
+
+      return googleBooks.map(
+        (book, index) =>
+          new GoogleBook({ ...book, status: collections[index].status }),
+      );
+    } catch (e) {
+      console.error('Error getting user collection: ', e);
+      return [];
     }
   }
 }
