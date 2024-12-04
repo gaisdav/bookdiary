@@ -66,6 +66,19 @@ export const initRouter = (profile: IUser) => {
           },
         },
         {
+          path: ROUTE.COLLECTION_BOOK,
+          element: <Book />,
+          loader: async ({ params }) => {
+            const bookId = params.bookId;
+
+            if (bookId && profile) {
+              fetchBook({ userId: profile.uid, bookId });
+            }
+
+            return null;
+          },
+        },
+        {
           path: ROUTE.PROFILE,
           element: <Profile />,
         },

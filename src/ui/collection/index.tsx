@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { PageWrapper } from '@/components/PageWrapper';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
+import { Link } from 'react-router-dom';
 
 const Collection: FC = () => {
   const collection = useBookStore().collection;
@@ -16,16 +17,17 @@ const Collection: FC = () => {
 
   return (
     <PageWrapper>
-      <div>Your collection</div>
+      <div>My collection</div>
 
       <br />
 
       <div>
         {collection.map((book) => {
           return (
-            <div>
-              <div key={book.id}>title: {book.title}</div>
+            <div key={book.id}>
+              <div>title: {book.title}</div>
               <div>status: {book.status}</div>
+              <Link to={book.id}>open book info</Link>
               <br />
             </div>
           );
