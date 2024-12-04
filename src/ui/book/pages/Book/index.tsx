@@ -20,12 +20,14 @@ import { TBookStatus } from '@/data/books/enitites/book/types.ts';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Textarea } from '@/components/ui/textarea';
-import { ReviewsService } from '@/data/review/services';
+import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 
 export const Book: FC = () => {
   const [addReviewMode, setAddReviewMode] = useState(false);
   const [review, setReview] = useState('');
 
+  const addReview = useReviewStore().addReview;
+  const reviews = useReviewStore().reviews;
   const profile = useProfileStore().profile;
   const isPending = useBookStore().bookLoading;
   const book = useBookStore().book;
@@ -39,6 +41,11 @@ export const Book: FC = () => {
   if (!book) {
     return <PageWrapper>No data</PageWrapper>;
   }
+
+  const resetReviewAdding = () => {
+    setAddReviewMode(false);
+    setReview('');
+  };
 
   const handleStatusChange = (status: string = '') => {
     if (!profile) {
@@ -58,25 +65,27 @@ export const Book: FC = () => {
       });
     }
 
-    setAddReviewMode(false);
+    resetReviewAdding();
   };
 
   const toggleAddReviewMode = () => {
     setAddReviewMode((prev) => !prev);
   };
 
-  const handleSaveReview = () => {
+  const handleSaveReview = async () => {
     if (!profile) {
       return;
     }
 
-    // TODO do it in a better way. Use store.
-    ReviewsService.addReview({
+    await addReview({
       bookId: book.id,
       review,
       userId: profile.uid,
+      // TODO add rating
       rating: 5,
     });
+
+    resetReviewAdding();
   };
 
   const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -163,6 +172,23 @@ export const Book: FC = () => {
           )}
         </CardContent>
       </Card>
+      {reviews && (
+        <Card>
+          <CardContent>
+            {reviews.length ? (
+              reviews.map((review) => (
+                <div key={review.id}>
+                  <CardTitle>{review.review}</CardTitle>
+                </div>
+              ))
+            ) : (
+              <div>
+                <CardTitle>No reviews yet</CardTitle>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
     </PageWrapper>
   );
 };
