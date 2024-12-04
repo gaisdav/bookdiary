@@ -5,6 +5,7 @@ import PWABadge from '@/PWABadge.tsx';
 import { Providers } from '@/Providers.tsx';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { IUser } from '@/data/user/enitites/user';
+import { PageWrapper } from '@/components/PageWrapper';
 
 export const App: FC = () => {
   const initProfile = useProfileStore().initProfile;
@@ -23,7 +24,7 @@ export const App: FC = () => {
       {profile ? (
         <RouterProvider router={getRouter(profile)} />
       ) : (
-        'Initializing...'
+        <PageWrapper>Initializing app...</PageWrapper>
       )}
       <PWABadge />
     </Providers>

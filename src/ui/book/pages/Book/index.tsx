@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { PageWrapper } from '@/components/PageWrapper';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { Img } from '@/components/Img';
@@ -18,8 +18,14 @@ import {
 } from '@/components/ui/select';
 import { TBookStatus } from '@/data/books/enitites/book/types.ts';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import { Textarea } from '@/components/ui/textarea';
+import { ReviewsService } from '@/data/review/services';
 
 export const Book: FC = () => {
+  const [addReviewMode, setAddReviewMode] = useState(false);
+  const [review, setReview] = useState('');
+
   const profile = useProfileStore().profile;
   const isPending = useBookStore().bookLoading;
   const book = useBookStore().book;
@@ -27,11 +33,11 @@ export const Book: FC = () => {
   const removeFromCollection = useBookStore().removeFromCollection;
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return <PageWrapper>Loading book...</PageWrapper>;
   }
 
   if (!book) {
-    return <div>No data</div>;
+    return <PageWrapper>No data</PageWrapper>;
   }
 
   const handleStatusChange = (status: string = '') => {
@@ -51,6 +57,30 @@ export const Book: FC = () => {
         status: status as TBookStatus,
       });
     }
+
+    setAddReviewMode(false);
+  };
+
+  const toggleAddReviewMode = () => {
+    setAddReviewMode((prev) => !prev);
+  };
+
+  const handleSaveReview = () => {
+    if (!profile) {
+      return;
+    }
+
+    // TODO do it in a better way. Use store.
+    ReviewsService.addReview({
+      bookId: book.id,
+      review,
+      userId: profile.uid,
+      rating: 5,
+    });
+  };
+
+  const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setReview(e.target.value);
   };
 
   const title = book.title || 'Book';
@@ -107,6 +137,30 @@ export const Book: FC = () => {
               </SelectContent>
             </Select>
           </div>
+
+          {book?.status === 'read' && (
+            <div className="mt-4">
+              {!addReviewMode ? (
+                <Button onClick={toggleAddReviewMode}>Add review</Button>
+              ) : (
+                <div>
+                  <Textarea
+                    onChange={handleReviewChange}
+                    value={review}
+                    placeholder="Type your review here."
+                    maxLength={1000}
+                    rows={4}
+                  />
+                  <div className="flex justify-end mt-2 gap-2">
+                    <Button onClick={toggleAddReviewMode} variant="outline">
+                      Cancel
+                    </Button>
+                    <Button onClick={handleSaveReview}>Save</Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
     </PageWrapper>
