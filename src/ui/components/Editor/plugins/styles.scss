@@ -7,6 +7,8 @@
   border-top-right-radius: 10px;
   vertical-align: middle;
   overflow: auto;
+  max-width: 100%;
+  flex-wrap: wrap;
 }
 
 .toolbar button.toolbar-item {
@@ -27,17 +29,6 @@
   margin-right: 2px;
 }
 
-.toolbar button.toolbar-item i.format {
-  background-size: contain;
-  display: inline-block;
-  height: 18px;
-  width: 18px;
-  margin-top: 2px;
-  vertical-align: -0.25em;
-  display: flex;
-  opacity: 0.6;
-}
-
 .toolbar button.toolbar-item:disabled svg {
   opacity: 0.4;
 }
@@ -48,10 +39,6 @@
   svg {
     fill: hsl(var(--primary));
   }
-}
-
-.toolbar button.toolbar-item.active i {
-  opacity: 1;
 }
 
 .toolbar .toolbar-item:hover:not([disabled]) {
