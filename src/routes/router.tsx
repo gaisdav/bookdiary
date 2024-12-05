@@ -4,7 +4,7 @@ import Search from '@/ui/book/pages/Search/Search.tsx';
 import Profile from '@/ui/profile/Profile.tsx';
 import Login from '@/ui/login/Login.tsx';
 import Registration from '@/ui/registration/Registration.tsx';
-import { Book } from '@/ui/book/pages/Book';
+import { Book } from '@/ui/book/pages/book';
 import Home from '@/ui/home';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { ROUTE } from '@/routes/routes.ts';

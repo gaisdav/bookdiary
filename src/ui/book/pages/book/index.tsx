@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardHeader,
   CardTitle,
 } from '@/components/ui/card.tsx';
 import css from './Book.module.scss';
@@ -21,10 +22,14 @@ import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Textarea } from '@/components/ui/textarea';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
+import { Ratings } from '@/components/Ratings';
+
+// TODO должна ли быть возможность повторного написания рецензии?
 
 export const Book: FC = () => {
   const [addReviewMode, setAddReviewMode] = useState(false);
   const [review, setReview] = useState('');
+  const [rating, setRating] = useState(0);
 
   const addReview = useReviewStore().addReview;
   const reviews = useReviewStore().reviews;
@@ -45,6 +50,7 @@ export const Book: FC = () => {
   const resetReviewAdding = () => {
     setAddReviewMode(false);
     setReview('');
+    setRating(0);
   };
 
   const handleStatusChange = (status: string = '') => {
@@ -81,8 +87,7 @@ export const Book: FC = () => {
       bookId: book.id,
       review,
       userId: profile.uid,
-      // TODO add rating
-      rating: 5,
+      rating,
     });
 
     resetReviewAdding();
@@ -160,11 +165,20 @@ export const Book: FC = () => {
                     maxLength={1000}
                     rows={4}
                   />
-                  <div className="flex justify-end mt-2 gap-2">
-                    <Button onClick={toggleAddReviewMode} variant="outline">
-                      Cancel
-                    </Button>
-                    <Button onClick={handleSaveReview}>Save</Button>
+                  <div className="flex flex-col mt-2 gap-2">
+                    <Ratings rating={rating} onChange={setRating} />
+                    <div className="flex justify-end mt-2 gap-2">
+                      <Button
+                        size="sm"
+                        onClick={toggleAddReviewMode}
+                        variant="outline"
+                      >
+                        Cancel
+                      </Button>
+                      <Button size="sm" onClick={handleSaveReview}>
+                        Save
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -174,16 +188,27 @@ export const Book: FC = () => {
       </Card>
       {reviews && (
         <Card>
+          <CardHeader>
+            <CardTitle>Reviews</CardTitle>
+          </CardHeader>
           <CardContent>
             {reviews.length ? (
               reviews.map((review) => (
-                <div key={review.id}>
-                  <CardTitle>{review.review}</CardTitle>
+                <div key={review.id} className="mb-2">
+                  <CardDescription>{review.review}</CardDescription>
+                  {review.rating ? (
+                    <div>
+                      <Ratings rating={review.rating} />
+                    </div>
+                  ) : null}
+                  <CardDescription>
+                    {review.createdAt.toDate().toLocaleString()}
+                  </CardDescription>
                 </div>
               ))
             ) : (
               <div>
-                <CardTitle>No reviews yet</CardTitle>
+                <CardDescription>No reviews yet</CardDescription>
               </div>
             )}
           </CardContent>

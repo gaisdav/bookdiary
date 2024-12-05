@@ -3,10 +3,13 @@ import {
   collection,
   getDocs,
   serverTimestamp,
+  query,
+  orderBy,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase.config.ts';
 import { TAddReview } from '@/data/review/services/types.ts';
 import { IReview } from '@/data/review/entity/types.ts';
+import { Timestamp } from '@firebase/firestore';
 
 export class ReviewsService {
   static async addReview({
@@ -33,10 +36,8 @@ export class ReviewsService {
         review,
         userId,
         rating,
-
-        //TODO fix this
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
       };
     } catch (e) {
       console.error('Error adding review: ', e);
@@ -46,7 +47,10 @@ export class ReviewsService {
 
   static async getReviews(bookId: string): Promise<IReview[]> {
     const reviewsRef = collection(db, 'reviews', 'books', bookId);
-    const docSnap = await getDocs(reviewsRef);
+    // Создаем запрос с сортировкой по полю "createdAt" в порядке убывания (desc)
+    const reviewsQuery = query(reviewsRef, orderBy('createdAt', 'desc'));
+
+    const docSnap = await getDocs(reviewsQuery);
 
     return docSnap.docs.map(
       (doc) =>

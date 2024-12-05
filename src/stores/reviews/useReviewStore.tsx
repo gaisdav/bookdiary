@@ -30,7 +30,7 @@ export const useReviewStore = create<ReviewsState & ReviewsActions>((set) => ({
 
       set(({ reviews }) => {
         return {
-          reviews: [...(reviews || []), review],
+          reviews: [review, ...(reviews || [])],
         };
       });
     } finally {
