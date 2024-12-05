@@ -12,7 +12,7 @@ export const Ratings: FC<IRatingsProps> = ({ rating, onChange }) => (
     {[1, 2, 3, 4, 5].map((star) => (
       <button
         key={star}
-        onClick={() => onChange?.(star)}
+        onClick={() => onChange?.(rating === star ? star - 1 : star)} // Сбрасываем рейтинг, если кликнули на уже выбранную звезду
         className={cn(
           'p-0.5 rounded-full bg-transparent border border-transparent',
           {
