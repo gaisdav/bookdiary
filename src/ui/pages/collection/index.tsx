@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
-import { Link } from 'react-router-dom';
 import { BookItem } from '@/ui/pages/book/pages/Search/components/BookItem';
 
 const Collection: FC = () => {
