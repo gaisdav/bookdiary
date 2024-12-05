@@ -202,6 +202,7 @@ export const Book: FC = () => {
               reviews.map((review) => (
                 <div key={review.id} className="mb-2">
                   <CardDescription
+                    className={css.review}
                     dangerouslySetInnerHTML={{
                       __html: convertJSONToHTML(review.review),
                     }}
