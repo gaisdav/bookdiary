@@ -8,7 +8,7 @@ import css from './styles.module.scss';
 import { ROUTE } from '@/routes/routes.ts';
 
 const Login: FC = () => {
-  const { login } = useAuthController();
+  const { login, loading } = useAuthController();
 
   const submitLogin: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -23,13 +23,19 @@ const Login: FC = () => {
   return (
     <PageWrapper>
       <form className={css.form} onSubmit={submitLogin}>
-        <Input type="email" name="login" required />
-        <Input type="password" name="password" required />
+        <Input type="email" name="login" required disabled={loading} />
+        <Input type="password" name="password" required disabled={loading} />
         <div className={css.actions}>
-          <Button variant="outline" size="sm" type="submit">
+          <Button variant="outline" size="sm" type="submit" disabled={loading}>
             Login
+            {loading && (
+              <>
+                {' '}
+                <div className="animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 h-4 w-4" />
+              </>
+            )}
           </Button>
-          <Button asChild variant="outline" size="sm">
+          <Button asChild variant="outline" size="sm" disabled={loading}>
             <NavLink to={ROUTE.REGISTRATION}>Registration</NavLink>
           </Button>
         </div>

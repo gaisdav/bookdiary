@@ -12,8 +12,10 @@ export const useProfileStore = create<ProfileState & ProfileActions>((set) => ({
   ...initialState,
 
   initProfile: async () => {
+    set({ profileLoading: true });
+
     onAuthStateChanged(auth, (user) => {
-      set({ profile: user });
+      set({ profile: user, profileLoading: false });
     });
   },
 }));

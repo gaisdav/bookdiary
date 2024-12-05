@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Navigation } from '../Nav';
 import css from './layout.module.scss';
-import { PageWrapper } from '@/components/PageWrapper';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 
 export const Layout = () => {
@@ -10,7 +9,7 @@ export const Layout = () => {
   return (
     <>
       <main className={css.main}>
-        {profile ? <Outlet /> : <PageWrapper>initializing</PageWrapper>}
+        <Outlet />
       </main>
       {profile && <Navigation />}
     </>

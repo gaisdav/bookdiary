@@ -3,6 +3,7 @@ import { auth } from '@/lib/firebase.config.ts';
 import { useState } from 'react';
 
 export const useAuthController = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null); // New error state
 
   const login = async ({
@@ -12,6 +13,7 @@ export const useAuthController = () => {
     email: string;
     password: string;
   }) => {
+    setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
@@ -21,10 +23,13 @@ export const useAuthController = () => {
         console.error(error);
         setError('An error occurred while creating a user');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   const logout = async () => {
+    setLoading(true);
     try {
       await signOut(auth);
     } catch (error) {
@@ -34,8 +39,10 @@ export const useAuthController = () => {
         console.error(error);
         setError('An error occurred while creating a user');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
-  return { error, login, logout };
+  return { error, login, logout, loading };
 };
