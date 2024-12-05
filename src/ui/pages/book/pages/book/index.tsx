@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
@@ -20,11 +20,22 @@ import {
 import { TBookStatus } from '@/data/books/enitites/book/types.ts';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
-import { Textarea } from '@/ui/components/ui/textarea';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 import { Ratings } from '@/ui/components/Ratings';
+import { Editor } from '@/ui/components/Editor';
 
-// TODO должна ли быть возможность повторного написания рецензии?
+import { createEditor } from 'lexical';
+import { $generateHtmlFromNodes } from '@lexical/html';
+
+function convertJSONToHTML(json: string): string {
+  const editor = createEditor();
+  editor.setEditorState(editor.parseEditorState(json));
+  let htmlContent = '';
+  editor.update(() => {
+    htmlContent = $generateHtmlFromNodes(editor);
+  });
+  return htmlContent;
+}
 
 export const Book: FC = () => {
   const [addReviewMode, setAddReviewMode] = useState(false);
@@ -93,8 +104,8 @@ export const Book: FC = () => {
     resetReviewAdding();
   };
 
-  const handleReviewChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setReview(e.target.value);
+  const handleReviewChange = (text: string) => {
+    setReview(text);
   };
 
   const title = book.title || 'Book';
@@ -158,13 +169,8 @@ export const Book: FC = () => {
                 <Button onClick={toggleAddReviewMode}>Add review</Button>
               ) : (
                 <div>
-                  <Textarea
-                    onChange={handleReviewChange}
-                    value={review}
-                    placeholder="Type your review here."
-                    maxLength={1000}
-                    rows={4}
-                  />
+                  <Editor onChange={handleReviewChange} />
+
                   <div className="flex flex-col mt-2 gap-2">
                     <Ratings rating={rating} onChange={setRating} />
                     <div className="flex justify-end mt-2 gap-2">
@@ -195,7 +201,11 @@ export const Book: FC = () => {
             {reviews.length ? (
               reviews.map((review) => (
                 <div key={review.id} className="mb-2">
-                  <CardDescription>{review.review}</CardDescription>
+                  <CardDescription
+                    dangerouslySetInnerHTML={{
+                      __html: convertJSONToHTML(review.review),
+                    }}
+                  />
                   {review.rating ? (
                     <div>
                       <Ratings rating={review.rating} />
