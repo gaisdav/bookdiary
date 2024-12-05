@@ -3,17 +3,17 @@ import {
   createHashRouter,
   redirect,
 } from 'react-router-dom';
-import { Layout } from '@/components/Layout/Layout';
-import Search from '@/ui/book/pages/Search/Search.tsx';
-import Profile from '@/ui/profile/Profile.tsx';
-import Login from '@/ui/login/Login.tsx';
-import Registration from '@/ui/registration/Registration.tsx';
-import { Book } from '@/ui/book/pages/book';
-import Home from '@/ui/home';
+import { Layout } from '@/ui/components/Layout/Layout.tsx';
+import Search from '@/ui/pages/book/pages/Search/Search.tsx';
+import Profile from '@/ui/pages/profile/Profile.tsx';
+import Login from '@/ui/pages/login/Login.tsx';
+import Registration from '@/ui/pages/registration/Registration.tsx';
+import { Book } from '@/ui/pages/book/pages/book';
+import Home from '@/ui/pages/home';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { ROUTE } from '@/routes/routes.ts';
 import { IUser } from '@/data/user/enitites/user';
-import Collection from '@/ui/collection';
+import Collection from '@/ui/pages/collection';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 
 const { fetchFirstList, fetchBook, fetchUserCollection } =

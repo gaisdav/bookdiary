@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { PageWrapper } from '@/components/PageWrapper';
-import { H1 } from '@/components/ui/typography.tsx';
+import { PageWrapper } from '@/ui/components/PageWrapper';
+import { H1 } from '@/ui/components/ui/typography.tsx';
 
 const Home: FC = () => {
   return (

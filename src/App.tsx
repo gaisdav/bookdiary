@@ -4,7 +4,7 @@ import { initRouter } from '@/routes/router.tsx';
 import PWABadge from '@/PWABadge.tsx';
 import { Providers } from '@/Providers.tsx';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
-import { PageWrapper } from '@/components/PageWrapper';
+import { PageWrapper } from '@/ui/components/PageWrapper';
 
 export const App: FC = () => {
   const initProfile = useProfileStore().initProfile;

@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { useTheme } from '@/hooks/useTheme.tsx';
-import { useAuthController } from '@/ui/login/hooks/useAuth.tsx';
-import { Button } from '@/components/ui/button.tsx';
-import { PageWrapper } from '@/components/PageWrapper';
+import { Button } from '@/ui/components/ui/button.tsx';
+import { PageWrapper } from '@/ui/components/PageWrapper';
 import css from './styles.module.scss';
 import { MoonIcon, SunIcon, ExitIcon } from '@radix-ui/react-icons';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { useAuthController } from '@/ui/pages/login/hooks/useAuth.tsx';
 
 const Profile: FC = () => {
   const { switchTheme } = useTheme();

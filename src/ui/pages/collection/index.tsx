@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import { PageWrapper } from '@/components/PageWrapper';
+import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { Link } from 'react-router-dom';
+import { BookItem } from '@/ui/pages/book/pages/Search/components/BookItem';
 
 const Collection: FC = () => {
   const collection = useBookStore().collection;
@@ -23,14 +24,7 @@ const Collection: FC = () => {
 
       <div>
         {collection.map((book) => {
-          return (
-            <div key={book.id}>
-              <div>title: {book.title}</div>
-              <div>status: {book.status}</div>
-              <Link to={book.id}>open book info</Link>
-              <br />
-            </div>
-          );
+          return <BookItem key={book.id} book={book} />;
         })}
       </div>
     </PageWrapper>

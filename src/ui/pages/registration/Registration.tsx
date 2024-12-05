@@ -1,10 +1,10 @@
 import { FC, FormEventHandler } from 'react';
 import css from './styles.module.scss';
 import { TCreatUser } from '@/data/user/enitites/user';
-import { useUser } from '@/ui/profile/hooks/useUser.tsx';
-import { PageWrapper } from '@/components/PageWrapper';
-import { Button } from '@/components/ui/button.tsx';
-import { Input } from '@/components/ui/input.tsx';
+import { PageWrapper } from '@/ui/components/PageWrapper';
+import { Button } from '@/ui/components/ui/button.tsx';
+import { Input } from '@/ui/components/ui/input.tsx';
+import { useUser } from '@/ui/pages/profile/hooks/useUser.tsx';
 
 const Registration: FC = () => {
   const { createUser } = useUser();

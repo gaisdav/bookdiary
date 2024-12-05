@@ -1,14 +1,14 @@
 import { ChangeEvent, FC, useState } from 'react';
-import { PageWrapper } from '@/components/PageWrapper';
+import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
-import { Img } from '@/components/Img';
+import { Img } from '@/ui/components/Img';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card.tsx';
+} from '@/ui/components/ui/card.tsx';
 import css from './Book.module.scss';
 import {
   Select,
@@ -16,13 +16,13 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/ui/components/ui/select';
 import { TBookStatus } from '@/data/books/enitites/book/types.ts';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
-import { Button } from '@/components/ui/button.tsx';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/ui/components/ui/button.tsx';
+import { Textarea } from '@/ui/components/ui/textarea';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
-import { Ratings } from '@/components/Ratings';
+import { Ratings } from '@/ui/components/Ratings';
 
 // TODO должна ли быть возможность повторного написания рецензии?
 

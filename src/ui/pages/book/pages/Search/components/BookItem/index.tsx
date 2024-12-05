@@ -7,8 +7,8 @@ import {
   CardContent,
   CardDescription,
   CardTitle,
-} from '@/components/ui/card.tsx';
-import { Img } from '@/components/Img';
+} from '@/ui/components/ui/card.tsx';
+import { Img } from '@/ui/components/Img';
 
 type TBookItem = {
   book: IBook;
@@ -59,6 +59,9 @@ export const BookItem: FC<TBookItem> = ({ book }) => {
               <CardDescription>
                 Published date: {book.publishedDate}
               </CardDescription>
+            )}
+            {book.status && (
+              <CardDescription>Status: {book.status}</CardDescription>
             )}
           </div>
         </Link>

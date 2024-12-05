@@ -1,9 +1,9 @@
 import { FC, FormEventHandler } from 'react';
 import { useAuthController } from './hooks/useAuth.tsx';
 import { NavLink } from 'react-router-dom';
-import { PageWrapper } from '@/components/PageWrapper';
-import { Input } from '@/components/ui/input.tsx';
-import { Button } from '@/components/ui/button.tsx';
+import { PageWrapper } from '@/ui/components/PageWrapper';
+import { Input } from '@/ui/components/ui/input.tsx';
+import { Button } from '@/ui/components/ui/button.tsx';
 import css from './styles.module.scss';
 import { ROUTE } from '@/routes/routes.ts';
 

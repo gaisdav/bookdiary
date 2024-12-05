@@ -1,12 +1,12 @@
 import { FormEventHandler, UIEventHandler, useEffect, useRef } from 'react';
 import css from './styles.module.scss';
-import { Input } from '@/components/ui/input.tsx';
-import { Button } from '@/components/ui/button.tsx';
-import { PageWrapper } from '@/components/PageWrapper';
+import { Input } from '@/ui/components/ui/input.tsx';
+import { Button } from '@/ui/components/ui/button.tsx';
+import { PageWrapper } from '@/ui/components/PageWrapper';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useSearchParams } from 'react-router-dom';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
-import { BookItem } from '@/ui/book/pages/Search/components/BookItem';
+import { BookItem } from '@/ui/pages/book/pages/Search/components/BookItem';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
