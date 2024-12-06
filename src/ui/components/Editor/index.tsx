@@ -16,6 +16,7 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import {
+  $getRoot,
   $isTextNode,
   DOMConversionMap,
   DOMExportOutput,
@@ -148,7 +149,10 @@ export const Editor: FC<TEditorProps> = ({ onChange }) => {
   };
 
   function handleChange(editorState: EditorState) {
-    onChange(JSON.stringify(editorState));
+    const json = JSON.stringify(editorState);
+    const textContent = editorState.read(() => $getRoot().getTextContent());
+
+    onChange(json, textContent);
   }
 
   return (

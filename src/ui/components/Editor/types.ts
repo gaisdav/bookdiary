@@ -1,4 +1,4 @@
 export interface TEditorProps {
   JSONValue?: string;
-  onChange: (editorStateJSON: string) => void;
+  onChange: (editorStateJSON: string, valueText?: string) => void;
 }

@@ -39,7 +39,8 @@ function convertJSONToHTML(json: string): string {
 
 export const Book: FC = () => {
   const [addReviewMode, setAddReviewMode] = useState(false);
-  const [review, setReview] = useState('');
+  const [reviewJSON, setReviewJSON] = useState('');
+  const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
 
   const addReview = useReviewStore().addReview;
@@ -60,7 +61,8 @@ export const Book: FC = () => {
 
   const resetReviewAdding = () => {
     setAddReviewMode(false);
-    setReview('');
+    setReviewJSON('');
+    setReviewText('');
     setRating(0);
   };
 
@@ -96,7 +98,7 @@ export const Book: FC = () => {
 
     await addReview({
       bookId: book.id,
-      review,
+      review: reviewJSON,
       userId: profile.uid,
       rating,
     });
@@ -104,8 +106,9 @@ export const Book: FC = () => {
     resetReviewAdding();
   };
 
-  const handleReviewChange = (text: string) => {
-    setReview(text);
+  const handleReviewChange = (json: string, text: string = '') => {
+    setReviewJSON(json);
+    setReviewText(text);
   };
 
   const title = book.title || 'Book';
@@ -146,85 +149,80 @@ export const Book: FC = () => {
       </Card>
       <Card>
         <CardContent>
-          <div>
-            <Select
-              onValueChange={handleStatusChange}
-              defaultValue={book?.status}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="read">Read</SelectItem>
-                <SelectItem value="reading">Reading</SelectItem>
-                <SelectItem value="want-to-read">Want to read</SelectItem>
-                <SelectItem value="reset">Reset</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <Select
+            onValueChange={handleStatusChange}
+            defaultValue={book?.status}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="read">Read</SelectItem>
+              <SelectItem value="reading">Reading</SelectItem>
+              <SelectItem value="want-to-read">Want to read</SelectItem>
+              <SelectItem value="reset">Reset</SelectItem>
+            </SelectContent>
+          </Select>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="flex-row justify-between items-center">
+          <CardTitle>Reviews</CardTitle>
+          {addReviewMode ? (
+            <Button size="sm" variant="outline" onClick={resetReviewAdding}>
+              Cancel
+            </Button>
+          ) : (
+            <Button size="sm" onClick={toggleAddReviewMode}>
+              Add review
+            </Button>
+          )}
+        </CardHeader>
+        <CardContent>
+          {addReviewMode && (
+            <div>
+              <Editor onChange={handleReviewChange} />
 
-          {book?.status === 'read' && (
-            <div className="mt-4">
-              {!addReviewMode ? (
-                <Button onClick={toggleAddReviewMode}>Add review</Button>
-              ) : (
-                <div>
-                  <Editor onChange={handleReviewChange} />
-
-                  <div className="flex flex-col mt-2 gap-2">
-                    <Ratings rating={rating} onChange={setRating} />
-                    <div className="flex justify-end mt-2 gap-2">
-                      <Button
-                        size="sm"
-                        onClick={toggleAddReviewMode}
-                        variant="outline"
-                      >
-                        Cancel
-                      </Button>
-                      <Button size="sm" onClick={handleSaveReview}>
-                        Save
-                      </Button>
-                    </div>
-                  </div>
+              <div className="flex flex-col mt-2 gap-2">
+                <Ratings rating={rating} onChange={setRating} />
+                <div className="flex justify-end mt-2 gap-2">
+                  <Button
+                    size="sm"
+                    onClick={handleSaveReview}
+                    disabled={!reviewText}
+                  >
+                    Save
+                  </Button>
                 </div>
-              )}
+              </div>
+            </div>
+          )}
+          {reviews?.length ? (
+            reviews.map((review) => (
+              <div key={review.id} className="mb-2">
+                <CardDescription
+                  className={css.review}
+                  dangerouslySetInnerHTML={{
+                    __html: convertJSONToHTML(review.review),
+                  }}
+                />
+                {review.rating ? (
+                  <div>
+                    <Ratings rating={review.rating} />
+                  </div>
+                ) : null}
+                <CardDescription>
+                  {review.createdAt.toDate().toLocaleString()}
+                </CardDescription>
+              </div>
+            ))
+          ) : (
+            <div>
+              <CardDescription>No reviews yet</CardDescription>
             </div>
           )}
         </CardContent>
       </Card>
-      {reviews && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Reviews</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {reviews.length ? (
-              reviews.map((review) => (
-                <div key={review.id} className="mb-2">
-                  <CardDescription
-                    className={css.review}
-                    dangerouslySetInnerHTML={{
-                      __html: convertJSONToHTML(review.review),
-                    }}
-                  />
-                  {review.rating ? (
-                    <div>
-                      <Ratings rating={review.rating} />
-                    </div>
-                  ) : null}
-                  <CardDescription>
-                    {review.createdAt.toDate().toLocaleString()}
-                  </CardDescription>
-                </div>
-              ))
-            ) : (
-              <div>
-                <CardDescription>No reviews yet</CardDescription>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
     </PageWrapper>
   );
 };
