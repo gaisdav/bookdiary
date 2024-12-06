@@ -27,12 +27,6 @@ const createRouter =
     ? createHashRouter
     : createBrowserRouter;
 
-const checkAuth = (profile: IUser | null) => {
-  if (!profile) {
-    return redirect(ROUTE.LOGIN);
-  }
-};
-
 export const initRouter = (profile: IUser | null) => {
   return createRouter([
     {
@@ -43,7 +37,9 @@ export const initRouter = (profile: IUser | null) => {
           path: ROUTE.HOME,
           element: <Home />,
           loader: async () => {
-            checkAuth(profile);
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
 
             return null;
           },
@@ -51,7 +47,9 @@ export const initRouter = (profile: IUser | null) => {
         {
           path: ROUTE.BOOKS,
           loader: ({ request }) => {
-            checkAuth(profile);
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
 
             const query = new URL(request.url).searchParams.get('query');
             if (query) {
@@ -66,11 +64,13 @@ export const initRouter = (profile: IUser | null) => {
           path: ROUTE.BOOK,
           element: <Book />,
           loader: async ({ params }) => {
-            checkAuth(profile);
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
 
             const bookId = params.bookId;
 
-            if (bookId && profile) {
+            if (bookId) {
               getBookReviews(bookId);
               fetchBook({ userId: profile.uid, bookId });
             }
@@ -82,11 +82,11 @@ export const initRouter = (profile: IUser | null) => {
           path: ROUTE.COLLECTION,
           element: <Collection />,
           loader: async () => {
-            checkAuth(profile);
-
-            if (profile) {
-              fetchUserCollection(profile.uid);
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
             }
+
+            fetchUserCollection(profile.uid);
             return null;
           },
         },
@@ -94,11 +94,13 @@ export const initRouter = (profile: IUser | null) => {
           path: ROUTE.COLLECTION_BOOK,
           element: <Book />,
           loader: async ({ params }) => {
-            checkAuth(profile);
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
 
             const bookId = params.bookId;
 
-            if (bookId && profile) {
+            if (bookId) {
               getBookReviews(bookId);
               fetchBook({ userId: profile.uid, bookId });
             }
@@ -110,7 +112,9 @@ export const initRouter = (profile: IUser | null) => {
           path: ROUTE.PROFILE,
           element: <Profile />,
           loader: async () => {
-            checkAuth(profile);
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
 
             return null;
           },
@@ -118,11 +122,11 @@ export const initRouter = (profile: IUser | null) => {
         {
           path: ROUTE.MY_REVIEWS,
           loader: async () => {
-            checkAuth(profile);
-
-            if (profile) {
-              getUserReviews(profile.uid);
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
             }
+
+            getUserReviews(profile.uid);
 
             return null;
           },
