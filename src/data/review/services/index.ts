@@ -11,7 +11,7 @@ import {
 import { db } from '@/lib/firebase.config.ts';
 import { TAddReview } from '@/data/review/services/types.ts';
 import { IReview } from '@/data/review/entity/types.ts';
-import { Timestamp } from '@firebase/firestore';
+import { Timestamp, where } from '@firebase/firestore';
 import { IUser } from '@/data/user/enitites/user';
 
 export class ReviewsService {
@@ -22,7 +22,7 @@ export class ReviewsService {
     rating,
   }: TAddReview): Promise<IReview | null> {
     try {
-      const reviewsCollectionRef = collection(db, 'reviews', 'books', bookId);
+      const reviewsCollectionRef = collection(db, 'reviews');
 
       const { id } = await addDoc(reviewsCollectionRef, {
         bookId,
@@ -50,11 +50,42 @@ export class ReviewsService {
     }
   }
 
-  static async getReviews(bookId: string): Promise<IReview[]> {
+  static async getUserReviews(userId: string): Promise<IReview[]> {
+    try {
+      const reviewsRef = collection(db, 'reviews');
+
+      // Создаем запрос с фильтром по userId и сортировкой по createdAt
+      const userReviewsQuery = query(
+        reviewsRef,
+        where('userId', '==', userId),
+        orderBy('createdAt', 'desc'),
+      );
+
+      // Выполняем запрос
+      const docSnap = await getDocs(userReviewsQuery);
+
+      // Преобразуем данные в массив рецензий
+      const reviews = docSnap.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as IReview[];
+
+      return reviews;
+    } catch (e) {
+      console.error('Error getting user reviews: ', e);
+      return [];
+    }
+  }
+
+  static async getBookReviews(bookId: string): Promise<IReview[]> {
     try {
       const reviewsRef = collection(db, 'reviews', 'books', bookId);
       // Создаем запрос с сортировкой по полю "createdAt" в порядке убывания (desc)
-      const reviewsQuery = query(reviewsRef, orderBy('createdAt', 'desc'));
+      const reviewsQuery = query(
+        reviewsRef,
+        where('bookId', '==', bookId),
+        orderBy('createdAt', 'desc'),
+      );
 
       const docSnap = await getDocs(reviewsQuery);
 

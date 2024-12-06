@@ -4,6 +4,7 @@ import { ReviewsService } from '@/data/review/services';
 import { TAddReview } from '@/data/review/services/types.ts';
 
 const initialState: ReviewsState = {
+  loading: true,
   reviews: null,
 };
 
@@ -11,13 +12,13 @@ export const useReviewStore = create<ReviewsState & ReviewsActions>((set) => ({
   ...initialState,
 
   reset: () => set(initialState),
-  getReviews: async (bookId: string) => {
+  getBookReviews: async (bookId: string) => {
     try {
-      const reviews = await ReviewsService.getReviews(bookId);
+      const reviews = await ReviewsService.getBookReviews(bookId);
 
       set({ reviews });
     } finally {
-      // do
+      set({ loading: false });
     }
   },
   addReview: async (params: TAddReview) => {
@@ -34,7 +35,17 @@ export const useReviewStore = create<ReviewsState & ReviewsActions>((set) => ({
         };
       });
     } finally {
-      // do
+      set({ loading: false });
+    }
+  },
+
+  getUserReviews: async (userId: string) => {
+    try {
+      const reviews = await ReviewsService.getUserReviews(userId);
+
+      set({ reviews });
+    } finally {
+      set({ loading: false });
     }
   },
 }));
