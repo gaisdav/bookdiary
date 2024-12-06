@@ -52,7 +52,6 @@ export const useUser = () => {
       if (error instanceof Error) {
         setError(error.message); // Set error if user creation fails
       } else {
-        console.error(error);
         setError('An error occurred while creating a user');
       }
     }

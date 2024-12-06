@@ -7,7 +7,7 @@ import { Input } from '@/ui/components/ui/input.tsx';
 import { useUser } from '@/ui/pages/profile/hooks/useUser.tsx';
 
 const Registration: FC = () => {
-  const { createUser } = useUser();
+  const { createUser, error } = useUser();
 
   const submit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -29,6 +29,7 @@ const Registration: FC = () => {
           required
         />
         <Input type="text" name="name" placeholder="Name" required />
+        {error && <div className="text-red-800">{error}</div>}
 
         <Button variant="outline" size="sm" type="submit">
           Registration
