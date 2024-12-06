@@ -132,6 +132,13 @@ export const initRouter = (profile: IUser | null) => {
         {
           path: ROUTE.REGISTRATION,
           element: <Registration />,
+          loader: async () => {
+            if (profile) {
+              return redirect(ROUTE.HOME);
+            }
+
+            return null;
+          },
         },
       ],
     },

@@ -23,7 +23,6 @@ import { Button } from '@/ui/components/ui/button.tsx';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 import { Ratings } from '@/ui/components/Ratings';
 import { Editor } from '@/ui/components/Editor';
-
 import { createEditor } from 'lexical';
 import { $generateHtmlFromNodes } from '@lexical/html';
 
@@ -206,10 +205,11 @@ export const Book: FC = () => {
                   }}
                 />
                 {review.rating ? (
-                  <div>
-                    <Ratings rating={review.rating} />
-                  </div>
+                  <Ratings size="sm" rating={review.rating} />
                 ) : null}
+                <CardDescription>
+                  {review.author?.displayName || 'Unknown author'}
+                </CardDescription>
                 <CardDescription>
                   {review.createdAt.toDate().toLocaleString()}
                 </CardDescription>

@@ -4,10 +4,11 @@ import { TCreatUser } from '@/data/user/enitites/user';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { Input } from '@/ui/components/ui/input.tsx';
-import { useUser } from '@/ui/pages/profile/hooks/useUser.tsx';
+import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 
 const Registration: FC = () => {
-  const { createUser, error } = useUser();
+  const createUser = useProfileStore().createUser;
+  const error = useProfileStore().error;
 
   const submit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
