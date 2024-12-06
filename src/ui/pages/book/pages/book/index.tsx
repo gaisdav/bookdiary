@@ -167,11 +167,20 @@ export const Book: FC = () => {
       </Card>
       <Card>
         <CardHeader className="flex-row justify-between items-center">
-          <CardTitle>Reviews</CardTitle>
+          <CardTitle>{addReviewMode ? 'Add review' : 'Reviews'}</CardTitle>
           {addReviewMode ? (
-            <Button size="sm" variant="outline" onClick={resetReviewAdding}>
-              Cancel
-            </Button>
+            <div className="flex justify-end gap-2">
+              <Button size="sm" variant="outline" onClick={resetReviewAdding}>
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleSaveReview}
+                disabled={!reviewText && !rating}
+              >
+                Save
+              </Button>
+            </div>
           ) : (
             <Button size="sm" onClick={toggleAddReviewMode}>
               Add review
@@ -181,20 +190,11 @@ export const Book: FC = () => {
         <CardContent>
           {addReviewMode && (
             <div>
-              <Editor onChange={handleReviewChange} />
-
-              <div className="flex flex-col mt-2 gap-2">
-                <Ratings rating={rating} onChange={setRating} />
-                <div className="flex justify-end mt-2 gap-2">
-                  <Button
-                    size="sm"
-                    onClick={handleSaveReview}
-                    disabled={!reviewText}
-                  >
-                    Save
-                  </Button>
-                </div>
+              <div className="mb-2 flex justify-end">
+                Rating: <Ratings rating={rating} onChange={setRating} />
               </div>
+
+              <Editor onChange={handleReviewChange} />
             </div>
           )}
           {reviews?.length ? (

@@ -9,14 +9,12 @@ type PageWrapperProps = PropsWithChildren &
 
 export const PageWrapper: FC<PageWrapperProps> = ({
   children,
-  className = '',
-  title,
+  className = DEFAULT_DOCUMENT_TITLE,
+  title = '',
   ...props
 }) => {
   useEffect(() => {
-    if (title) {
-      document.title = title || DEFAULT_DOCUMENT_TITLE;
-    }
+    document.title = title;
   }, [title]);
 
   return (
