@@ -18,7 +18,7 @@ export const PageWrapper: FC<PageWrapperProps> = ({
   }, [title]);
 
   return (
-    <div className={`${css.pageWrapper} ${className}`} {...props}>
+    <div className={`hideScrollBar ${css.pageWrapper} ${className}`} {...props}>
       {children}
     </div>
   );

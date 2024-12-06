@@ -166,7 +166,7 @@ export const Book: FC = () => {
         </CardContent>
       </Card>
       <Card>
-        <CardHeader className="flex-row justify-between items-center">
+        <CardHeader className="flex-row justify-between items-center space-y-0">
           <CardTitle>{addReviewMode ? 'Add review' : 'Reviews'}</CardTitle>
           {addReviewMode ? (
             <div className="flex justify-end gap-2">
