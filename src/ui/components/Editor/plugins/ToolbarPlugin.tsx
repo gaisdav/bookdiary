@@ -93,7 +93,7 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar]);
 
   return (
-    <div className="toolbar" ref={toolbarRef}>
+    <div className="toolbar rounded-tl-xl rounded-tr-xl" ref={toolbarRef}>
       <button
         disabled={!canUndo}
         onClick={() => {

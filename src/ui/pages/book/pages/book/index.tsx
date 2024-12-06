@@ -189,11 +189,10 @@ export const Book: FC = () => {
         </CardHeader>
         <CardContent>
           {addReviewMode && (
-            <div>
+            <div className="mb-6">
               <div className="mb-2 flex justify-end">
                 Rating: <Ratings rating={rating} onChange={setRating} />
               </div>
-
               <Editor onChange={handleReviewChange} />
             </div>
           )}

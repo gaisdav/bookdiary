@@ -35,8 +35,6 @@ h1 {
   position: relative;
   font-weight: 400;
   text-align: left;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   border: 1px solid hsl(var(--border));
 }
 
@@ -49,7 +47,6 @@ h1 {
   min-height: 150px;
   resize: none;
   font-size: 15px;
-  caret-color: rgb(5, 5, 5);
   position: relative;
   tab-size: 1;
   outline: 0;

@@ -157,9 +157,9 @@ export const Editor: FC<TEditorProps> = ({ onChange }) => {
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container">
+      <div className="editor-container rounded-xl">
         <ToolbarPlugin />
-        <div className="editor-inner">
+        <div className="editor-inner rounded-bl-xl rounded-br-xl">
           <RichTextPlugin
             contentEditable={
               <ContentEditable
