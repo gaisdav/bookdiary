@@ -79,7 +79,7 @@ export class ReviewsService {
 
   static async getBookReviews(bookId: string): Promise<IReview[]> {
     try {
-      const reviewsRef = collection(db, 'reviews', 'books', bookId);
+      const reviewsRef = collection(db, 'reviews');
       // Создаем запрос с сортировкой по полю "createdAt" в порядке убывания (desc)
       const reviewsQuery = query(
         reviewsRef,
