@@ -32,6 +32,7 @@ export const Navigation = () => {
         {links.map(({ to, icon }) => (
           <li key={to} className={css.li}>
             <NavLink
+              viewTransition
               to={to}
               className={({ isActive }) =>
                 isActive ? `${css.activeLink} ${css.link}` : css.link
