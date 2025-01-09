@@ -1,6 +1,6 @@
 .nav {
   position: fixed;
-  bottom: calc(-1 * env(safe-area-inset-bottom));
+  bottom: 0;
   width: 100%;
   height: var(--nav-height);
   padding: 0.5rem 2rem;

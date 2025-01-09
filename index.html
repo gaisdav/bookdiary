@@ -17,13 +17,22 @@
     <title>Bookdiary</title>
 
     <style>
+      html {
+        min-height: calc(100% + env(safe-area-inset-top));
+        padding: env(safe-area-inset-top) env(safe-area-inset-right)
+          env(safe-area-inset-bottom) env(safe-area-inset-left);
+      }
       body {
+        position: relative;
         margin: 0;
         min-width: 320px;
         height: 100%;
         background: #ff7878;
         /*background-color: hsl(var(--background));*/
-        padding-top: env(safe-area-inset-top);
+        min-height: calc(100% + env(safe-area-inset-top));
+        padding: env(safe-area-inset-top) env(safe-area-inset-right)
+          env(safe-area-inset-bottom) env(safe-area-inset-left);
+
         transition:
           background-color var(--transition-default),
           color var(--transition-default);
