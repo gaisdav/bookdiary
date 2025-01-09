@@ -58,6 +58,8 @@
     --breakpoint-lg: 1024px;
     --breakpoint-xl: 1280px;
 
+    --nav-height: 56px;
+
     /* html tag styles */
     position: fixed;
     top: 0;

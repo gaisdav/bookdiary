@@ -1,14 +1,15 @@
 .nav {
-  margin: auto;
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  max-width: 50%;
+  height: var(--nav-height);
   padding: 0.5rem 2rem;
   background: #216fdb;
 }
 
 .ul {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -37,11 +38,5 @@
 .activeLink {
   svg {
     fill: hsl(var(--foreground));
-  }
-}
-
-@media (max-width: 768px) {
-  .nav {
-    max-width: 100%;
   }
 }
