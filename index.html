@@ -21,7 +21,9 @@
         margin: 0;
         min-width: 320px;
         height: 100%;
-        min-height: calc(100% + env(safe-area-inset-top));
+        min-height: calc(
+          100% + env(safe-area-inset-top) + env(safe-area-inset-bottom)
+        );
         background: #ff7878;
         /*background-color: hsl(var(--background));*/
         padding-top: env(safe-area-inset-top);
