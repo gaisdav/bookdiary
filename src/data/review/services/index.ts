@@ -65,12 +65,10 @@ export class ReviewsService {
       const docSnap = await getDocs(userReviewsQuery);
 
       // Преобразуем данные в массив рецензий
-      const reviews = docSnap.docs.map((doc) => ({
+      return docSnap.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       })) as IReview[];
-
-      return reviews;
     } catch (e) {
       console.error('Error getting user reviews: ', e);
       return [];
