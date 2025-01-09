@@ -1,6 +1,7 @@
-import { UserInfo } from '@firebase/auth';
+import firebase from 'firebase/compat';
+import UserInfo = firebase.UserInfo;
 
-export interface IUser extends UserInfo {}
+export type TUser = UserInfo;
 
 export type TCreatUser = {
   email: string;

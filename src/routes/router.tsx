@@ -12,7 +12,7 @@ import { Book } from '@/ui/pages/book/pages/book';
 import Home from '@/ui/pages/home';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { ROUTE } from '@/routes/routes.ts';
-import { IUser } from '@/data/user/enitites/user';
+import { TUser } from '@/data/user/enitites/user';
 import Collection from '@/ui/pages/collection';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 import { MyReviews } from '@/ui/pages/myReviews';
@@ -27,7 +27,7 @@ const createRouter =
     ? createHashRouter
     : createBrowserRouter;
 
-export const initRouter = (profile: IUser | null) => {
+export const initRouter = (profile: TUser | null) => {
   return createRouter([
     {
       path: ROUTE.HOME,

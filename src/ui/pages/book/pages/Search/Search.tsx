@@ -56,7 +56,7 @@ function Search() {
       data.totalItems > data.items?.length;
 
     if (canLoadMore) {
-      const formData = new FormData(formRef.current);
+      const formData = new FormData(formRef.current || undefined);
       const bookTitle = formData.get(BOOK_TITLE_FIELD) as string;
 
       if (!bookTitle) {

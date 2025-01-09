@@ -1,5 +1,5 @@
 import { Timestamp } from '@firebase/firestore';
-import { IUser } from '@/data/user/enitites/user';
+import { TUser } from '@/data/user/enitites/user';
 
 export interface IReview {
   id: string;
@@ -7,7 +7,7 @@ export interface IReview {
   review: string;
   bookId: string;
   userId: string;
-  author: IUser | null;
+  author: TUser | null;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }

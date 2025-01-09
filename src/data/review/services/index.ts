@@ -12,7 +12,7 @@ import { db } from '@/lib/firebase.config.ts';
 import { TAddReview } from '@/data/review/services/types.ts';
 import { IReview } from '@/data/review/entity/types.ts';
 import { Timestamp, where } from '@firebase/firestore';
-import { IUser } from '@/data/user/enitites/user';
+import { TUser } from '@/data/user/enitites/user';
 
 export class ReviewsService {
   static async addReview({
@@ -40,7 +40,7 @@ export class ReviewsService {
         review,
         userId,
         rating,
-        author: author.data() as IUser,
+        author: author.data() as TUser,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       };
@@ -98,7 +98,7 @@ export class ReviewsService {
           // Получаем данные автора
           const authorDoc = await getDoc(doc(db, 'users', userId));
           const authorData = authorDoc.exists()
-            ? (authorDoc.data() as IUser)
+            ? (authorDoc.data() as TUser)
             : null;
 
           return {

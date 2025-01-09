@@ -1,8 +1,8 @@
-import { IUser, TCreatUser } from '@/data/user/enitites/user';
+import { TUser, TCreatUser } from '@/data/user/enitites/user';
 
 export interface ProfileState {
   profileLoading: boolean;
-  profile: IUser | null;
+  profile: TUser | null;
   error: string | null;
 }
 
