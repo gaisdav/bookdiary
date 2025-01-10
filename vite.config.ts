@@ -41,6 +41,8 @@ export default defineConfig(({ mode }) => {
           theme_color: '#1c1c1e',
           background_color: '#1c1c1e',
           display: 'standalone',
+          orientation: 'portrait',
+          display_override: ['window-controls-overlay'],
           shortcuts: [
             {
               name: 'Find book',
