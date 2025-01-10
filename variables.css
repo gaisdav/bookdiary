@@ -59,21 +59,6 @@
     --breakpoint-xl: 1280px;
 
     --nav-height: 56px;
-
-    /* html tag styles */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 100vh; /* old browsers */
-    height: 100dvh; /* new browsers */
-    width: 100%;
-    background-color: hsl(var(--background));
-    font-family: var(--font-family-sans), sans-serif;
-    transition:
-      background-color var(--transition-default),
-      color var(--transition-default);
   }
   .dark {
     --background: 240 3% 11%;

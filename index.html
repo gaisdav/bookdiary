@@ -18,21 +18,22 @@
 
     <style>
       html {
-        min-height: calc(100% + env(safe-area-inset-top));
-        padding: env(safe-area-inset-top) env(safe-area-inset-right)
-          env(safe-area-inset-bottom) env(safe-area-inset-left);
+        /*height: 100vh; !* old browsers *!*/
+        /*height: 100dvh; !* new browsers *!*/
+        height: 100%;
+        width: 100%;
+        background-color: hsl(var(--background));
+        font-family: var(--font-family-sans), sans-serif;
+        transition:
+          background-color var(--transition-default),
+          color var(--transition-default);
       }
       body {
         position: relative;
         margin: 0;
         min-width: 320px;
         height: 100%;
-        background: #ff7878;
-        /*background-color: hsl(var(--background));*/
-        /*min-height: calc(100% + env(safe-area-inset-top));*/
-        /*padding: env(safe-area-inset-top) env(safe-area-inset-right)*/
-        /*  env(safe-area-inset-bottom) env(safe-area-inset-left);*/
-
+        background-color: hsl(var(--background));
         transition:
           background-color var(--transition-default),
           color var(--transition-default);
