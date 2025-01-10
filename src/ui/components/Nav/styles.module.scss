@@ -1,10 +1,7 @@
 .nav {
-  position: fixed;
-  bottom: 0;
   width: 100%;
-  height: var(--nav-height);
-  padding: 0.5rem 2rem;
-  background: #216fdb;
+  padding: 0.5rem 2rem calc(0.5rem + env(safe-area-inset-bottom));
+  background: #216fdb; // TODO
 }
 
 .ul {
@@ -25,7 +22,6 @@
   width: 100%;
   user-select: none;
   justify-content: center;
-  padding-bottom: 0.5rem;
 
   svg {
     --svg-size: 2rem;
