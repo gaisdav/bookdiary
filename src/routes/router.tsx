@@ -13,12 +13,17 @@ import Home from '@/ui/pages/home';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { ROUTE } from '@/routes/routes.ts';
 import { TUser } from '@/data/user/enitites/user';
-import Collection from '@/ui/pages/collection';
+import Library from '@/ui/pages/library';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
-import { MyReviews } from '@/ui/pages/myReviews';
+import { MyReviews } from '@/ui/pages/reviews';
+import { MyBooks } from '@/ui/pages/myBooks';
 
-const { fetchFirstList, fetchBook, fetchUserCollection } =
-  useBookStore.getState();
+const {
+  fetchFirstList,
+  fetchBook,
+  fetchUserCollection,
+  fetchUserBooksByStatus,
+} = useBookStore.getState();
 
 const { getBookReviews, getUserReviews } = useReviewStore.getState();
 
@@ -79,8 +84,8 @@ export const initRouter = (profile: TUser | null) => {
           },
         },
         {
-          path: ROUTE.COLLECTION,
-          element: <Collection />,
+          path: ROUTE.LIBRARY,
+          element: <Library />,
           loader: async () => {
             if (!profile) {
               return redirect(ROUTE.LOGIN);
@@ -120,7 +125,7 @@ export const initRouter = (profile: TUser | null) => {
           },
         },
         {
-          path: ROUTE.MY_REVIEWS,
+          path: ROUTE.REVIEWS,
           loader: async () => {
             if (!profile) {
               return redirect(ROUTE.LOGIN);
@@ -131,6 +136,117 @@ export const initRouter = (profile: TUser | null) => {
             return null;
           },
           element: <MyReviews />,
+        },
+        {
+          path: ROUTE.REVIEWS_BOOK,
+          element: <Book />,
+          loader: async ({ params }) => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            const bookId = params.bookId;
+
+            if (bookId) {
+              getBookReviews(bookId);
+              fetchBook({ userId: profile.uid, bookId });
+            }
+
+            return null;
+          },
+        },
+        {
+          path: ROUTE.LIBRARY_READ,
+          loader: async () => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            fetchUserBooksByStatus(profile.uid, 'read');
+
+            return null;
+          },
+          element: <MyBooks type="read" />,
+        },
+        {
+          path: ROUTE.LIBRARY_READ_BOOK,
+          element: <Book />,
+          loader: async ({ params }) => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            const bookId = params.bookId;
+
+            if (bookId) {
+              getBookReviews(bookId);
+              fetchBook({ userId: profile.uid, bookId });
+            }
+
+            return null;
+          },
+        },
+        {
+          path: ROUTE.LIBRARY_READING,
+          loader: async () => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            fetchUserBooksByStatus(profile.uid, 'reading');
+
+            return null;
+          },
+          element: <MyBooks type="reading" />,
+        },
+        {
+          path: ROUTE.LIBRARY_READING_BOOK,
+          element: <Book />,
+          loader: async ({ params }) => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            const bookId = params.bookId;
+
+            if (bookId) {
+              getBookReviews(bookId);
+              fetchBook({ userId: profile.uid, bookId });
+            }
+
+            return null;
+          },
+        },
+        {
+          path: ROUTE.LIBRARY_WANT_TO_READ,
+          loader: async () => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            fetchUserBooksByStatus(profile.uid, 'want-to-read');
+
+            return null;
+          },
+          element: <MyBooks type="want-to-read" />,
+        },
+        {
+          path: ROUTE.LIBRARY_WANT_TO_READ_BOOK,
+          element: <Book />,
+          loader: async ({ params }) => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            const bookId = params.bookId;
+
+            if (bookId) {
+              getBookReviews(bookId);
+              fetchBook({ userId: profile.uid, bookId });
+            }
+
+            return null;
+          },
         },
         {
           path: ROUTE.LOGIN,

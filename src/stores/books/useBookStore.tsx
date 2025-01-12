@@ -115,4 +115,19 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
       set({ collectionLoading: false });
     }
   },
+
+  fetchUserBooksByStatus: async (userId, status) => {
+    set(() => ({ collectionLoading: true }));
+
+    try {
+      const collection = await BooksService.getUserBooksByStatus(
+        userId,
+        status,
+      );
+
+      set({ collection });
+    } finally {
+      set({ collectionLoading: false });
+    }
+  },
 }));

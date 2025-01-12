@@ -10,6 +10,7 @@ import {
   CardContent,
   CardDescription,
 } from '@/ui/components/ui/card.tsx';
+import { Link } from 'react-router-dom';
 
 //TODO: move to separate file
 function convertJSONToHTML(json: string): string {
@@ -32,17 +33,19 @@ export const MyReviews: FC = () => {
         {reviews?.map((review) => (
           <Card key={review.id}>
             <CardContent>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: convertJSONToHTML(review.review),
-                }}
-              />
-              {Boolean(review.rating) && (
-                <Ratings rating={review.rating} size="sm" />
-              )}
-              <CardDescription>
-                {review.createdAt.toDate().toLocaleString()}
-              </CardDescription>
+              <Link to={review.bookId}>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: convertJSONToHTML(review.review),
+                  }}
+                />
+                {Boolean(review.rating) && (
+                  <Ratings rating={review.rating} size="sm" />
+                )}
+                <CardDescription>
+                  {review.createdAt.toDate().toLocaleString()}
+                </CardDescription>
+              </Link>
             </CardContent>
           </Card>
         ))}

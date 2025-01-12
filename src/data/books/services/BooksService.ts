@@ -14,11 +14,14 @@ import {
   getDoc,
   getDocs,
   collection,
+  query,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase.config.ts';
 import { ICollection } from '@/data/collection/enitites/types.ts';
 import { GoogleBook } from '@/ui/pages/book/decorators/GoogleBook.decorator.ts';
 import { GoogleBookItems } from '@/ui/pages/book/decorators/GoogleBooks.decorator.ts';
+import { where } from '@firebase/firestore';
+import { TBookStatus } from '@/data/books/enitites/book/types.ts';
 
 const defaultPage = 1;
 const defaultLimit = 10;
@@ -123,6 +126,42 @@ export class BooksService {
       );
     } catch (e) {
       console.error('Error getting user collection: ', e);
+      return [];
+    }
+  }
+
+  static async getUserBooksByStatus(userId: string, status: TBookStatus) {
+    try {
+      const booksCollectionRef = collection(db, 'collections', userId, 'books');
+
+      // Добавляем условие фильтрации, чтобы получить только книги со статусом "read"
+      const queryRef = query(booksCollectionRef, where('status', '==', status));
+
+      // Выполняем запрос
+      const querySnapshot = await getDocs(queryRef);
+
+      // Преобразуем документы в массив объектов
+      const collections: ICollection[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id, // ID документа (bookId)
+        ...doc.data(), // Остальные данные документа (status)
+      }));
+
+      // Получаем информацию о книгах из Google Books API
+      const googleBooks = await Promise.all(
+        collections.map((collection) =>
+          fetch(
+            `https://www.googleapis.com/books/v1/volumes/${collection.id}`,
+          ).then((res) => res.json()),
+        ),
+      );
+
+      // Возвращаем массив GoogleBook с добавлением статуса
+      return googleBooks.map(
+        (book, index) =>
+          new GoogleBook({ ...book, status: collections[index].status }),
+      );
+    } catch (e) {
+      console.error('Error getting read books: ', e);
       return [];
     }
   }

@@ -17,7 +17,7 @@ export const Navigation = () => {
       icon: <SearchIcon />,
     },
     {
-      to: ROUTE.COLLECTION,
+      to: ROUTE.LIBRARY,
       icon: <BookIcon />,
     },
     {

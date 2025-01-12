@@ -1,4 +1,4 @@
-import { IBook } from '@/data/books/enitites/book/types.ts';
+import { IBook, TBookStatus } from '@/data/books/enitites/book/types.ts';
 import {
   TAddToCollection,
   TGoogleBookSearchParams,
@@ -75,4 +75,5 @@ export interface BooksActions {
   addToCollection: (params: TAddToCollection) => void;
   removeFromCollection: (params: Omit<TAddToCollection, 'status'>) => void;
   fetchUserCollection: (userId: string) => void;
+  fetchUserBooksByStatus: (userId: string, status: TBookStatus) => void;
 }

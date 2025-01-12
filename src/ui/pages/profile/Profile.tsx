@@ -6,8 +6,6 @@ import css from './styles.module.scss';
 import { MoonIcon, SunIcon, ExitIcon } from '@radix-ui/react-icons';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { useAuthController } from '@/ui/pages/login/hooks/useAuth.tsx';
-import { Link } from 'react-router-dom';
-import { ROUTE } from '@/routes/routes.ts';
 
 const Profile: FC = () => {
   const { switchTheme } = useTheme();
@@ -39,12 +37,6 @@ const Profile: FC = () => {
       <div>{profile.displayName}</div>
       <div>{profile.email}</div>
       <div>{profile.photoURL}</div>
-      <Link to={ROUTE.MY_REVIEWS} className="block mt-2">
-        My reviews {'>'}
-      </Link>
-      <Link to={ROUTE.PROFILE} className="block mt-2">
-        My calendar {'>'}
-      </Link>
     </PageWrapper>
   );
 };
