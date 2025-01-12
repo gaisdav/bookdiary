@@ -38,8 +38,7 @@
         height: 100dvh; /* new browsers */
         width: 100%;
         padding: 0;
-        /*background-color: hsl(var(--background));*/
-        background-color: red;
+        background-color: hsl(var(--background));
         font-family: var(--font-family-sans), sans-serif;
         box-sizing: border-box;
         transition:
@@ -51,8 +50,7 @@
         margin: 0;
         min-width: 320px;
         height: 100%;
-        /*background-color: hsl(var(--background));*/
-        background: yellow;
+        background-color: hsl(var(--background));
         padding: env(safe-area-inset-top) 0 0;
         box-sizing: inherit;
         transition:
@@ -61,9 +59,6 @@
       }
 
       #root {
-        /*display: flex;*/
-        /*flex-direction: column;*/
-        /*justify-content: space-between;*/
         display: grid;
         grid-template-rows: 1fr calc(56px + env(safe-area-inset-bottom));
         align-items: stretch;
