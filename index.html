@@ -37,6 +37,7 @@
         /*height: 100dvh; !* new browsers *!*/
         height: 100%;
         width: 100%;
+        padding: 0;
         /*background-color: hsl(var(--background));*/
         background-color: red;
         font-family: var(--font-family-sans), sans-serif;
@@ -51,7 +52,7 @@
         height: 100%;
         /*background-color: hsl(var(--background));*/
         background: yellow;
-        padding-top: env(safe-area-inset-top);
+        padding: env(safe-area-inset-top) 0 0;
         transition:
           background-color var(--transition-default),
           color var(--transition-default);
