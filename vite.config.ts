@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
           description: 'Bookdiary',
           theme_color: '#1c1c1e',
           background_color: '#1c1c1e',
-          display: 'standalone',
+          display: 'fullscreen',
           orientation: 'portrait',
           display_override: ['window-controls-overlay'],
           shortcuts: [
