@@ -14,7 +14,7 @@ type TBookItem = {
   book: IBook;
 };
 
-export const BookItem: FC<TBookItem> = ({ book }) => {
+export const BookListItem: FC<TBookItem> = ({ book }) => {
   return (
     <Card className={`${css.card}`}>
       <CardContent>

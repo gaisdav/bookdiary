@@ -16,7 +16,7 @@ import { TUser } from '@/data/user/enitites/user';
 import Library from '@/ui/pages/library';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 import { MyReviews } from '@/ui/pages/reviews';
-import { MyBooks } from '@/ui/pages/myBooks';
+import { Books } from '@/ui/pages/books';
 
 const {
   fetchFirstList,
@@ -96,24 +96,6 @@ export const initRouter = (profile: TUser | null) => {
           },
         },
         {
-          path: ROUTE.COLLECTION_BOOK,
-          element: <Book />,
-          loader: async ({ params }) => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            const bookId = params.bookId;
-
-            if (bookId) {
-              getBookReviews(bookId);
-              fetchBook({ userId: profile.uid, bookId });
-            }
-
-            return null;
-          },
-        },
-        {
           path: ROUTE.PROFILE,
           element: <Profile />,
           loader: async () => {
@@ -166,7 +148,7 @@ export const initRouter = (profile: TUser | null) => {
 
             return null;
           },
-          element: <MyBooks type="read" />,
+          element: <Books type="read" />,
         },
         {
           path: ROUTE.LIBRARY_READ_BOOK,
@@ -197,7 +179,7 @@ export const initRouter = (profile: TUser | null) => {
 
             return null;
           },
-          element: <MyBooks type="reading" />,
+          element: <Books type="reading" />,
         },
         {
           path: ROUTE.LIBRARY_READING_BOOK,
@@ -228,7 +210,7 @@ export const initRouter = (profile: TUser | null) => {
 
             return null;
           },
-          element: <MyBooks type="want-to-read" />,
+          element: <Books type="want-to-read" />,
         },
         {
           path: ROUTE.LIBRARY_WANT_TO_READ_BOOK,

@@ -2,7 +2,6 @@ export enum ROUTE {
   HOME = '/',
   BOOKS = '/books',
   LIBRARY = '/library',
-  COLLECTION_BOOK = '/collection/:bookId', // TODO remove
   LIBRARY_READ = '/library/read',
   LIBRARY_READ_BOOK = '/library/read/:bookId',
   LIBRARY_READING = '/library/reading',

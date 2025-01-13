@@ -6,7 +6,7 @@ import { PageWrapper } from '@/ui/components/PageWrapper';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useSearchParams } from 'react-router-dom';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
-import { BookItem } from '@/ui/components/BookItem';
+import { BookListItem } from '@/ui/components/BookListItem';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
@@ -100,7 +100,7 @@ function Search() {
           data?.items.length > 0 ? (
             <>
               {data?.items.map((book) => (
-                <BookItem key={book.id} book={book} />
+                <BookListItem key={book.id} book={book} />
               ))}
               {otherPagesAreLoading && <div>Loading...</div>}
             </>
