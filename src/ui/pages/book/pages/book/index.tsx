@@ -35,7 +35,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/ui/components/ui/sheet';
-import { PlusIcon } from '@radix-ui/react-icons';
+import {
+  PlusIcon,
+  BookOpenCheckIcon,
+  BookPlusIcon,
+  BookOpenTextIcon,
+} from 'lucide-react';
 
 function convertJSONToHTML(json: string): string {
   const editor = createEditor();
@@ -48,10 +53,11 @@ function convertJSONToHTML(json: string): string {
 }
 
 export const Book: FC = () => {
-  const [addReviewMode, setAddReviewMode] = useState(false);
   const [reviewJSON, setReviewJSON] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
+
+  console.log(reviewText);
 
   const addReview = useReviewStore().addReview;
   const reviews = useReviewStore().reviews;
@@ -70,7 +76,6 @@ export const Book: FC = () => {
   }
 
   const resetReviewAdding = () => {
-    setAddReviewMode(false);
     setReviewJSON('');
     setReviewText('');
     setRating(0);
@@ -95,10 +100,6 @@ export const Book: FC = () => {
     }
 
     resetReviewAdding();
-  };
-
-  const toggleAddReviewMode = () => {
-    setAddReviewMode((prev) => !prev);
   };
 
   const handleSaveReview = async () => {
@@ -160,36 +161,10 @@ export const Book: FC = () => {
         </Card>
 
         <Card>
-          <CardHeader className="flex-row justify-between items-center space-y-0">
-            <CardTitle>{addReviewMode ? 'Add review' : 'Reviews'}</CardTitle>
-            {addReviewMode ? (
-              <div className="flex justify-end gap-2">
-                <Button size="sm" variant="outline" onClick={resetReviewAdding}>
-                  Cancel
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={handleSaveReview}
-                  disabled={!reviewText && !rating}
-                >
-                  Save
-                </Button>
-              </div>
-            ) : (
-              <Button size="sm" onClick={toggleAddReviewMode}>
-                Add review
-              </Button>
-            )}
+          <CardHeader>
+            <CardTitle>Reviews</CardTitle>
           </CardHeader>
           <CardContent>
-            {addReviewMode && (
-              <div className="mb-6">
-                <div className="mb-2 flex justify-end">
-                  Rating: <Ratings rating={rating} onChange={setRating} />
-                </div>
-                <Editor onChange={handleReviewChange} />
-              </div>
-            )}
             {reviews?.length ? (
               reviews.map((review) => (
                 <div key={review.id} className="mb-2">
@@ -217,21 +192,34 @@ export const Book: FC = () => {
             )}
           </CardContent>
         </Card>
+
         <SheetTrigger asChild>
           <Button className={css.addButton} variant="outline" size="icon">
             <PlusIcon />
-            {/*<ChevronRight />*/}
           </Button>
         </SheetTrigger>
-        <SheetContent side="bottom">
+        <SheetContent side="bottom" className="flex flex-col gap-2">
           <SheetHeader>
             <SheetTitle>Edit profile</SheetTitle>
             <SheetDescription>
-              Make changes to your profile here. Click save when you're done.
+              Make changes here. Click save when you're done.
             </SheetDescription>
           </SheetHeader>
           <Card>
+            <CardHeader>
+              <CardTitle>Status</CardTitle>
+            </CardHeader>
             <CardContent>
+              <Button variant="outline" size="icon">
+                <BookOpenCheckIcon />
+              </Button>
+              <Button variant="outline" size="icon">
+                <BookOpenTextIcon />
+              </Button>
+              <Button variant="outline" size="icon">
+                <BookPlusIcon />
+              </Button>
+
               <Select
                 onValueChange={handleStatusChange}
                 defaultValue={book?.status}
@@ -248,9 +236,24 @@ export const Book: FC = () => {
               </Select>
             </CardContent>
           </Card>
-          <SheetFooter>
+          <Card>
+            <CardHeader>
+              <CardTitle>Review</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-6">
+                <div className="mb-2 flex justify-end">
+                  Rating: <Ratings rating={rating} onChange={setRating} />
+                </div>
+                <Editor onChange={handleReviewChange} />
+              </div>
+            </CardContent>
+          </Card>
+          <SheetFooter className="mt-4">
             <SheetClose asChild>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit" onClick={handleSaveReview}>
+                Save changes
+              </Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>
