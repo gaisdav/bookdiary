@@ -134,7 +134,7 @@ const constructImportMap = (): DOMConversionMap => {
   return importMap;
 };
 
-export const Editor: FC<TEditorProps> = ({ onChange }) => {
+export const Editor: FC<TEditorProps> = ({ onChange, autoFocus }) => {
   const editorConfig: InitialConfigType = {
     html: {
       export: exportMap,
@@ -173,8 +173,8 @@ export const Editor: FC<TEditorProps> = ({ onChange }) => {
             ErrorBoundary={LexicalErrorBoundary}
           />
           <HistoryPlugin />
-          <AutoFocusPlugin />
           <OnChangePlugin onChange={handleChange} />
+          {autoFocus && <AutoFocusPlugin />}
         </div>
       </div>
     </LexicalComposer>

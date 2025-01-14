@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { JSX, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
@@ -10,14 +10,6 @@ import {
   CardTitle,
 } from '@/ui/components/ui/card.tsx';
 import css from './Book.module.scss';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/ui/components/ui/select';
-import { TBookStatus } from '@/data/books/enitites/book/types.ts';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
@@ -26,21 +18,45 @@ import { Editor } from '@/ui/components/Editor';
 import { createEditor } from 'lexical';
 import { $generateHtmlFromNodes } from '@lexical/html';
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/ui/components/ui/sheet';
-import {
   PlusIcon,
   BookOpenCheckIcon,
-  BookPlusIcon,
   BookOpenTextIcon,
+  BookOpenIcon,
+  BookHeartIcon,
+  BookPlusIcon,
+  CalendarIcon,
 } from 'lucide-react';
+import { Toggle } from '@/ui/components/ui/toggle.tsx';
+import { ExtraSmall } from '@/ui/components/ui/typography.tsx';
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from '@/ui/components/ui/toggle-group.tsx';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/ui/components/ui/popover';
+import { format } from 'date-fns';
+import { Calendar } from '@/ui/components/ui/calendar.tsx';
+import { SelectSingleEventHandler } from 'react-day-picker';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/ui/components/ui/select';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/ui/components/ui/drawer';
 
 function convertJSONToHTML(json: string): string {
   const editor = createEditor();
@@ -52,20 +68,20 @@ function convertJSONToHTML(json: string): string {
   return htmlContent;
 }
 
-export const Book: FC = () => {
+export const Book = (): JSX.Element => {
   const [reviewJSON, setReviewJSON] = useState('');
-  const [reviewText, setReviewText] = useState('');
+  // const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(0);
-
-  console.log(reviewText);
+  const [showLists, setShowLists] = useState(false);
+  const [date, setDate] = useState<Date>(new Date());
 
   const addReview = useReviewStore().addReview;
   const reviews = useReviewStore().reviews;
   const profile = useProfileStore().profile;
   const isPending = useBookStore().bookLoading;
   const book = useBookStore().book;
-  const addBookToCollection = useBookStore().addToCollection;
-  const removeFromCollection = useBookStore().removeFromCollection;
+  // const addBookToCollection = useBookStore().addToCollection;
+  // const removeFromCollection = useBookStore().removeFromCollection;
 
   if (isPending) {
     return <PageWrapper>Loading book...</PageWrapper>;
@@ -77,30 +93,30 @@ export const Book: FC = () => {
 
   const resetReviewAdding = () => {
     setReviewJSON('');
-    setReviewText('');
+    // setReviewText('');
     setRating(0);
   };
 
-  const handleStatusChange = (status: string = '') => {
-    if (!profile) {
-      return;
-    }
-
-    if (status === 'reset') {
-      removeFromCollection({
-        userId: profile.uid,
-        bookId: book.id,
-      });
-    } else {
-      addBookToCollection({
-        userId: profile.uid,
-        bookId: book.id,
-        status: status as TBookStatus,
-      });
-    }
-
-    resetReviewAdding();
-  };
+  // const handleStatusChange = (status: string = '') => {
+  //   if (!profile) {
+  //     return;
+  //   }
+  //
+  //   if (status === 'reset') {
+  //     removeFromCollection({
+  //       userId: profile.uid,
+  //       bookId: book.id,
+  //     });
+  //   } else {
+  //     addBookToCollection({
+  //       userId: profile.uid,
+  //       bookId: book.id,
+  //       status: status as TBookStatus,
+  //     });
+  //   }
+  //
+  //   resetReviewAdding();
+  // };
 
   const handleSaveReview = async () => {
     if (!profile) {
@@ -117,16 +133,24 @@ export const Book: FC = () => {
     resetReviewAdding();
   };
 
-  const handleReviewChange = (json: string, text: string = '') => {
+  const handleReviewChange = (
+    json: string,
+    // text: string = ''
+  ) => {
     setReviewJSON(json);
-    setReviewText(text);
+    // setReviewText(text);
+  };
+
+  const handleDateChange: SelectSingleEventHandler = (date) => {
+    if (!date) return;
+    setDate(date);
   };
 
   const title = book.title || 'Book';
 
   return (
-    <PageWrapper title={title} className={css.pageWrapper}>
-      <Sheet>
+    <Drawer>
+      <PageWrapper title={title} className={css.pageWrapper}>
         <Card>
           <CardContent>
             <div className={css.mainInfo}>
@@ -168,18 +192,23 @@ export const Book: FC = () => {
             {reviews?.length ? (
               reviews.map((review) => (
                 <div key={review.id} className="mb-2">
-                  <CardDescription
-                    className={css.review}
-                    dangerouslySetInnerHTML={{
-                      __html: convertJSONToHTML(review.review),
-                    }}
-                  />
-                  {review.rating ? (
-                    <Ratings size="sm" rating={review.rating} />
-                  ) : null}
+                  <>
+                    {review.review ? (
+                      <CardDescription
+                        className={css.review}
+                        dangerouslySetInnerHTML={{
+                          __html: convertJSONToHTML(review.review),
+                        }}
+                      />
+                    ) : null}
+                  </>
+
+                  <Ratings size="sm" rating={review.rating} />
+
                   <CardDescription>
                     {review.author?.displayName || 'Unknown author'}
                   </CardDescription>
+
                   <CardDescription>
                     {review.createdAt.toDate().toLocaleString()}
                   </CardDescription>
@@ -193,39 +222,70 @@ export const Book: FC = () => {
           </CardContent>
         </Card>
 
-        <SheetTrigger asChild>
+        <DrawerTrigger asChild>
           <Button className={css.addButton} variant="outline" size="icon">
             <PlusIcon />
           </Button>
-        </SheetTrigger>
-        <SheetContent side="bottom" className="flex flex-col gap-2">
-          <SheetHeader>
-            <SheetTitle>Edit profile</SheetTitle>
-            <SheetDescription>
-              Make changes here. Click save when you're done.
-            </SheetDescription>
-          </SheetHeader>
-          <Card>
-            <CardHeader>
-              <CardTitle>Status</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Button variant="outline" size="icon">
-                <BookOpenCheckIcon />
-              </Button>
-              <Button variant="outline" size="icon">
-                <BookOpenTextIcon />
-              </Button>
-              <Button variant="outline" size="icon">
-                <BookPlusIcon />
-              </Button>
+        </DrawerTrigger>
+        <DrawerContent
+          className="flex flex-col max-h-[95%]"
+          aria-describedby="Add to diary"
+        >
+          <DrawerHeader className="p-3">
+            <DrawerTitle>Add to diary</DrawerTitle>
+            <DrawerDescription className="hidden">
+              Add to diary
+            </DrawerDescription>
+          </DrawerHeader>
+          <div className="flex-1 overflow-auto px-4 gap-3">
+            <div className="flex justify-between">
+              <ToggleGroup type="single">
+                <div className="flex flex-col items-center">
+                  <ToggleGroupItem value="read" aria-label="Read">
+                    <BookOpenCheckIcon />
+                  </ToggleGroupItem>
+                  <ExtraSmall>Read</ExtraSmall>
+                </div>
+                <div className="flex flex-col items-center">
+                  <ToggleGroupItem value="reading" aria-label="Reading">
+                    <BookOpenTextIcon />
+                  </ToggleGroupItem>
+                  <ExtraSmall>Reading</ExtraSmall>
+                </div>
+                <div className="flex flex-col items-center">
+                  <ToggleGroupItem value="want-to-read" aria-label="Readlist">
+                    <BookOpenIcon />
+                  </ToggleGroupItem>
+                  <ExtraSmall>Readlist</ExtraSmall>
+                </div>
+              </ToggleGroup>
 
+              <div className="flex gap-2">
+                <div className="flex flex-col items-center">
+                  <Toggle aria-label="Like">
+                    <BookHeartIcon />
+                  </Toggle>
+                  <ExtraSmall>Like</ExtraSmall>
+                </div>
+                <div className="flex flex-col items-center">
+                  <Toggle
+                    aria-label="Add to list"
+                    pressed={showLists}
+                    onPressedChange={setShowLists}
+                  >
+                    <BookPlusIcon />
+                  </Toggle>
+                  <ExtraSmall>Add to list</ExtraSmall>
+                </div>
+              </div>
+            </div>
+            {showLists && (
               <Select
-                onValueChange={handleStatusChange}
-                defaultValue={book?.status}
+              // onValueChange={handleStatusChange}
+              // defaultValue={book?.status}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select status" />
+                  <SelectValue placeholder="Select list" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="read">Read</SelectItem>
@@ -234,30 +294,40 @@ export const Book: FC = () => {
                   <SelectItem value="reset">Reset</SelectItem>
                 </SelectContent>
               </Select>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Review</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="mb-6">
-                <div className="mb-2 flex justify-end">
-                  Rating: <Ratings rating={rating} onChange={setRating} />
-                </div>
-                <Editor onChange={handleReviewChange} />
+            )}
+            <div className="flex flex-col gap-1">
+              <Ratings rating={rating} onChange={setRating} />
+
+              <Editor onChange={handleReviewChange} autoFocus={false} />
+              <div className="flex justify-end">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" className="justify-start">
+                      {format(date, 'PPP')}
+                      <CalendarIcon />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={handleDateChange}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
-            </CardContent>
-          </Card>
-          <SheetFooter className="mt-4">
-            <SheetClose asChild>
-              <Button type="submit" onClick={handleSaveReview}>
-                Save changes
-              </Button>
-            </SheetClose>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
-    </PageWrapper>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button type="submit" onClick={handleSaveReview}>
+                  Save changes
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </div>
+        </DrawerContent>
+      </PageWrapper>
+    </Drawer>
   );
 };

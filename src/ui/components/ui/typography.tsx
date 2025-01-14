@@ -95,4 +95,25 @@ const Small: React.FC<Props> = ({ className = '', children }) => {
   );
 };
 
-export { H1, H2, H3, H4, P, Lead, Large, Muted, Blockquote, InlineCode, Small };
+const ExtraSmall: React.FC<Props> = ({ className = '', children }) => {
+  return (
+    <small className={`text-xs font-medium leading-none ${className}`}>
+      {children}
+    </small>
+  );
+};
+
+export {
+  H1,
+  H2,
+  H3,
+  H4,
+  P,
+  Lead,
+  Large,
+  Muted,
+  Blockquote,
+  InlineCode,
+  Small,
+  ExtraSmall,
+};
