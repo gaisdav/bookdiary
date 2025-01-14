@@ -9,7 +9,8 @@ import { ROUTE } from '@/routes/routes.ts';
 type PageWrapperProps = PropsWithChildren &
   HTMLAttributes<HTMLDivElement> & {
     title?: string;
-    showHeader?: boolean;
+    showSearch?: boolean;
+    showBack?: boolean;
     expandSearch?: boolean;
   };
 
@@ -17,7 +18,8 @@ export const PageWrapper: FC<PageWrapperProps> = ({
   children,
   className = DEFAULT_DOCUMENT_TITLE,
   title = '',
-  showHeader = false,
+  showBack = false,
+  showSearch = false,
   ...props
 }) => {
   useEffect(() => {
@@ -30,16 +32,22 @@ export const PageWrapper: FC<PageWrapperProps> = ({
 
   return (
     <div className={`hideScrollBar ${css.pageWrapper} ${className}`} {...props}>
-      {showHeader && (
+      {(showSearch || showBack) && (
         <header className={css.header}>
-          <Button variant="ghost" size="icon" onClick={goBack}>
-            <MoveLeftIcon />
-          </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <NavLink viewTransition to={ROUTE.BOOKS}>
-              <SearchIcon />
-            </NavLink>
-          </Button>
+          {showBack && (
+            <Button variant="ghost" size="icon" onClick={goBack}>
+              <MoveLeftIcon />
+            </Button>
+          )}
+          {showSearch && (
+            <div className="flex flex-1 justify-end">
+              <Button variant="ghost" size="icon" asChild>
+                <NavLink viewTransition to={ROUTE.BOOKS}>
+                  <SearchIcon />
+                </NavLink>
+              </Button>
+            </div>
+          )}
         </header>
       )}
       {children}

@@ -21,7 +21,7 @@ export const Books: FC<PageType> = ({ type }) => {
   }
 
   return (
-    <PageWrapper showHeader>
+    <PageWrapper showBack showSearch>
       <H3>{header[type]}</H3>
 
       <div className="mt-4 grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-1">

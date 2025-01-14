@@ -132,7 +132,12 @@ export const Book = (): JSX.Element => {
 
   return (
     <Drawer>
-      <PageWrapper title={title} className={css.pageWrapper} showHeader>
+      <PageWrapper
+        title={title}
+        className={css.pageWrapper}
+        showSearch
+        showBack
+      >
         <div className={css.mainInfo}>
           {book.cover && (
             <Img
