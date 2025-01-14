@@ -15,7 +15,7 @@ export const MyReviews: FC = () => {
   const reviews = useReviewStore().reviews;
 
   return (
-    <PageWrapper title="My reviews">
+    <PageWrapper title="My reviews" showBack>
       <H4 className="mb-2">My reviews</H4>
       <div>
         {reviews?.map((review) => (

@@ -35,13 +35,23 @@ export const PageWrapper: FC<PageWrapperProps> = ({
       {(showSearch || showBack) && (
         <header className={css.header}>
           {showBack && (
-            <Button variant="ghost" size="icon" onClick={goBack}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={goBack}
+              className="relative left-0"
+            >
               <MoveLeftIcon />
             </Button>
           )}
           {showSearch && (
             <div className="flex flex-1 justify-end">
-              <Button variant="ghost" size="icon" asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                asChild
+                className="relative right-0"
+              >
                 <NavLink viewTransition to={ROUTE.BOOKS}>
                   <SearchIcon />
                 </NavLink>
