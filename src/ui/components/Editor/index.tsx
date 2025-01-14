@@ -162,13 +162,18 @@ export const Editor: FC<TEditorProps> = ({
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className={cn('editor-container rounded-xl', containerClassName)}>
+      <div
+        className={cn(
+          'editor-container rounded-xl flex flex-col',
+          containerClassName,
+        )}
+      >
         <ToolbarPlugin />
-        <div className="editor-inner rounded-bl-xl rounded-br-xl">
+        <div className="editor-inner rounded-bl-xl rounded-br-xl flex flex-col flex-1">
           <RichTextPlugin
             contentEditable={
               <ContentEditable
-                className="editor-input"
+                className="flex-1 editor-input"
                 aria-placeholder={placeholder}
                 placeholder={
                   <div className="editor-placeholder">{placeholder}</div>
