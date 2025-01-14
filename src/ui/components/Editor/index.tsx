@@ -35,6 +35,7 @@ import { parseAllowedColor, parseAllowedFontSize } from './styleConfig';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { TEditorProps } from '@/ui/components/Editor/types.ts';
 import { FC } from 'react';
+import { cn } from '@/lib/utils.ts';
 
 const placeholder = 'Enter some rich text...';
 
@@ -134,7 +135,11 @@ const constructImportMap = (): DOMConversionMap => {
   return importMap;
 };
 
-export const Editor: FC<TEditorProps> = ({ onChange, autoFocus }) => {
+export const Editor: FC<TEditorProps> = ({
+  onChange,
+  autoFocus,
+  containerClassName,
+}) => {
   const editorConfig: InitialConfigType = {
     html: {
       export: exportMap,
@@ -157,7 +162,7 @@ export const Editor: FC<TEditorProps> = ({ onChange, autoFocus }) => {
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container rounded-xl">
+      <div className={cn('editor-container rounded-xl', containerClassName)}>
         <ToolbarPlugin />
         <div className="editor-inner rounded-bl-xl rounded-br-xl">
           <RichTextPlugin

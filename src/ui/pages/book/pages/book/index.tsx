@@ -228,7 +228,7 @@ export const Book = (): JSX.Element => {
           </Button>
         </DrawerTrigger>
         <DrawerContent
-          className="flex flex-col max-h-[95%]"
+          className="flex flex-col max-h-[95%] h-[90%]"
           aria-describedby="Add to diary"
         >
           <DrawerHeader className="p-3">
@@ -237,7 +237,7 @@ export const Book = (): JSX.Element => {
               Add to diary
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex-1 overflow-auto px-4 gap-3">
+          <div className="flex flex-col flex-1 overflow-auto px-4 gap-3">
             <div className="flex justify-between">
               <ToggleGroup type="single">
                 <div className="flex flex-col items-center">
@@ -295,10 +295,14 @@ export const Book = (): JSX.Element => {
                 </SelectContent>
               </Select>
             )}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-1 flex-col gap-1">
               <Ratings rating={rating} onChange={setRating} />
 
-              <Editor onChange={handleReviewChange} autoFocus={false} />
+              <Editor
+                onChange={handleReviewChange}
+                autoFocus={false}
+                containerClassName="flex-1"
+              />
               <div className="flex justify-end">
                 <Popover>
                   <PopoverTrigger asChild>
