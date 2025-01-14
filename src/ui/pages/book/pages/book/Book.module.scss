@@ -7,7 +7,6 @@
 .mainInfo {
   display: flex;
   gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
 
   @media (max-width: 480px) {
     flex-direction: column;
@@ -32,7 +31,7 @@
 
 .addButton {
   position: fixed;
-  bottom: 4.5rem;
+  bottom: calc(4.5rem + env(safe-area-inset-bottom));
   right: 1rem;
 }
 

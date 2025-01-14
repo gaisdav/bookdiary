@@ -9,7 +9,7 @@ type ImgProps = React.ImgHTMLAttributes<HTMLImageElement> & {
 export const Img: React.FC<ImgProps> = ({
   src,
   alt,
-  loadingPlaceholder = 'Loading...',
+  loadingPlaceholder = 'Loading image...',
   className = '',
   ...props
 }) => {

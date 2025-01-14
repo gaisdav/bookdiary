@@ -2,8 +2,6 @@ import { FC } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { H4 } from '@/ui/components/ui/typography.tsx';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
-import { createEditor } from 'lexical';
-import { $generateHtmlFromNodes } from '@lexical/html';
 import { Ratings } from '@/ui/components/Ratings';
 import {
   Card,
@@ -11,17 +9,7 @@ import {
   CardDescription,
 } from '@/ui/components/ui/card.tsx';
 import { Link } from 'react-router-dom';
-
-//TODO: move to separate file
-function convertJSONToHTML(json: string): string {
-  const editor = createEditor();
-  editor.setEditorState(editor.parseEditorState(json));
-  let htmlContent = '';
-  editor.update(() => {
-    htmlContent = $generateHtmlFromNodes(editor);
-  });
-  return htmlContent;
-}
+import { convertJSONToHTML } from '@/lib/utils.ts';
 
 export const MyReviews: FC = () => {
   const reviews = useReviewStore().reviews;

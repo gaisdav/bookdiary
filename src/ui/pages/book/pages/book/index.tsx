@@ -2,21 +2,12 @@ import { JSX, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/ui/components/ui/card.tsx';
 import css from './Book.module.scss';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 import { Ratings } from '@/ui/components/Ratings';
 import { Editor } from '@/ui/components/Editor';
-import { createEditor } from 'lexical';
-import { $generateHtmlFromNodes } from '@lexical/html';
 import {
   PlusIcon,
   BookOpenCheckIcon,
@@ -27,7 +18,7 @@ import {
   CalendarIcon,
 } from 'lucide-react';
 import { Toggle } from '@/ui/components/ui/toggle.tsx';
-import { ExtraSmall } from '@/ui/components/ui/typography.tsx';
+import { ExtraSmall, H4, P, Small } from '@/ui/components/ui/typography.tsx';
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -57,16 +48,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/ui/components/ui/drawer';
-
-function convertJSONToHTML(json: string): string {
-  const editor = createEditor();
-  editor.setEditorState(editor.parseEditorState(json));
-  let htmlContent = '';
-  editor.update(() => {
-    htmlContent = $generateHtmlFromNodes(editor);
-  });
-  return htmlContent;
-}
+import { convertJSONToHTML } from '@/lib/utils.ts';
 
 export const Book = (): JSX.Element => {
   const [reviewJSON, setReviewJSON] = useState('');
@@ -151,76 +133,57 @@ export const Book = (): JSX.Element => {
   return (
     <Drawer>
       <PageWrapper title={title} className={css.pageWrapper}>
-        <Card>
-          <CardContent>
-            <div className={css.mainInfo}>
-              {book.cover && (
-                <Img
-                  className={css.cover}
-                  loading="lazy"
-                  src={book.cover}
-                  alt={`${book.title} ${book.authors.join(', ')}`}
-                />
-              )}
-              <div className={css.titles}>
-                {book.title && <CardTitle>{book.title}</CardTitle>}
-                {book.subtitle && (
-                  <CardDescription>{book.subtitle}</CardDescription>
-                )}
-                {book.authors && (
-                  <CardDescription>{book.authors}</CardDescription>
-                )}
-                {book.categories && (
-                  <CardDescription>{book.categories}</CardDescription>
-                )}
-                {book.publishedDate && (
-                  <CardDescription>{book.publishedDate}</CardDescription>
-                )}
-              </div>
-            </div>
-            {book.description && (
-              <CardDescription>{book.description}</CardDescription>
-            )}
-          </CardContent>
-        </Card>
+        <div className={css.mainInfo}>
+          {book.cover && (
+            <Img
+              className={css.cover}
+              loading="lazy"
+              src={book.cover}
+              alt={`${book.title} ${book.authors.join(', ')}`}
+            />
+          )}
+          <div className={css.titles}>
+            {book.title && <b>{book.title}</b>}
+            {book.subtitle && <Small>{book.subtitle}</Small>}
+            {book.authors && <Small>{book.authors?.join(', ')}</Small>}
+            {book.categories && <Small>{book.categories.join(', ')}</Small>}
+            {book.publishedDate && <Small>{book.publishedDate}</Small>}
+          </div>
+        </div>
+        {book.description && <P>{book.description}</P>}
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Reviews</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="mt-6">
+          <H4 className="mb-4">Reviews</H4>
+          <div>
             {reviews?.length ? (
               reviews.map((review) => (
-                <div key={review.id} className="mb-2">
-                  <>
-                    {review.review ? (
-                      <CardDescription
-                        className={css.review}
-                        dangerouslySetInnerHTML={{
-                          __html: convertJSONToHTML(review.review),
-                        }}
-                      />
-                    ) : null}
-                  </>
-
+                <div key={review.id} className="flex flex-col gap-1 mb-4">
                   <Ratings size="sm" rating={review.rating} />
 
-                  <CardDescription>
-                    {review.author?.displayName || 'Unknown author'}
-                  </CardDescription>
+                  {review.review && (
+                    <div
+                      className={css.review}
+                      dangerouslySetInnerHTML={{
+                        __html: convertJSONToHTML(review.review),
+                      }}
+                    />
+                  )}
 
-                  <CardDescription>
+                  <Small className="block">
+                    {review.author?.displayName || 'Unknown author'}
+                  </Small>
+                  <ExtraSmall>
                     {review.createdAt.toDate().toLocaleString()}
-                  </CardDescription>
+                  </ExtraSmall>
+
+                  <hr className="mt-4" />
                 </div>
               ))
             ) : (
-              <div>
-                <CardDescription>No reviews yet</CardDescription>
-              </div>
+              <div>No reviews yet</div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         <DrawerTrigger asChild>
           <Button className={css.addButton} variant="outline" size="icon">
