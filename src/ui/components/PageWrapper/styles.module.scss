@@ -4,3 +4,10 @@
   max-height: 100%;
   overflow: auto;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+}

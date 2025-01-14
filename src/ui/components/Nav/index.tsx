@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import HomeIcon from '../../assets/icons/home.svg';
-import SearchIcon from '../../assets/icons/search.svg';
 import BookIcon from '../../assets/icons/book.svg';
 import PersonIcon from '../../assets/icons/person.svg';
 import css from './styles.module.scss';
@@ -11,10 +10,6 @@ export const Navigation = () => {
     {
       to: ROUTE.HOME,
       icon: <HomeIcon />,
-    },
-    {
-      to: ROUTE.BOOKS,
-      icon: <SearchIcon />,
     },
     {
       to: ROUTE.LIBRARY,

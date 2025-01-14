@@ -7,6 +7,7 @@ import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useSearchParams } from 'react-router-dom';
 import { useBookStore } from '@/stores/books/useBookStore.tsx';
 import { BookListItem } from '@/ui/components/BookListItem';
+import { MoveLeftIcon } from 'lucide-react';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
@@ -71,25 +72,35 @@ function Search() {
     }
   };
 
+  const goBack = () => {
+    window.history.back();
+  };
+
   return (
     <PageWrapper onScroll={handleScroll} className={css.wrapper}>
-      <form className={css.form} onSubmit={searchBook} ref={formRef}>
-        <Input
-          ref={bookTitleField}
-          type="search"
-          placeholder="Book title"
-          name={BOOK_TITLE_FIELD}
-          required
-        />
-        <Button
-          className={css.searchBtn}
-          variant="outline"
-          type="submit"
-          size="icon"
-        >
-          <MagnifyingGlassIcon />
+      <div className="flex justify-between">
+        <Button variant="ghost" size="icon" onClick={goBack}>
+          <MoveLeftIcon />
         </Button>
-      </form>
+
+        <form className={css.form} onSubmit={searchBook} ref={formRef}>
+          <Input
+            ref={bookTitleField}
+            type="search"
+            placeholder="Book title"
+            name={BOOK_TITLE_FIELD}
+            required
+          />
+          <Button
+            className={css.searchBtn}
+            variant="outline"
+            type="submit"
+            size="icon"
+          >
+            <MagnifyingGlassIcon />
+          </Button>
+        </form>
+      </div>
 
       {/*{error && <div className={css.error}>{error.message}</div>}*/}
 
