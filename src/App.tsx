@@ -17,7 +17,9 @@ export const App: FC = () => {
   return (
     <Providers>
       {profileLoading ? (
-        <PageWrapper>Initializing app...</PageWrapper>
+        <PageWrapper title="Initializing app...">
+          Initializing app...
+        </PageWrapper>
       ) : (
         <RouterProvider router={initRouter(profile)} />
       )}

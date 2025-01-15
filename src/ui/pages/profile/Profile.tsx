@@ -18,7 +18,7 @@ const Profile: FC = () => {
   }
 
   return (
-    <PageWrapper>
+    <PageWrapper title="Profile">
       <div className={css.actions}>
         <Button variant="outline" size="icon" onClick={switchTheme}>
           {theme === 'light' ? (

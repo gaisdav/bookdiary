@@ -66,7 +66,7 @@ export const Book = (): JSX.Element => {
   // const removeFromCollection = useBookStore().removeFromCollection;
 
   if (isPending) {
-    return <PageWrapper>Loading book...</PageWrapper>;
+    return <PageWrapper title="Loading book...">Loading book...</PageWrapper>;
   }
 
   if (!book) {

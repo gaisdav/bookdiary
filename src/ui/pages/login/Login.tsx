@@ -21,7 +21,7 @@ const Login: FC = () => {
   };
 
   return (
-    <PageWrapper>
+    <PageWrapper title="Login">
       <form className={css.form} onSubmit={submitLogin}>
         <Input type="email" name="login" required disabled={loading} />
         <Input type="password" name="password" required disabled={loading} />

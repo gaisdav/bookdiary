@@ -36,7 +36,7 @@ const MyLibraryLinks = [
 
 const Library: FC = () => {
   return (
-    <PageWrapper showSearch>
+    <PageWrapper showSearch title="My library">
       <div>My library</div>
 
       <div className="mt-3">
