@@ -35,14 +35,15 @@ export default defineConfig(({ mode }) => {
         },
 
         manifest: {
-          name: 'Bookdiary!',
-          short_name: 'Bookdiary!',
+          name: 'Bookdiary',
+          short_name: 'Bookdiary',
           description: 'Bookdiary',
           theme_color: '#1c1c1e',
           background_color: '#1c1c1e',
-          display: 'fullscreen',
+          display: 'standalone',
           orientation: 'portrait',
           display_override: ['window-controls-overlay'],
+          scope: './',
           shortcuts: [
             {
               name: 'Find book',
