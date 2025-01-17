@@ -9,6 +9,7 @@ import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 const Registration: FC = () => {
   const createUser = useProfileStore().createUser;
   const error = useProfileStore().error;
+  const loading = useProfileStore().registrationLoading;
 
   const submit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -30,10 +31,17 @@ const Registration: FC = () => {
           required
         />
         <Input type="text" name="name" placeholder="Name" required />
+
         {error && <div className="text-red-800">{error}</div>}
 
         <Button variant="outline" size="sm" type="submit">
-          Registration
+          Registration{' '}
+          {loading && (
+            <>
+              {' '}
+              <div className="animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 h-4 w-4" />
+            </>
+          )}
         </Button>
       </form>
     </PageWrapper>

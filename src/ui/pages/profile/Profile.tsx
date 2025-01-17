@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import css from './styles.module.scss';
@@ -7,6 +7,7 @@ import {
   LogOutIcon,
   SettingsIcon,
   MailPlusIcon,
+  MailQuestionIcon,
 } from 'lucide-react';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { useAuthController } from '@/ui/pages/login/hooks/useAuth.tsx';
@@ -18,6 +19,15 @@ import { Alert, AlertTitle } from '@/ui/components/ui/alert.tsx';
 const Profile: FC = () => {
   const { logout } = useAuthController();
   const profile = useProfileStore().profile;
+  const { emailVerificationError } = useProfileStore().errors;
+  const sendEmailVerification = useProfileStore().sendEmailVerification;
+  const emailVerificationLoading = useProfileStore().emailVerificationLoading;
+
+  const [isEmailVerified, setIsEmailVerified] = useState<boolean>(
+    profile?.emailVerified,
+  );
+  const [verificationLinkSent, setVerificationLinkSent] =
+    useState<boolean>(false);
 
   if (!profile) {
     return (
@@ -26,6 +36,12 @@ const Profile: FC = () => {
       </PageWrapper>
     );
   }
+
+  const verifyEmail = async () => {
+    await sendEmailVerification();
+    setIsEmailVerified(true);
+    setVerificationLinkSent(true);
+  };
 
   return (
     <PageWrapper title="Profile" showSearch={false}>
@@ -44,7 +60,7 @@ const Profile: FC = () => {
           <div>{profile.email}</div>
         </div>
 
-        {!profile.emailVerified && (
+        {!isEmailVerified && (
           <Alert
             variant="destructive"
             className="flex justify-between items-center"
@@ -56,9 +72,32 @@ const Profile: FC = () => {
               </AlertTitle>
             </div>
 
-            <Button variant="outline" size="sm">
-              <MailPlusIcon /> Verify email
+            <Button variant="outline" size="sm" onClick={verifyEmail}>
+              <MailPlusIcon /> Verify email{' '}
+              {emailVerificationLoading && (
+                <>
+                  {' '}
+                  <div className="animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 h-4 w-4" />
+                </>
+              )}
             </Button>
+          </Alert>
+        )}
+
+        {emailVerificationError && (
+          <Alert variant="destructive">
+            <AlertTitle>{emailVerificationError}</AlertTitle>
+          </Alert>
+        )}
+
+        {verificationLinkSent && (
+          <Alert className="flex justify-between items-center">
+            <div className="flex gap-2 items-center">
+              <MailQuestionIcon className="h-4 w-4" />
+              <AlertTitle className="m-0">
+                Email verification link sent
+              </AlertTitle>
+            </div>
           </Alert>
         )}
 

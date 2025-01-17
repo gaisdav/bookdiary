@@ -11,9 +11,12 @@ import { TCreatUser } from '@/data/user/enitites/user';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 const initialState: ProfileState = {
+  registrationLoading: false,
   profileLoading: true,
+  emailVerificationLoading: false,
   profile: null,
   error: null,
+  errors: {},
 };
 
 export const useProfileStore = create<ProfileState & ProfileActions>(
@@ -29,21 +32,43 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
     },
 
     sendEmailVerification: async () => {
+      set({ emailVerificationLoading: true });
       try {
         const user = auth.currentUser;
         if (user) {
           await sendEmailVerification(user);
+          set({
+            errors: {
+              ...get().errors,
+              emailVerificationError: null,
+            },
+          });
         }
       } catch (error) {
         if (error instanceof Error) {
-          set({ error: error.message });
+          set({
+            errors: {
+              ...get().errors,
+              emailVerificationError: error.message,
+            },
+          });
         } else {
-          set({ error: 'An error occurred while sending email verification' });
+          set({
+            errors: {
+              ...get().errors,
+              emailVerificationError:
+                'An error occurred while sending email verification',
+            },
+          });
         }
+        throw error;
+      } finally {
+        set({ emailVerificationLoading: false });
       }
     },
 
     createUser: async ({ email, password, name: displayName }: TCreatUser) => {
+      set({ registrationLoading: true });
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -71,6 +96,8 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
         } else {
           set({ error: 'An error occurred while creating a user' });
         }
+      } finally {
+        set({ registrationLoading: false });
       }
     },
   }),
