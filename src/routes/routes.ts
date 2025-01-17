@@ -10,6 +10,7 @@ export enum ROUTE {
   LIBRARY_WANT_TO_READ_BOOK = '/library/want-to-read/:bookId',
   BOOK = '/books/:bookId',
   PROFILE = '/profile',
+  SETTINGS = '/settings',
   REVIEWS = '/reviews',
   REVIEWS_BOOK = '/reviews/:bookId',
   LOGIN = '/login',

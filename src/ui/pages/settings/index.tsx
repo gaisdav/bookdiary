@@ -1,16 +1,17 @@
 import { FC } from 'react';
+import { useTheme } from '@/hooks/useTheme.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import css from './styles.module.scss';
-import { LogOutIcon, SettingsIcon } from 'lucide-react';
+import { MoonIcon, SunIcon, MoveLeftIcon } from 'lucide-react';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
-import { useAuthController } from '@/ui/pages/login/hooks/useAuth.tsx';
 import { Img } from '@/ui/components/Img';
 import { ROUTE } from '@/routes/routes.ts';
 import { NavLink } from 'react-router-dom';
 
-const Profile: FC = () => {
-  const { logout } = useAuthController();
+export const Settings: FC = () => {
+  const { switchTheme } = useTheme();
+  const { theme } = useTheme();
   const profile = useProfileStore().profile;
 
   if (!profile) {
@@ -18,28 +19,30 @@ const Profile: FC = () => {
   }
 
   return (
-    <PageWrapper title="Profile" showSearch={false}>
+    <PageWrapper title="Settings" showBack={false} showSearch={false}>
       <div className={css.actions}>
-        <Button variant="outline" size="icon" asChild>
-          <NavLink viewTransition to={ROUTE.SETTINGS}>
-            <SettingsIcon />
+        <Button variant="ghost" size="icon" className="relative left-0" asChild>
+          <NavLink viewTransition to={ROUTE.PROFILE}>
+            <MoveLeftIcon />
           </NavLink>
+        </Button>
+
+        <Button variant="outline" size="icon" onClick={switchTheme}>
+          {theme === 'light' ? (
+            <MoonIcon className={css.themeIcon} />
+          ) : (
+            <SunIcon className={css.themeIcon} />
+          )}
         </Button>
       </div>
 
-      <div className="flex flex-1 flex-col gap-4 justify-between items-center">
+      <div className="flex flex-col gap-4 flex-1">
         <div className="flex flex-col w-full flex-1">
           {profile.photoURL && <Img src={profile.photoURL} />}
           <div>{profile.displayName}</div>
           <div>{profile.email}</div>
         </div>
-
-        <Button variant="outline" onClick={logout}>
-          <LogOutIcon /> Logout
-        </Button>
       </div>
     </PageWrapper>
   );
 };
-
-export default Profile;

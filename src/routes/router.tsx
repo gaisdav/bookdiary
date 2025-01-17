@@ -17,6 +17,7 @@ import Library from '@/ui/pages/library';
 import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 import { MyReviews } from '@/ui/pages/reviews';
 import { Books } from '@/ui/pages/books';
+import { Settings } from '@/ui/pages/settings';
 
 const {
   fetchFirstList,
@@ -98,6 +99,17 @@ export const initRouter = (profile: TUser | null) => {
         {
           path: ROUTE.PROFILE,
           element: <Profile />,
+          loader: async () => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            return null;
+          },
+        },
+        {
+          path: ROUTE.SETTINGS,
+          element: <Settings />,
           loader: async () => {
             if (!profile) {
               return redirect(ROUTE.LOGIN);

@@ -5,6 +5,7 @@ import { MoveLeftIcon, SearchIcon } from 'lucide-react';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { NavLink } from 'react-router-dom';
 import { ROUTE } from '@/routes/routes.ts';
+import PWABadge from '@/PWABadge.tsx';
 
 type THeader = {
   showSearch?: boolean;
@@ -33,7 +34,10 @@ export const PageWrapper: FC<PageWrapperProps> = ({
   };
 
   return (
-    <div className={`hideScrollBar ${css.pageWrapper} ${className}`} {...props}>
+    <div
+      className={`hideScrollBar flex flex-col gap-4 ${css.pageWrapper} ${className}`}
+      {...props}
+    >
       {(showSearch || showBack) && (
         <header className={css.header}>
           <div className="flex-1">
@@ -64,7 +68,10 @@ export const PageWrapper: FC<PageWrapperProps> = ({
           </div>
         </header>
       )}
-      {children}
+      <main className="flex flex-col flex-1">
+        {children}
+        <PWABadge />
+      </main>
     </div>
   );
 };
