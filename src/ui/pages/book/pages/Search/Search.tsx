@@ -77,7 +77,12 @@ function Search() {
   };
 
   return (
-    <PageWrapper onScroll={handleScroll} className={css.wrapper} title="Search">
+    <PageWrapper
+      onScroll={handleScroll}
+      className={css.wrapper}
+      title="Search"
+      showSearch={false}
+    >
       <div className="flex justify-between">
         <Button variant="ghost" size="icon" onClick={goBack}>
           <MoveLeftIcon />

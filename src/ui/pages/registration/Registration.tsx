@@ -20,7 +20,7 @@ const Registration: FC = () => {
   };
 
   return (
-    <PageWrapper title="Registration">
+    <PageWrapper title="Registration" showSearch={false}>
       <form onSubmit={submit} autoComplete="on" className={css.form}>
         <Input type="email" name="email" placeholder="Email" required />
         <Input

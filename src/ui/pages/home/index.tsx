@@ -4,7 +4,7 @@ import { H1 } from '@/ui/components/ui/typography.tsx';
 
 const Home: FC = () => {
   return (
-    <PageWrapper showSearch title="Popular">
+    <PageWrapper title="Popular">
       <H1>Popular</H1>
     </PageWrapper>
   );

@@ -6,20 +6,22 @@ import { Button } from '@/ui/components/ui/button.tsx';
 import { NavLink } from 'react-router-dom';
 import { ROUTE } from '@/routes/routes.ts';
 
+type THeader = {
+  showSearch?: boolean;
+  showBack?: boolean;
+};
+
 type PageWrapperProps = PropsWithChildren &
   HTMLAttributes<HTMLDivElement> & {
     title?: string;
-    showSearch?: boolean;
-    showBack?: boolean;
-    expandSearch?: boolean;
-  };
+  } & THeader;
 
 export const PageWrapper: FC<PageWrapperProps> = ({
   children,
   className = DEFAULT_DOCUMENT_TITLE,
   title = '',
   showBack = false,
-  showSearch = false,
+  showSearch = true,
   ...props
 }) => {
   useEffect(() => {
@@ -34,18 +36,20 @@ export const PageWrapper: FC<PageWrapperProps> = ({
     <div className={`hideScrollBar ${css.pageWrapper} ${className}`} {...props}>
       {(showSearch || showBack) && (
         <header className={css.header}>
-          {showBack && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={goBack}
-              className="relative left-0"
-            >
-              <MoveLeftIcon />
-            </Button>
-          )}
-          {showSearch && (
-            <div className="flex flex-1 justify-end">
+          <div className="flex-1">
+            {showBack && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={goBack}
+                className="relative left-0"
+              >
+                <MoveLeftIcon />
+              </Button>
+            )}
+          </div>
+          <div className="flex-1 flex justify-end">
+            {showSearch && (
               <Button
                 variant="ghost"
                 size="icon"
@@ -56,8 +60,8 @@ export const PageWrapper: FC<PageWrapperProps> = ({
                   <SearchIcon />
                 </NavLink>
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </header>
       )}
       {children}

@@ -17,7 +17,7 @@ export const App: FC = () => {
   return (
     <Providers>
       {profileLoading ? (
-        <PageWrapper title="Initializing app...">
+        <PageWrapper title="Initializing app..." showSearch={false}>
           Initializing app...
         </PageWrapper>
       ) : (
