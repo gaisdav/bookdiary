@@ -21,7 +21,7 @@ export const useAuthController = () => {
         setError(error.message); // Set error if user creation fails
       } else {
         console.error(error);
-        setError('An error occurred while creating a user');
+        setError('An error occurred while login');
       }
     } finally {
       setLoading(false);

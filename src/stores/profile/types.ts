@@ -9,4 +9,5 @@ export interface ProfileState {
 export interface ProfileActions {
   initProfile: () => void;
   createUser: (user: TCreatUser) => void;
+  sendEmailVerification: () => void;
 }

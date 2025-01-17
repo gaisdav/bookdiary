@@ -2,19 +2,29 @@ import { FC } from 'react';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import css from './styles.module.scss';
-import { LogOutIcon, SettingsIcon } from 'lucide-react';
+import {
+  AlertCircle,
+  LogOutIcon,
+  SettingsIcon,
+  MailPlusIcon,
+} from 'lucide-react';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { useAuthController } from '@/ui/pages/login/hooks/useAuth.tsx';
 import { Img } from '@/ui/components/Img';
 import { ROUTE } from '@/routes/routes.ts';
 import { NavLink } from 'react-router-dom';
+import { Alert, AlertTitle } from '@/ui/components/ui/alert.tsx';
 
 const Profile: FC = () => {
   const { logout } = useAuthController();
   const profile = useProfileStore().profile;
 
   if (!profile) {
-    return <div>user not found</div>;
+    return (
+      <PageWrapper title="Profile" showSearch={false}>
+        User not found
+      </PageWrapper>
+    );
   }
 
   return (
@@ -33,6 +43,24 @@ const Profile: FC = () => {
           <div>{profile.displayName}</div>
           <div>{profile.email}</div>
         </div>
+
+        {!profile.emailVerified && (
+          <Alert
+            variant="destructive"
+            className="flex justify-between items-center"
+          >
+            <div className="flex gap-2 items-center">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle className="m-0">
+                Email verification required
+              </AlertTitle>
+            </div>
+
+            <Button variant="outline" size="sm">
+              <MailPlusIcon /> Verify email
+            </Button>
+          </Alert>
+        )}
 
         <Button variant="outline" onClick={logout}>
           <LogOutIcon /> Logout

@@ -6,9 +6,10 @@ import { Input } from '@/ui/components/ui/input.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import css from './styles.module.scss';
 import { ROUTE } from '@/routes/routes.ts';
+import { Alert, AlertTitle } from '@/ui/components/ui/alert.tsx';
 
 const Login: FC = () => {
-  const { login, loading } = useAuthController();
+  const { login, loading, error } = useAuthController();
 
   const submitLogin: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -25,6 +26,11 @@ const Login: FC = () => {
       <form className={css.form} onSubmit={submitLogin}>
         <Input type="email" name="login" required disabled={loading} />
         <Input type="password" name="password" required disabled={loading} />
+        {error && (
+          <Alert variant="destructive">
+            <AlertTitle>{error}</AlertTitle>
+          </Alert>
+        )}
         <div className={css.actions}>
           <Button variant="outline" size="sm" type="submit" disabled={loading}>
             Login

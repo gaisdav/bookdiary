@@ -1,7 +1,6 @@
 import firebase from 'firebase/compat';
-import UserInfo = firebase.UserInfo;
 
-export type TUser = UserInfo;
+export type TUser = firebase.User;
 
 export type TCreatUser = {
   email: string;
