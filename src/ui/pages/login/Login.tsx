@@ -31,9 +31,9 @@ const Login: FC = () => {
             <AlertTitle>{error}</AlertTitle>
           </Alert>
         )}
-        <div className={css.actions}>
+        <div className="flex gap-2">
           <Button variant="outline" size="sm" type="submit" disabled={loading}>
-            Login
+            Sign in
             {loading && (
               <>
                 {' '}
@@ -42,7 +42,10 @@ const Login: FC = () => {
             )}
           </Button>
           <Button asChild variant="outline" size="sm" disabled={loading}>
-            <NavLink to={ROUTE.REGISTRATION}>Registration</NavLink>
+            <NavLink to={ROUTE.REGISTRATION}>Sign up</NavLink>
+          </Button>
+          <Button asChild variant="outline" size="sm" disabled={loading}>
+            <NavLink to={ROUTE.FORGOT_PASSWORD}>Forgot password</NavLink>
           </Button>
         </div>
       </form>

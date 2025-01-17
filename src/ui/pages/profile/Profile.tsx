@@ -102,7 +102,7 @@ const Profile: FC = () => {
         )}
 
         <Button variant="outline" onClick={logout}>
-          <LogOutIcon /> Logout
+          <LogOutIcon /> Sign out
         </Button>
       </div>
     </PageWrapper>

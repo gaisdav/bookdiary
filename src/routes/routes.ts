@@ -15,4 +15,5 @@ export enum ROUTE {
   REVIEWS_BOOK = '/reviews/:bookId',
   LOGIN = '/login',
   REGISTRATION = '/registration',
+  FORGOT_PASSWORD = '/forgot-password',
 }

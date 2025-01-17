@@ -18,6 +18,7 @@ import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
 import { MyReviews } from '@/ui/pages/reviews';
 import { Books } from '@/ui/pages/books';
 import { Settings } from '@/ui/pages/settings';
+import { ForgotPassword } from '@/ui/pages/forgotPassword';
 
 const {
   fetchFirstList,
@@ -256,6 +257,17 @@ export const initRouter = (profile: TUser | null) => {
         {
           path: ROUTE.REGISTRATION,
           element: <Registration />,
+          loader: async () => {
+            if (profile) {
+              return redirect(ROUTE.HOME);
+            }
+
+            return null;
+          },
+        },
+        {
+          path: ROUTE.FORGOT_PASSWORD,
+          element: <ForgotPassword />,
           loader: async () => {
             if (profile) {
               return redirect(ROUTE.HOME);
