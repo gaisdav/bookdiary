@@ -6,9 +6,14 @@ import { Input } from '@/ui/components/ui/input.tsx';
 import { Alert, AlertTitle } from '@/ui/components/ui/alert.tsx';
 import { NavLink } from 'react-router-dom';
 import { ROUTE } from '@/routes/routes.ts';
+import { MoonIcon, SunIcon } from 'lucide-react';
+import css from '@/ui/pages/login/styles.module.scss';
+import { useTheme } from '@/hooks/useTheme.tsx';
 
 export const ForgotPassword: FC = () => {
   const [linkSent, setLinkSent] = useState(false);
+
+  const { switchTheme, theme } = useTheme();
 
   const resetPassword = useProfileStore().resetPassword;
   const loading = useProfileStore().resetPasswordLoading;
@@ -34,6 +39,15 @@ export const ForgotPassword: FC = () => {
       title="Forgot password"
       showBack
       contentClassName="items-center"
+      customRightButton={
+        <Button variant="outline" size="icon" onClick={switchTheme}>
+          {theme === 'light' ? (
+            <MoonIcon className={css.themeIcon} />
+          ) : (
+            <SunIcon className={css.themeIcon} />
+          )}
+        </Button>
+      }
     >
       <div className="flex flex-col gap-4 w-full max-w-md">
         <form

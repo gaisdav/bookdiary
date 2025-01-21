@@ -7,9 +7,12 @@ import { Button } from '@/ui/components/ui/button.tsx';
 import css from './styles.module.scss';
 import { ROUTE } from '@/routes/routes.ts';
 import { Alert, AlertTitle } from '@/ui/components/ui/alert.tsx';
+import { MoonIcon, SunIcon } from 'lucide-react';
+import { useTheme } from '@/hooks/useTheme.tsx';
 
 const Login: FC = () => {
   const { login, loading, error } = useAuthController();
+  const { switchTheme, theme } = useTheme();
 
   const submitLogin: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -22,7 +25,19 @@ const Login: FC = () => {
   };
 
   return (
-    <PageWrapper title="Login" showSearch={false}>
+    <PageWrapper
+      title="Login"
+      customRightButton={
+        <Button variant="outline" size="icon" onClick={switchTheme}>
+          {theme === 'light' ? (
+            <MoonIcon className={css.themeIcon} />
+          ) : (
+            <SunIcon className={css.themeIcon} />
+          )}
+        </Button>
+      }
+      contentClassName="items-center"
+    >
       <form className={css.form} onSubmit={submitLogin}>
         <Input type="email" name="login" required disabled={loading} />
         <Input type="password" name="password" required disabled={loading} />
@@ -31,8 +46,8 @@ const Login: FC = () => {
             <AlertTitle>{error}</AlertTitle>
           </Alert>
         )}
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" type="submit" disabled={loading}>
+        <div className="flex flex-col gap-2 items-center">
+          <Button size="sm" type="submit" disabled={loading} className="w-full">
             Sign in
             {loading && (
               <>
@@ -41,12 +56,14 @@ const Login: FC = () => {
               </>
             )}
           </Button>
-          <Button asChild variant="outline" size="sm" disabled={loading}>
-            <NavLink to={ROUTE.REGISTRATION}>Sign up</NavLink>
-          </Button>
-          <Button asChild variant="outline" size="sm" disabled={loading}>
-            <NavLink to={ROUTE.FORGOT_PASSWORD}>Forgot password</NavLink>
-          </Button>
+          <div className="flex gap-2">
+            <Button asChild variant="outline" size="sm" disabled={loading}>
+              <NavLink to={ROUTE.REGISTRATION}>Sign up</NavLink>
+            </Button>
+            <Button asChild variant="outline" size="sm" disabled={loading}>
+              <NavLink to={ROUTE.FORGOT_PASSWORD}>Forgot password</NavLink>
+            </Button>
+          </div>
         </div>
       </form>
     </PageWrapper>

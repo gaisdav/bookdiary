@@ -8,8 +8,7 @@ import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { Img } from '@/ui/components/Img';
 
 export const Settings: FC = () => {
-  const { switchTheme } = useTheme();
-  const { theme } = useTheme();
+  const { switchTheme, theme } = useTheme();
   const profile = useProfileStore().profile;
 
   if (!profile) {
