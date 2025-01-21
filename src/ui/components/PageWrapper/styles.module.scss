@@ -7,6 +7,15 @@
 }
 
 .header {
-  display: flex;
+  display: grid;
   position: relative;
+  grid-auto-columns: 36px 1fr 36px;
+  grid-auto-flow: column;
+}
+
+.titleWrapper {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
 }

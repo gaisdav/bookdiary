@@ -1,9 +1,14 @@
 import { create } from 'zustand/index';
-import { ProfileActions, ProfileState } from '@/stores/profile/types.ts';
+import {
+  ProfileActions,
+  ProfileState,
+  TProfileErrors,
+} from '@/stores/profile/types.ts';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   sendEmailVerification,
+  sendPasswordResetEmail,
   updateProfile,
 } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase.config.ts';
@@ -12,6 +17,7 @@ import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 const initialState: ProfileState = {
   registrationLoading: false,
+  resetPasswordLoading: false,
   profileLoading: true,
   emailVerificationLoading: false,
   profile: null,
@@ -29,6 +35,33 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
       onAuthStateChanged(auth, (user) => {
         set({ profile: user, profileLoading: false });
       });
+    },
+
+    resetPassword: async (email: string) => {
+      set({ resetPasswordLoading: true });
+      try {
+        await sendPasswordResetEmail(auth, email);
+      } catch (error) {
+        if (error instanceof Error) {
+          set({
+            errors: {
+              ...get().errors,
+              resetPasswordError: error.message,
+            },
+          });
+        } else {
+          set({
+            errors: {
+              ...get().errors,
+              resetPasswordError:
+                'An error occurred while sending email verification',
+            },
+          });
+        }
+        throw error;
+      } finally {
+        set({ resetPasswordLoading: false });
+      }
     },
 
     sendEmailVerification: async () => {
@@ -99,6 +132,10 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
       } finally {
         set({ registrationLoading: false });
       }
+    },
+
+    resetErrors: (key: keyof TProfileErrors) => {
+      set({ errors: { ...get().errors, [key]: null } });
     },
   }),
 );

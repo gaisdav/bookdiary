@@ -246,6 +246,7 @@ export const initRouter = (profile: TUser | null) => {
         {
           path: ROUTE.LOGIN,
           element: <Login />,
+          index: true,
           loader: async () => {
             if (profile) {
               return redirect(ROUTE.HOME);
@@ -268,13 +269,6 @@ export const initRouter = (profile: TUser | null) => {
         {
           path: ROUTE.FORGOT_PASSWORD,
           element: <ForgotPassword />,
-          loader: async () => {
-            if (profile) {
-              return redirect(ROUTE.HOME);
-            }
-
-            return null;
-          },
         },
       ],
     },

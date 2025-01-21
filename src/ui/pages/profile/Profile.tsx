@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
-import css from './styles.module.scss';
 import {
   AlertCircle,
   LogOutIcon,
@@ -44,15 +43,17 @@ const Profile: FC = () => {
   };
 
   return (
-    <PageWrapper title="Profile" showSearch={false}>
-      <div className={css.actions}>
+    <PageWrapper
+      title="Profile"
+      showSearch={false}
+      customRightButton={
         <Button variant="outline" size="icon" asChild>
           <NavLink viewTransition to={ROUTE.SETTINGS}>
             <SettingsIcon />
           </NavLink>
         </Button>
-      </div>
-
+      }
+    >
       <div className="flex flex-1 flex-col gap-4 justify-between items-center">
         <div className="flex flex-col w-full flex-1">
           {profile.photoURL && <Img src={profile.photoURL} />}

@@ -1,4 +1,10 @@
-import { FC, HTMLAttributes, PropsWithChildren, useEffect } from 'react';
+import {
+  FC,
+  HTMLAttributes,
+  PropsWithChildren,
+  ReactNode,
+  useEffect,
+} from 'react';
 import css from './styles.module.scss';
 import { DEFAULT_DOCUMENT_TITLE } from '@/lib/constants.ts';
 import { MoveLeftIcon, SearchIcon } from 'lucide-react';
@@ -6,23 +12,30 @@ import { Button } from '@/ui/components/ui/button.tsx';
 import { NavLink } from 'react-router-dom';
 import { ROUTE } from '@/routes/routes.ts';
 import PWABadge from '@/PWABadge.tsx';
-
-type THeader = {
-  showSearch?: boolean;
-  showBack?: boolean;
-};
+import { cn } from '@/lib/utils.ts';
+import { H3 } from '@/ui/components/ui/typography.tsx';
 
 type PageWrapperProps = PropsWithChildren &
   HTMLAttributes<HTMLDivElement> & {
+    showSearch?: boolean;
+    showBack?: boolean;
     title?: string;
-  } & THeader;
+    customHeaderTitle?: string;
+    contentClassName?: string;
+    customRightButton?: ReactNode;
+    customLeftButton?: ReactNode;
+  };
 
 export const PageWrapper: FC<PageWrapperProps> = ({
   children,
   className = DEFAULT_DOCUMENT_TITLE,
   title = '',
+  customHeaderTitle = '',
   showBack = false,
   showSearch = true,
+  contentClassName = '',
+  customRightButton,
+  customLeftButton,
   ...props
 }) => {
   useEffect(() => {
@@ -33,42 +46,45 @@ export const PageWrapper: FC<PageWrapperProps> = ({
     window.history.back();
   };
 
+  const headerTitle = customHeaderTitle || title;
+  const leftButton =
+    customLeftButton ||
+    (showBack ? (
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={goBack}
+        className="relative left-0"
+      >
+        <MoveLeftIcon />
+      </Button>
+    ) : null);
+
+  const rightButton =
+    customRightButton ||
+    (showSearch ? (
+      <Button variant="ghost" size="icon" asChild className="relative right-0">
+        <NavLink viewTransition to={ROUTE.BOOKS}>
+          <SearchIcon />
+        </NavLink>
+      </Button>
+    ) : null);
+
   return (
     <div
       className={`hideScrollBar flex flex-col gap-4 ${css.pageWrapper} ${className}`}
       {...props}
     >
-      {(showSearch || showBack) && (
+      {(leftButton || rightButton) && (
         <header className={css.header}>
-          <div className="flex-1">
-            {showBack && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={goBack}
-                className="relative left-0"
-              >
-                <MoveLeftIcon />
-              </Button>
-            )}
+          <div>{leftButton}</div>
+          <div className={css.titleWrapper}>
+            {headerTitle && <H3>{headerTitle}</H3>}
           </div>
-          <div className="flex-1 flex justify-end">
-            {showSearch && (
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="relative right-0"
-              >
-                <NavLink viewTransition to={ROUTE.BOOKS}>
-                  <SearchIcon />
-                </NavLink>
-              </Button>
-            )}
-          </div>
+          <div>{rightButton}</div>
         </header>
       )}
-      <main className="flex flex-col flex-1">
+      <main className={cn('flex flex-col flex-1', contentClassName)}>
         {children}
         <PWABadge />
       </main>
