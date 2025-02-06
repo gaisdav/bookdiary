@@ -1,4 +1,4 @@
-import { IReview } from '@/data/review/entity/types.ts';
+import { IReview } from '@/stores/reviews/entity/types.ts';
 
 export type TAddReview = Omit<
   IReview,

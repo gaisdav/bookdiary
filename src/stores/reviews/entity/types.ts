@@ -1,5 +1,5 @@
 import { Timestamp } from '@firebase/firestore';
-import { TUser } from '@/data/user/enitites/user';
+import { TUser } from '@/stores/user/enitites/user';
 
 export interface IReview {
   id: string;

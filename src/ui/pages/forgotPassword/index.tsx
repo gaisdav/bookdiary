@@ -1,14 +1,12 @@
-import { FC, FormEventHandler, useState } from 'react';
+import { FC, FormEventHandler, useEffect, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { Input } from '@/ui/components/ui/input.tsx';
-import { Alert, AlertTitle } from '@/ui/components/ui/alert.tsx';
-import { NavLink } from 'react-router-dom';
-import { ROUTE } from '@/routes/routes.ts';
 import { MoonIcon, SunIcon } from 'lucide-react';
 import css from '@/ui/pages/login/styles.module.scss';
 import { useTheme } from '@/hooks/useTheme.tsx';
+import { toast } from 'sonner';
 
 export const ForgotPassword: FC = () => {
   const [linkSent, setLinkSent] = useState(false);
@@ -19,6 +17,34 @@ export const ForgotPassword: FC = () => {
   const loading = useProfileStore().resetPasswordLoading;
   const error = useProfileStore().errors.resetPasswordError;
   const resetErrors = useProfileStore().resetErrors;
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        closeButton: true,
+        onAutoClose: () => resetErrors('resetPasswordError'),
+      });
+    }
+
+    return () => {
+      resetErrors('resetPasswordError');
+    };
+  }, [resetErrors, error]);
+
+  useEffect(() => {
+    if (linkSent) {
+      toast.success(
+        'We have sent you an email with a link to reset your password.',
+        {
+          closeButton: true,
+        },
+      );
+    }
+
+    return () => {
+      setLinkSent(false);
+    };
+  }, [linkSent]);
 
   const submit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
@@ -56,7 +82,6 @@ export const ForgotPassword: FC = () => {
           className="flex flex-col gap-4 w-full items-center"
         >
           <Input type="email" name="email" required placeholder="Email" />
-          {error && <div className="text-red-800">{error}</div>}
           <Button type="submit">
             Reset password
             {loading && (
@@ -67,18 +92,6 @@ export const ForgotPassword: FC = () => {
             )}
           </Button>
         </form>
-        {linkSent && (
-          <Alert className="flex gap-4 items-center">
-            <>
-              <AlertTitle>
-                We have sent you an email with a link to reset your password.
-              </AlertTitle>
-              <Button variant="outline" size="sm" asChild>
-                <NavLink to={ROUTE.LOGIN}>Sign in</NavLink>
-              </Button>
-            </>
-          </Alert>
-        )}
       </div>
     </PageWrapper>
   );

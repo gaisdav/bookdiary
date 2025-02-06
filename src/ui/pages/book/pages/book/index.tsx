@@ -1,11 +1,11 @@
 import { JSX, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
-import { useBookStore } from '@/stores/books/useBookStore.tsx';
+import { useBookStore } from '@/stores/books/store/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
 import css from './Book.module.scss';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
-import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
+import { useReviewStore } from '@/stores/reviews/store/useReviewStore.tsx';
 import { Ratings } from '@/ui/components/Ratings';
 import { Editor } from '@/ui/components/Editor';
 import {
@@ -86,12 +86,12 @@ export const Book = (): JSX.Element => {
   //
   //   if (status === 'reset') {
   //     removeFromCollection({
-  //       userId: profile.uid,
+  //       userId: profile.id,
   //       bookId: book.id,
   //     });
   //   } else {
   //     addBookToCollection({
-  //       userId: profile.uid,
+  //       userId: profile.id,
   //       bookId: book.id,
   //       status: status as TBookStatus,
   //     });
@@ -108,7 +108,7 @@ export const Book = (): JSX.Element => {
     await addReview({
       bookId: book.id,
       review: reviewJSON,
-      userId: profile.uid,
+      userId: profile.id,
       rating,
     });
 
@@ -175,7 +175,7 @@ export const Book = (): JSX.Element => {
                   )}
 
                   <Small className="block">
-                    {review.author?.displayName || 'Unknown author'}
+                    {review.author?.fullName || 'Unknown author'}
                   </Small>
                   <ExtraSmall>
                     {review.createdAt.toDate().toLocaleString()}

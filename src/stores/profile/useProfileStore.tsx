@@ -4,26 +4,23 @@ import {
   ProfileState,
   TProfileErrors,
 } from '@/stores/profile/types.ts';
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  sendEmailVerification,
-  sendPasswordResetEmail,
-  updateProfile,
-} from 'firebase/auth';
-import { auth, db } from '@/lib/firebase.config.ts';
-import { TCreatUser } from '@/data/user/enitites/user';
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { TCreatUser, TUser } from '@/stores/user/enitites/user';
+import { supabase } from '@/lib/supabase.config.ts';
+import { UserDecorator } from '@/stores/profile/UserDecorator.ts';
+import { Subscription } from '@supabase/supabase-js';
 
 const initialState: ProfileState = {
+  signInLoading: false,
   registrationLoading: false,
   resetPasswordLoading: false,
+  updatePasswordLoading: false,
   profileLoading: true,
-  emailVerificationLoading: false,
   profile: null,
   error: null,
   errors: {},
 };
+
+let sessionSubscription: null | Subscription = null;
 
 export const useProfileStore = create<ProfileState & ProfileActions>(
   (set, get) => ({
@@ -32,110 +29,104 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
     initProfile: async () => {
       set({ profileLoading: true });
 
-      onAuthStateChanged(auth, (user) => {
-        set({ profile: user, profileLoading: false });
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        const user = session?.user;
+        const profile: TUser | null = user ? new UserDecorator(user) : null;
+
+        set({ profile, profileLoading: false });
+        sessionSubscription = subscription;
       });
     },
 
     resetPassword: async (email: string) => {
       set({ resetPasswordLoading: true });
-      try {
-        await sendPasswordResetEmail(auth, email);
-      } catch (error) {
-        if (error instanceof Error) {
-          set({
-            errors: {
-              ...get().errors,
-              resetPasswordError: error.message,
-            },
-          });
-        } else {
-          set({
-            errors: {
-              ...get().errors,
-              resetPasswordError:
-                'An error occurred while sending email verification',
-            },
-          });
-        }
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/update-password`,
+      });
+      set({ resetPasswordLoading: false });
+
+      if (error) {
+        set({ errors: { ...get().errors, resetPasswordError: error.message } });
         throw error;
-      } finally {
-        set({ resetPasswordLoading: false });
       }
     },
 
-    sendEmailVerification: async () => {
-      set({ emailVerificationLoading: true });
-      try {
-        const user = auth.currentUser;
-        if (user) {
-          await sendEmailVerification(user);
-          set({
-            errors: {
-              ...get().errors,
-              emailVerificationError: null,
-            },
-          });
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          set({
-            errors: {
-              ...get().errors,
-              emailVerificationError: error.message,
-            },
-          });
-        } else {
-          set({
-            errors: {
-              ...get().errors,
-              emailVerificationError:
-                'An error occurred while sending email verification',
-            },
-          });
-        }
+    updatePassword: async (password: string) => {
+      set({ updatePasswordLoading: true });
+      const { error } = await supabase.auth.updateUser({ password });
+      set({ updatePasswordLoading: false });
+
+      if (error) {
+        set({
+          errors: { ...get().errors, updatePasswordError: error.message },
+        });
         throw error;
-      } finally {
-        set({ emailVerificationLoading: false });
       }
     },
 
-    createUser: async ({ email, password, name: displayName }: TCreatUser) => {
+    signIn: async (params) => {
+      set({ signInLoading: true });
+
+      const { error } = await supabase.auth.signInWithPassword(params);
+
+      set({ signInLoading: false });
+
+      if (error) {
+        set({
+          errors: {
+            ...get().errors,
+            signInError: error.message,
+          },
+        });
+        throw error;
+      }
+    },
+
+    signOut: async () => {
+      const { error } = await supabase.auth.signOut({ scope: 'local' });
+
+      if (error) {
+        set({ errors: { ...get().errors, signOutError: error.message } });
+        throw error;
+      }
+    },
+
+    createUser: async ({ email, password, ...data }: TCreatUser) => {
       set({ registrationLoading: true });
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password,
-        );
-        const user = userCredential.user;
-        await updateProfile(user, { displayName });
-        // Сохранение данных пользователя в Firestore
-        const userData = {
-          id: user.uid,
-          email: user.email,
-          displayName,
-          createdAt: serverTimestamp(),
-        };
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data,
+        },
+      });
 
-        // TODO сделать согласно инструкции по ссылке для создания и удаления пользователя в Firestore
-        //  https://firebase.google.com/docs/functions/auth-events?hl=ru
-        await setDoc(doc(db, 'users', user.uid), userData);
+      set({ registrationLoading: false });
 
-        get().sendEmailVerification();
-      } catch (error) {
-        if (error instanceof Error) {
-          set({ error: error.message });
-        } else {
-          set({ error: 'An error occurred while creating a user' });
-        }
-      } finally {
-        set({ registrationLoading: false });
+      if (error) {
+        set({ errors: { ...get().errors, signUpError: error.message } });
+        throw error;
       }
     },
 
-    resetErrors: (key: keyof TProfileErrors) => {
-      set({ errors: { ...get().errors, [key]: null } });
+    resetErrors: (key?: keyof TProfileErrors | (keyof TProfileErrors)[]) => {
+      if (Array.isArray(key)) {
+        const newErrors = { ...get().errors };
+        key.forEach((k) => {
+          newErrors[k] = null;
+        });
+        set({ errors: newErrors });
+      } else if (key) {
+        set({ errors: { ...get().errors, [key]: null } });
+      } else {
+        set({ errors: {} });
+      }
+    },
+
+    resetStore: () => {
+      sessionSubscription?.unsubscribe();
     },
   }),
 );

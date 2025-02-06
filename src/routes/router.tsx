@@ -10,11 +10,11 @@ import Login from '@/ui/pages/login/Login.tsx';
 import Registration from '@/ui/pages/registration/Registration.tsx';
 import { Book } from '@/ui/pages/book/pages/book';
 import Home from '@/ui/pages/home';
-import { useBookStore } from '@/stores/books/useBookStore.tsx';
+import { useBookStore } from '@/stores/books/store/useBookStore.tsx';
 import { ROUTE } from '@/routes/routes.ts';
-import { TUser } from '@/data/user/enitites/user';
+import { TUser } from '@/stores/user/enitites/user';
 import Library from '@/ui/pages/library';
-import { useReviewStore } from '@/stores/reviews/useReviewStore.tsx';
+import { useReviewStore } from '@/stores/reviews/store/useReviewStore.tsx';
 import { MyReviews } from '@/ui/pages/reviews';
 import { Books } from '@/ui/pages/books';
 import { Settings } from '@/ui/pages/settings';
@@ -79,7 +79,7 @@ export const initRouter = (profile: TUser | null) => {
 
             if (bookId) {
               getBookReviews(bookId);
-              fetchBook({ userId: profile.uid, bookId });
+              fetchBook({ userId: profile.id, bookId });
             }
 
             return null;
@@ -93,7 +93,7 @@ export const initRouter = (profile: TUser | null) => {
               return redirect(ROUTE.LOGIN);
             }
 
-            fetchUserCollection(profile.uid);
+            fetchUserCollection(profile.id);
             return null;
           },
         },
@@ -126,7 +126,7 @@ export const initRouter = (profile: TUser | null) => {
               return redirect(ROUTE.LOGIN);
             }
 
-            getUserReviews(profile.uid);
+            getUserReviews(profile.id);
 
             return null;
           },
@@ -144,7 +144,7 @@ export const initRouter = (profile: TUser | null) => {
 
             if (bookId) {
               getBookReviews(bookId);
-              fetchBook({ userId: profile.uid, bookId });
+              fetchBook({ userId: profile.id, bookId });
             }
 
             return null;
@@ -157,7 +157,7 @@ export const initRouter = (profile: TUser | null) => {
               return redirect(ROUTE.LOGIN);
             }
 
-            fetchUserBooksByStatus(profile.uid, 'read');
+            fetchUserBooksByStatus(profile.id, 'read');
 
             return null;
           },
@@ -175,7 +175,7 @@ export const initRouter = (profile: TUser | null) => {
 
             if (bookId) {
               getBookReviews(bookId);
-              fetchBook({ userId: profile.uid, bookId });
+              fetchBook({ userId: profile.id, bookId });
             }
 
             return null;
@@ -188,7 +188,7 @@ export const initRouter = (profile: TUser | null) => {
               return redirect(ROUTE.LOGIN);
             }
 
-            fetchUserBooksByStatus(profile.uid, 'reading');
+            fetchUserBooksByStatus(profile.id, 'reading');
 
             return null;
           },
@@ -206,7 +206,7 @@ export const initRouter = (profile: TUser | null) => {
 
             if (bookId) {
               getBookReviews(bookId);
-              fetchBook({ userId: profile.uid, bookId });
+              fetchBook({ userId: profile.id, bookId });
             }
 
             return null;
@@ -219,7 +219,7 @@ export const initRouter = (profile: TUser | null) => {
               return redirect(ROUTE.LOGIN);
             }
 
-            fetchUserBooksByStatus(profile.uid, 'want-to-read');
+            fetchUserBooksByStatus(profile.id, 'want-to-read');
 
             return null;
           },
@@ -237,7 +237,7 @@ export const initRouter = (profile: TUser | null) => {
 
             if (bookId) {
               getBookReviews(bookId);
-              fetchBook({ userId: profile.uid, bookId });
+              fetchBook({ userId: profile.id, bookId });
             }
 
             return null;
@@ -269,6 +269,13 @@ export const initRouter = (profile: TUser | null) => {
         {
           path: ROUTE.FORGOT_PASSWORD,
           element: <ForgotPassword />,
+          loader: async () => {
+            if (profile) {
+              return redirect(ROUTE.HOME);
+            }
+
+            return null;
+          },
         },
       ],
     },

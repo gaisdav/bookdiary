@@ -1,4 +1,4 @@
-import { TBookStatus } from '@/data/books/enitites/book/types.ts';
+import { TBookStatus } from '@/stores/books/enitites/book/types.ts';
 
 export interface ICollection {
   id: string;

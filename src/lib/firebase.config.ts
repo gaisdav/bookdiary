@@ -1,8 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { FirebaseApp } from '@firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 import { getFirestore } from 'firebase/firestore';
+
+const googleAuthProvider = new GoogleAuthProvider();
 
 const firebaseConfig = {
   apiKey: import.meta.env.BOOK_FIREBASE_API_KEY,
@@ -22,4 +24,4 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 getAnalytics(app);
 
-export { app, db, auth };
+export { app, db, auth, googleAuthProvider };

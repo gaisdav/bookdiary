@@ -1,12 +1,12 @@
 import {
   constructGoogleBooksUrl,
   constructGoogleBookUrl,
-} from '@/data/books/services/utils.ts';
+} from '@/stores/books/services/utils.ts';
 import {
   TAddToCollection,
   TGoogleBookSearchParams,
-} from '@/data/books/services/types.ts';
-import { TGoogleBook } from '@/stores/books/types.ts';
+} from '@/stores/books/services/types.ts';
+import { TGoogleBook } from '@/stores/books/store/types.ts';
 import {
   setDoc,
   deleteDoc,
@@ -17,11 +17,11 @@ import {
   query,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase.config.ts';
-import { ICollection } from '@/data/collection/enitites/types.ts';
+import { ICollection } from '@/stores/collection/enitites/types.ts';
 import { GoogleBook } from '@/ui/pages/book/decorators/GoogleBook.decorator.ts';
 import { GoogleBookItems } from '@/ui/pages/book/decorators/GoogleBooks.decorator.ts';
 import { where } from '@firebase/firestore';
-import { TBookStatus } from '@/data/books/enitites/book/types.ts';
+import { TBookStatus } from '@/stores/books/enitites/book/types.ts';
 
 const defaultPage = 1;
 const defaultLimit = 10;

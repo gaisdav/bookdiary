@@ -1,26 +1,83 @@
-import { FC, FormEventHandler } from 'react';
+import {
+  FC,
+  FormEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import css from './styles.module.scss';
-import { TCreatUser } from '@/data/user/enitites/user';
+import { TCreatUser } from '@/stores/user/enitites/user';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { Input } from '@/ui/components/ui/input.tsx';
 import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
-import { MoonIcon, SunIcon } from 'lucide-react';
+import { EyeIcon, EyeOffIcon, MoonIcon, SunIcon } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme.tsx';
+import { toast } from 'sonner';
+import { InputWithIcon } from '@/ui/components/InputWithIcon';
+
+interface IInputTypes {
+  'new-password': 'password' | 'text';
+  'repeat-new-password': 'password' | 'text';
+}
 
 const Registration: FC = () => {
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [inputTypes, setInputTypes] = useState<IInputTypes>({
+    'new-password': 'password',
+    'repeat-new-password': 'password',
+  });
+
   const { switchTheme, theme } = useTheme();
   const createUser = useProfileStore().createUser;
-  const error = useProfileStore().error;
+  const { signUpError } = useProfileStore().errors;
+  const resetErrors = useProfileStore().resetErrors;
   const loading = useProfileStore().registrationLoading;
+
+  useEffect(() => {
+    if (!passwordsMatch) {
+      toast.error('Passwords do not match', {
+        closeButton: true,
+      });
+    }
+  }, [passwordsMatch]);
+
+  useEffect(() => {
+    if (signUpError) {
+      toast.error(signUpError, {
+        closeButton: true,
+        onAutoClose: () => resetErrors('signUpError'),
+      });
+    }
+  }, [resetErrors, signUpError]);
 
   const submit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const fields = Object.fromEntries(formData.entries()) as TCreatUser;
+    const fields = Object.fromEntries(formData.entries());
 
-    await createUser(fields);
+    if (fields.password !== fields['repeated-password']) {
+      setPasswordsMatch(false);
+      return;
+    }
+
+    await createUser(fields as TCreatUser);
+  };
+
+  const switchInputType: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const inputType = e.currentTarget.getAttribute('data-input-type') as
+      | keyof IInputTypes
+      | null;
+
+    if (!inputType) {
+      return;
+    }
+
+    setInputTypes((prev) => ({
+      ...prev,
+      [inputType]: prev[inputType] === 'password' ? 'text' : 'password',
+    }));
   };
 
   return (
@@ -40,15 +97,52 @@ const Registration: FC = () => {
     >
       <form onSubmit={submit} autoComplete="on" className={css.form}>
         <Input type="email" name="email" placeholder="Email" required />
-        <Input
-          type="password"
+        <Input type="text" name="full_name" placeholder="Full name" required />
+        <InputWithIcon
+          type={inputTypes['new-password']}
           name="password"
           placeholder="Password"
           required
+          endIcon={
+            <Button
+              variant="ghost"
+              size="icon"
+              type="button"
+              onClick={switchInputType}
+            >
+              {inputTypes['new-password'] === 'text' ? (
+                <EyeIcon />
+              ) : (
+                <EyeOffIcon />
+              )}
+            </Button>
+          }
         />
-        <Input type="text" name="name" placeholder="Full name" required />
-
-        {error && <div className="text-red-800">{error}</div>}
+        <InputWithIcon
+          onPaste={(e) => {
+            e.preventDefault();
+            return false;
+          }}
+          type={inputTypes['repeat-new-password']}
+          name="repeated-password"
+          required
+          placeholder="Repeat password"
+          endIcon={
+            <Button
+              variant="ghost"
+              size="icon"
+              type="button"
+              data-input-type="repeat-new-password"
+              onClick={switchInputType}
+            >
+              {inputTypes['repeat-new-password'] === 'text' ? (
+                <EyeIcon />
+              ) : (
+                <EyeOffIcon />
+              )}
+            </Button>
+          }
+        />
 
         <Button size="sm" type="submit">
           Registration{' '}

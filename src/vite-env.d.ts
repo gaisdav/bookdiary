@@ -14,6 +14,8 @@ interface ImportMetaEnv {
   BOOK_FIREBASE_MEASUREMENT_ID: string;
   BOOK_CUSTOM_MODE: string;
   BOOK_GOOGLE_API_KEY: string;
+  BOOK_SUPABASE_URL: string;
+  BOOK_SUPABASE_ANON_KEY: string;
 }
 
 interface ImportMeta {

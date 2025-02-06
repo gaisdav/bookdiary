@@ -5,7 +5,7 @@ import { Button } from '@/ui/components/ui/button.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useSearchParams } from 'react-router-dom';
-import { useBookStore } from '@/stores/books/useBookStore.tsx';
+import { useBookStore } from '@/stores/books/store/useBookStore.tsx';
 import { BookListItem } from '@/ui/components/BookListItem';
 import { MoveLeftIcon } from 'lucide-react';
 

@@ -31,8 +31,8 @@ export const Settings: FC = () => {
     >
       <div className="flex flex-col gap-4 flex-1">
         <div className="flex flex-col w-full flex-1">
-          {profile.photoURL && <Img src={profile.photoURL} />}
-          <div>{profile.displayName}</div>
+          {profile.avatarUrl && <Img src={profile.avatarUrl} />}
+          <div>{profile.fullName}</div>
           <div>{profile.email}</div>
         </div>
       </div>
