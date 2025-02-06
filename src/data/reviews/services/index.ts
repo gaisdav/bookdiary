@@ -9,10 +9,10 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase.config.ts';
-import { TAddReview } from '@/stores/reviews/services/types.ts';
-import { IReview } from '@/stores/reviews/entity/types.ts';
+import { TAddReview } from '@/data/reviews/services/types.ts';
+import { IReview } from '@/data/reviews/entity/types.ts';
 import { Timestamp, where } from '@firebase/firestore';
-import { TUser } from '@/stores/user/enitites/user';
+import { TUser } from '@/data/user/enitites/user';
 
 export class ReviewsService {
   static async addReview({

@@ -1,4 +1,4 @@
-import { TUser, TCreatUser } from '@/stores/user/enitites/user';
+import { TUser, TCreatUser } from '@/data/user/enitites/user';
 
 export type TProfileErrors = {
   resetPasswordError?: string | null;

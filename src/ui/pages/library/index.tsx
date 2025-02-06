@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
-import { ROUTE } from '@/routes/routes.ts';
+import { ROUTE } from '@/ui/routes/routes.ts';
 import { Link } from 'react-router-dom';
 
 const MyLibraryLinks = [

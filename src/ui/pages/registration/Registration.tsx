@@ -6,13 +6,13 @@ import {
   useState,
 } from 'react';
 import css from './styles.module.scss';
-import { TCreatUser } from '@/stores/user/enitites/user';
+import { TCreatUser } from '@/data/user/enitites/user';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { Input } from '@/ui/components/ui/input.tsx';
-import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { EyeIcon, EyeOffIcon, MoonIcon, SunIcon } from 'lucide-react';
-import { useTheme } from '@/hooks/useTheme.tsx';
+import { useTheme } from '@/ui/hooks/useTheme.tsx';
 import { toast } from 'sonner';
 import { InputWithIcon } from '@/ui/components/InputWithIcon';
 

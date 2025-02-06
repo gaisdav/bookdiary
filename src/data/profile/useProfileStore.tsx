@@ -3,10 +3,10 @@ import {
   ProfileActions,
   ProfileState,
   TProfileErrors,
-} from '@/stores/profile/types.ts';
-import { TCreatUser, TUser } from '@/stores/user/enitites/user';
+} from '@/data/profile/types.ts';
+import { TCreatUser, TUser } from '@/data/user/enitites/user';
 import { supabase } from '@/lib/supabase.config.ts';
-import { UserDecorator } from '@/stores/profile/UserDecorator.ts';
+import { UserDecorator } from '@/data/profile/UserDecorator.ts';
 import { Subscription } from '@supabase/supabase-js';
 
 const initialState: ProfileState = {

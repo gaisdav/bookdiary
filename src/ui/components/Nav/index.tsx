@@ -3,7 +3,7 @@ import HomeIcon from '../../assets/icons/home.svg';
 import BookIcon from '../../assets/icons/book.svg';
 import PersonIcon from '../../assets/icons/person.svg';
 import css from './styles.module.scss';
-import { ROUTE } from '@/routes/routes.ts';
+import { ROUTE } from '@/ui/routes/routes.ts';
 
 export const Navigation = () => {
   const links = [

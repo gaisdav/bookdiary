@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { useTheme } from '@/hooks/useTheme.tsx';
+import { useTheme } from '@/ui/hooks/useTheme.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import css from './styles.module.scss';
 import { MoonIcon, SunIcon } from 'lucide-react';
-import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { Img } from '@/ui/components/Img';
 
 export const Settings: FC = () => {

@@ -1,6 +1,6 @@
-import { IBook, TBookStatus } from '@/stores/books/enitites/book/types.ts';
-import { BookEntity } from '@/stores/books/enitites/book/BookEntity.ts';
-import { TGoogleBook } from '@/stores/books/store/types.ts';
+import { IBook, TBookStatus } from '@/data/books/enitites/book/types.ts';
+import { BookEntity } from '@/data/books/enitites/book/BookEntity.ts';
+import { TGoogleBook } from '@/data/books/store/types.ts';
 
 export class GoogleBook extends BookEntity implements IBook {
   constructor(info: TGoogleBook & { status: TBookStatus }) {

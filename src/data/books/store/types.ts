@@ -1,8 +1,8 @@
-import { IBook, TBookStatus } from '@/stores/books/enitites/book/types.ts';
+import { IBook, TBookStatus } from '@/data/books/enitites/book/types.ts';
 import {
   TAddToCollection,
   TGoogleBookSearchParams,
-} from '@/stores/books/services/types.ts';
+} from '@/data/books/services/types.ts';
 
 export type TGoogleBook = {
   kind: string;

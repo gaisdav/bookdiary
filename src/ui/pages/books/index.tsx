@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { useBookStore } from '@/stores/books/store/useBookStore.tsx';
+import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { PageType } from '@/ui/pages/books/types.ts';
-import { TBookStatus } from '@/stores/books/enitites/book/types.ts';
+import { TBookStatus } from '@/data/books/enitites/book/types.ts';
 import { BookCardItem } from '@/ui/components/BookCardItem';
 
 const header: Record<TBookStatus, string> = {

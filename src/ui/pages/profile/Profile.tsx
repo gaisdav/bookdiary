@@ -2,9 +2,9 @@ import { FC } from 'react';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { LogOutIcon, SettingsIcon } from 'lucide-react';
-import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { Img } from '@/ui/components/Img';
-import { ROUTE } from '@/routes/routes.ts';
+import { ROUTE } from '@/ui/routes/routes.ts';
 import { NavLink } from 'react-router-dom';
 
 const Profile: FC = () => {

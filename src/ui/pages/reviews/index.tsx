@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { H4 } from '@/ui/components/ui/typography.tsx';
-import { useReviewStore } from '@/stores/reviews/store/useReviewStore.tsx';
+import { useReviewStore } from '@/data/reviews/store/useReviewStore.tsx';
 import { Ratings } from '@/ui/components/Ratings';
 import {
   Card,

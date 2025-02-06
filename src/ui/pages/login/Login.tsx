@@ -4,10 +4,10 @@ import { PageWrapper } from '@/ui/components/PageWrapper';
 import { Input } from '@/ui/components/ui/input.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import css from './styles.module.scss';
-import { ROUTE } from '@/routes/routes.ts';
+import { ROUTE } from '@/ui/routes/routes.ts';
 import { EyeIcon, EyeOffIcon, MoonIcon, SunIcon } from 'lucide-react';
-import { useTheme } from '@/hooks/useTheme.tsx';
-import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { useTheme } from '@/ui/hooks/useTheme.tsx';
+import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { toast } from 'sonner';
 import { InputWithIcon } from '@/ui/components/InputWithIcon';
 

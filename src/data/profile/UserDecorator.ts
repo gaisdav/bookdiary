@@ -1,4 +1,4 @@
-import { TUser } from '@/stores/user/enitites/user';
+import { TUser } from '@/data/user/enitites/user';
 import { User } from '@supabase/supabase-js';
 
 export class UserDecorator implements TUser {

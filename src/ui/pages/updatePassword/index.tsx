@@ -9,11 +9,11 @@ import { PageWrapper } from '@/ui/components/PageWrapper';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { EyeOffIcon, EyeIcon, MoonIcon, SunIcon } from 'lucide-react';
 import css from '@/ui/pages/login/styles.module.scss';
-import { useTheme } from '@/hooks/useTheme.tsx';
+import { useTheme } from '@/ui/hooks/useTheme.tsx';
 import { toast } from 'sonner';
-import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { NavLink } from 'react-router-dom';
-import { ROUTE } from '@/routes/routes.ts';
+import { ROUTE } from '@/ui/routes/routes.ts';
 import { InputWithIcon } from '@/ui/components/InputWithIcon';
 
 interface IInputTypes {

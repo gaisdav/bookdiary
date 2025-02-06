@@ -1,11 +1,11 @@
 import { JSX, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
-import { useBookStore } from '@/stores/books/store/useBookStore.tsx';
+import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
 import css from './Book.module.scss';
-import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
-import { useReviewStore } from '@/stores/reviews/store/useReviewStore.tsx';
+import { useReviewStore } from '@/data/reviews/store/useReviewStore.tsx';
 import { Ratings } from '@/ui/components/Ratings';
 import { Editor } from '@/ui/components/Editor';
 import {

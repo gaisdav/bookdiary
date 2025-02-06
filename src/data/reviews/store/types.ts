@@ -1,5 +1,5 @@
-import { IReview } from '@/stores/reviews/entity/types.ts';
-import { TAddReview } from '@/stores/reviews/services/types.ts';
+import { IReview } from '@/data/reviews/entity/types.ts';
+import { TAddReview } from '@/data/reviews/services/types.ts';
 
 export interface ReviewsState {
   loading: boolean;
