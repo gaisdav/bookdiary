@@ -1,7 +1,7 @@
 import { create } from 'zustand/index';
-import { ReviewsActions, ReviewsState } from '@/stores/reviews/types.ts';
-import { ReviewsService } from '@/data/review/services';
-import { TAddReview } from '@/data/review/services/types.ts';
+import { ReviewsActions, ReviewsState } from '@/data/reviews/store/types.ts';
+import { ReviewsService } from '@/data/reviews/services';
+import { TAddReview } from '@/data/reviews/services/types.ts';
 
 const initialState: ReviewsState = {
   loading: true,

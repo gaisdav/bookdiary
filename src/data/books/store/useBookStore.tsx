@@ -1,7 +1,7 @@
 import { create } from 'zustand/index';
 import { TAddToCollection } from '@/data/books/services/types.ts';
 import { BooksService } from '@/data/books/services/BooksService.ts';
-import { BooksActions, BooksState } from '@/stores/books/types.ts';
+import { BooksActions, BooksState } from '@/data/books/store/types.ts';
 
 const initialState: BooksState = {
   bookLoading: false,

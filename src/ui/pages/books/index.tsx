@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { useBookStore } from '@/stores/books/useBookStore.tsx';
+import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { PageType } from '@/ui/pages/books/types.ts';
 import { TBookStatus } from '@/data/books/enitites/book/types.ts';

@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { useTheme } from '@/hooks/useTheme.tsx';
+import { useTheme } from '@/ui/hooks/useTheme.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import css from './styles.module.scss';
 import { MoonIcon, SunIcon } from 'lucide-react';
-import { useProfileStore } from '@/stores/profile/useProfileStore.tsx';
+import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { Img } from '@/ui/components/Img';
 
 export const Settings: FC = () => {
@@ -31,8 +31,8 @@ export const Settings: FC = () => {
     >
       <div className="flex flex-col gap-4 flex-1">
         <div className="flex flex-col w-full flex-1">
-          {profile.photoURL && <Img src={profile.photoURL} />}
-          <div>{profile.displayName}</div>
+          {profile.avatarUrl && <Img src={profile.avatarUrl} />}
+          <div>{profile.fullName}</div>
           <div>{profile.email}</div>
         </div>
       </div>

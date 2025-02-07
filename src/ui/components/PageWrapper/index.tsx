@@ -10,7 +10,7 @@ import { DEFAULT_DOCUMENT_TITLE } from '@/lib/constants.ts';
 import { MoveLeftIcon, SearchIcon } from 'lucide-react';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { NavLink } from 'react-router-dom';
-import { ROUTE } from '@/routes/routes.ts';
+import { ROUTE } from '@/ui/routes/routes.ts';
 import PWABadge from '@/PWABadge.tsx';
 import { cn } from '@/lib/utils.ts';
 import { H3 } from '@/ui/components/ui/typography.tsx';

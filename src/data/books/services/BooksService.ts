@@ -6,7 +6,7 @@ import {
   TAddToCollection,
   TGoogleBookSearchParams,
 } from '@/data/books/services/types.ts';
-import { TGoogleBook } from '@/stores/books/types.ts';
+import { TGoogleBook } from '@/data/books/store/types.ts';
 import {
   setDoc,
   deleteDoc,

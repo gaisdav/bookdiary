@@ -16,4 +16,5 @@ export enum ROUTE {
   LOGIN = '/login',
   REGISTRATION = '/registration',
   FORGOT_PASSWORD = '/forgot-password',
+  UPDATE_PASSWORD = '/update-password',
 }
