@@ -57,16 +57,15 @@ jobs:
       - name: Verify All Secrets
         run: |
           SECRETS=("BOOK_FIREBASE_API_KEY" "BOOK_FIREBASE_AUTH_DOMAIN" "BOOK_FIREBASE_DATABASE_URL" "BOOK_FIREBASE_PROJECT_ID" "BOOK_FIREBASE_STORAGE_BUCKET" "BOOK_FIREBASE_MESSAGING_SENDER_ID" "BOOK_FIREBASE_APP_ID" "BOOK_FIREBASE_MEASUREMENT_ID" "BOOK_GOOGLE_API_KEY" "BOOK_SUPABASE_URL" "BOOK_SUPABASE_ANON_KEY")
-
+          
           for SECRET in "${SECRETS[@]}"; do
-            if [[ -z "${{ secrets[$SECRET] }}" ]]; then
+            if [[ -z "${!SECRET}" ]]; then
               echo "❌ $SECRET is missing"
               exit 1
             else
               echo "✅ $SECRET is set"
             fi
           done
-
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up Node
