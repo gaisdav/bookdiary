@@ -1,14 +1,13 @@
 import { FC } from 'react';
 import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { PageWrapper } from '@/ui/components/PageWrapper';
-import { PageType } from '@/ui/pages/books/types.ts';
-import { TBookStatus } from '@/data/books/enitites/book/types.ts';
+import { PageType, TMyBooksPage } from '@/ui/pages/books/types.ts';
 import { BookCardItem } from '@/ui/components/BookCardItem';
 
-const header: Record<TBookStatus, string> = {
-  read: 'Read',
-  reading: 'Reading',
-  'want-to-read': 'To read',
+const header: Record<TMyBooksPage, string> = {
+  'my-books': 'My books',
+  'want-to-read': 'Want to read',
+  favorites: 'Favorites',
 };
 
 export const Books: FC<PageType> = ({ type }) => {

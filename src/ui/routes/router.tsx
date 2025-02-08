@@ -151,7 +151,7 @@ export const initRouter = (profile: TUser | null) => {
           },
         },
         {
-          path: ROUTE.LIBRARY_READ,
+          path: ROUTE.LIBRARY_MY_BOOKS,
           loader: async () => {
             if (!profile) {
               return redirect(ROUTE.LOGIN);
@@ -161,7 +161,7 @@ export const initRouter = (profile: TUser | null) => {
 
             return null;
           },
-          element: <Books type="read" />,
+          element: <Books type="my-books" />,
         },
         {
           path: ROUTE.LIBRARY_READ_BOOK,
@@ -180,19 +180,6 @@ export const initRouter = (profile: TUser | null) => {
 
             return null;
           },
-        },
-        {
-          path: ROUTE.LIBRARY_READING,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            fetchUserBooksByStatus(profile.id, 'reading');
-
-            return null;
-          },
-          element: <Books type="reading" />,
         },
         {
           path: ROUTE.LIBRARY_READING_BOOK,

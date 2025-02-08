@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const MyLibraryLinks = [
   {
     label: 'Books',
-    url: ROUTE.LIBRARY_READ,
+    url: ROUTE.LIBRARY_MY_BOOKS,
   },
   {
     label: 'Reading',
