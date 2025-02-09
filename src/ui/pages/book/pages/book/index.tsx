@@ -49,6 +49,7 @@ import {
   DrawerTrigger,
 } from '@/ui/components/ui/drawer';
 import { convertJSONToHTML } from '@/lib/utils.ts';
+import { Progress } from '@/ui/components/Progress.tsx';
 
 export const Book = (): JSX.Element => {
   const [reviewJSON, setReviewJSON] = useState('');
@@ -61,6 +62,10 @@ export const Book = (): JSX.Element => {
   const reviews = useReviewStore().reviews;
   const profile = useProfileStore().profile;
   const isPending = useBookStore().bookLoading;
+  const addToFavorite = useBookStore().addToFavorite;
+  const removeFromFavorite = useBookStore().removeFromFavorite;
+  const favoriteLoading = useBookStore().favoriteLoading;
+
   const book = useBookStore().book;
   // const addBookToCollection = useBookStore().addToCollection;
   // const removeFromCollection = useBookStore().removeFromCollection;
@@ -126,6 +131,23 @@ export const Book = (): JSX.Element => {
   const handleDateChange: SelectSingleEventHandler = (date) => {
     if (!date) return;
     setDate(date);
+  };
+
+  const handleFavorite = async (pressed: boolean) => {
+    if (!profile) {
+      return;
+    }
+
+    const params = {
+      userId: profile.id,
+      bookId: book.id,
+    };
+
+    if (pressed) {
+      await addToFavorite(params);
+    } else {
+      await removeFromFavorite(params);
+    }
   };
 
   const title = book.title || 'Book';
@@ -230,8 +252,12 @@ export const Book = (): JSX.Element => {
 
               <div className="flex gap-2">
                 <div className="flex flex-col items-center">
-                  <Toggle aria-label="Like">
-                    <BookHeartIcon />
+                  <Toggle
+                    aria-label="Like"
+                    pressed={book.isFavorite}
+                    onPressedChange={handleFavorite}
+                  >
+                    {favoriteLoading ? <Progress /> : <BookHeartIcon />}
                   </Toggle>
                   <ExtraSmall>Like</ExtraSmall>
                 </div>
@@ -256,9 +282,9 @@ export const Book = (): JSX.Element => {
                   <SelectValue placeholder="Select list" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="read">Read</SelectItem>
-                  <SelectItem value="reading">Reading</SelectItem>
-                  <SelectItem value="want-to-read">Want to read</SelectItem>
+                  <SelectItem value="read">List 1</SelectItem>
+                  <SelectItem value="reading">Test</SelectItem>
+                  <SelectItem value="want-to-read">Panda</SelectItem>
                   <SelectItem value="reset">Reset</SelectItem>
                 </SelectContent>
               </Select>

@@ -3,6 +3,7 @@ import { IBook } from '@/data/books/enitites/book/types.ts';
 import { Link } from 'react-router-dom';
 import css from './BookItem.module.scss';
 import { Img } from '@/ui/components/Img';
+import { dynamicRoute, ROUTE } from '@/ui/routes/routes.ts';
 
 type TBookItem = {
   book: IBook;
@@ -10,7 +11,10 @@ type TBookItem = {
 
 export const BookCardItem: FC<TBookItem> = ({ book }) => {
   return (
-    <Link to={book.id} className="rounded overflow-hidden">
+    <Link
+      to={dynamicRoute(ROUTE.BOOK, { bookId: book.id })}
+      className="rounded overflow-hidden"
+    >
       {book.cover ? (
         <Img
           className={css.cover}

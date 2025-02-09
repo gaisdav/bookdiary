@@ -20,12 +20,8 @@ import { Books } from '@/ui/pages/books';
 import { Settings } from '@/ui/pages/settings';
 import { ForgotPassword } from '@/ui/pages/forgotPassword';
 
-const {
-  fetchFirstList,
-  fetchBook,
-  fetchUserCollection,
-  fetchUserBooksByStatus,
-} = useBookStore.getState();
+const { fetchFirstList, fetchBook, getFavoriteBooks, favoriteBooks } =
+  useBookStore.getState();
 
 const { getBookReviews, getUserReviews } = useReviewStore.getState();
 
@@ -34,14 +30,16 @@ const createRouter =
     ? createHashRouter
     : createBrowserRouter;
 
-export const initRouter = (profile: TUser | null) => {
-  return createRouter([
+export const initRouter = (profile: TUser | null) =>
+  createRouter([
     {
       path: ROUTE.HOME,
       Component: Layout,
+      shouldRevalidate: () => false,
       children: [
         {
           path: ROUTE.HOME,
+          shouldRevalidate: () => false,
           element: <Home />,
           loader: async () => {
             if (!profile) {
@@ -93,7 +91,6 @@ export const initRouter = (profile: TUser | null) => {
               return redirect(ROUTE.LOGIN);
             }
 
-            fetchUserCollection(profile.id);
             return null;
           },
         },
@@ -151,17 +148,32 @@ export const initRouter = (profile: TUser | null) => {
           },
         },
         {
-          path: ROUTE.LIBRARY_MY_BOOKS,
+          path: ROUTE.MY_BOOKS,
           loader: async () => {
             if (!profile) {
               return redirect(ROUTE.LOGIN);
             }
 
-            fetchUserBooksByStatus(profile.id, 'read');
-
             return null;
           },
           element: <Books type="my-books" />,
+        },
+        {
+          path: ROUTE.FAVORITES,
+          loader: async () => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            if (favoriteBooks.size !== 0) {
+              return null;
+            }
+
+            getFavoriteBooks(profile.id);
+
+            return null;
+          },
+          element: <Books type="favorites" />,
         },
         {
           path: ROUTE.LIBRARY_READ_BOOK,
@@ -200,13 +212,11 @@ export const initRouter = (profile: TUser | null) => {
           },
         },
         {
-          path: ROUTE.LIBRARY_WANT_TO_READ,
+          path: ROUTE.WANT_TO_READ,
           loader: async () => {
             if (!profile) {
               return redirect(ROUTE.LOGIN);
             }
-
-            fetchUserBooksByStatus(profile.id, 'want-to-read');
 
             return null;
           },
@@ -267,4 +277,3 @@ export const initRouter = (profile: TUser | null) => {
       ],
     },
   ]);
-};

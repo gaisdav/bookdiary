@@ -11,7 +11,8 @@ export interface IBook {
   language?: string;
   pageCount?: number;
 
-  status?: TBookStatus;
+  status?: number;
+  isFavorite?: boolean;
 }
 
 export type TBookStatus = 'read' | 'reading' | 'want-to-read';

@@ -22,6 +22,7 @@ const initialState: ProfileState = {
 
 let sessionSubscription: null | Subscription = null;
 
+// TODO move requests to the service
 export const useProfileStore = create<ProfileState & ProfileActions>(
   (set, get) => ({
     ...initialState,
@@ -31,12 +32,48 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
 
       const {
         data: { subscription },
-      } = supabase.auth.onAuthStateChange((_event, session) => {
-        const user = session?.user;
-        const profile: TUser | null = user ? new UserDecorator(user) : null;
+      } = supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'INITIAL_SESSION') {
+          return;
+        }
 
-        set({ profile, profileLoading: false });
-        sessionSubscription = subscription;
+        const providerUser = session?.user;
+
+        if (!providerUser) {
+          set({ profile: null, profileLoading: false });
+          return;
+        }
+
+        supabase
+          .from('users')
+          .select('*')
+          .eq('provider_id', providerUser.id)
+          .single()
+          .then(({ data: DBUser, error }) => {
+            if (error) {
+              set({
+                profile: null,
+                profileLoading: false,
+                errors: { ...get().errors, signInError: error.message },
+              });
+              return;
+            }
+
+            if (!DBUser) {
+              set({ profile: null, profileLoading: false });
+              return;
+            }
+
+            const oldProfile = get().profile;
+            if (oldProfile && DBUser.updated_at === oldProfile.updatedAt) {
+              return;
+            }
+
+            const profile: TUser = new UserDecorator(DBUser.id, providerUser);
+
+            set({ profile, profileLoading: false });
+            sessionSubscription = subscription;
+          });
       });
     },
 

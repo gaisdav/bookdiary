@@ -39,7 +39,7 @@ export const useReviewStore = create<ReviewsState & ReviewsActions>((set) => ({
     }
   },
 
-  getUserReviews: async (userId: string) => {
+  getUserReviews: async (userId: number) => {
     try {
       const reviews = await ReviewsService.getUserReviews(userId);
 

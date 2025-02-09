@@ -1,18 +1,24 @@
 import { create } from 'zustand/index';
-import { TAddToCollection } from '@/data/books/services/types.ts';
 import { BooksService } from '@/data/books/services/BooksService.ts';
 import { BooksActions, BooksState } from '@/data/books/store/types.ts';
+import { supabase } from '@/lib/supabase.config.ts';
+import { BooksRepository } from '@/data/books/repository/BooksRepository.ts';
 
 const initialState: BooksState = {
   bookLoading: false,
   listLoading: false,
   collectionLoading: false,
+  favoriteLoading: false,
   list: null,
   book: null,
-  collection: null,
+  collection: new Map(),
+  favoriteBooks: new Map(),
 };
 
-export const useBookStore = create<BooksState & BooksActions>((set) => ({
+const booksRepository = new BooksRepository(supabase);
+const bookService = new BooksService(booksRepository);
+
+export const useBookStore = create<BooksState & BooksActions>((set, get) => ({
   ...initialState,
 
   resetBook: () => set({ book: null }),
@@ -23,7 +29,7 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
     set(() => ({ listLoading: true }));
 
     try {
-      const books = await BooksService.searchBooks(params);
+      const books = await bookService.searchBooks(params);
 
       set({ list: books });
     } finally {
@@ -35,7 +41,7 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
     set(() => ({ listLoading: true }));
 
     try {
-      const books = await BooksService.searchBooks(params);
+      const books = await bookService.searchBooks(params);
 
       set(({ list }) => ({
         list: {
@@ -59,7 +65,7 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
   fetchBook: async ({ bookId, userId }) => {
     set(() => ({ bookLoading: true }));
     try {
-      const book = await BooksService.getBook({ bookId, userId });
+      const book = await bookService.fetchBookById(bookId, userId);
 
       set({ book });
     } finally {
@@ -67,67 +73,44 @@ export const useBookStore = create<BooksState & BooksActions>((set) => ({
     }
   },
 
-  addToCollection: async (params: TAddToCollection) => {
-    set(() => ({ bookLoading: true }));
+  addToFavorite: async (params) => {
+    set(() => ({ favoriteLoading: true }));
 
-    try {
-      await BooksService.addToCollection(params);
+    await bookService.addToFavorite(params);
+    const favoriteBook = await bookService.fetchBookById(
+      params.bookId,
+      params.userId,
+    );
 
-      set((state) => {
-        if (!state.book) {
-          return state;
-        }
-
-        return { ...state, book: { ...state.book, status: params.status } };
-      });
-    } finally {
-      set({ bookLoading: false });
-    }
+    set({
+      favoriteLoading: false,
+      favoriteBooks: get().favoriteBooks.set(favoriteBook.id, favoriteBook),
+    });
   },
 
-  removeFromCollection: async (params) => {
-    set(() => ({ bookLoading: true }));
+  removeFromFavorite: async (params) => {
+    set(() => ({ favoriteLoading: true }));
 
-    try {
-      await BooksService.removeFromCollection(params);
+    await bookService.removeFromFavorite(params);
 
-      set((state) => {
-        if (!state.book) {
-          return state;
-        }
+    const favoriteBooks = get().favoriteBooks;
+    favoriteBooks.delete(params.bookId);
 
-        return { ...state, book: { ...state.book, status: undefined } };
-      });
-    } finally {
-      set({ bookLoading: false });
-    }
+    set({
+      favoriteLoading: false,
+      favoriteBooks,
+    });
   },
 
-  //TODO вынести в отдельную стори
-  fetchUserCollection: async (userId) => {
-    set(() => ({ collectionLoading: true }));
+  getFavoriteBooks: async (userId) => {
+    set({
+      favoriteLoading: true,
+    });
+    const books = await bookService.fetchFavoriteBooks(userId);
 
-    try {
-      const collection = await BooksService.getUserCollection(userId);
-
-      set({ collection });
-    } finally {
-      set({ collectionLoading: false });
-    }
-  },
-
-  fetchUserBooksByStatus: async (userId, status) => {
-    set(() => ({ collectionLoading: true }));
-
-    try {
-      const collection = await BooksService.getUserBooksByStatus(
-        userId,
-        status,
-      );
-
-      set({ collection });
-    } finally {
-      set({ collectionLoading: false });
-    }
+    set({
+      favoriteLoading: false,
+      favoriteBooks: new Map(books.map((book) => [book.id, book])),
+    });
   },
 }));

@@ -9,6 +9,6 @@ export interface ReviewsState {
 export interface ReviewsActions {
   reset: () => void;
   getBookReviews: (bookId: string) => Promise<void>;
-  getUserReviews: (userId: string) => Promise<void>;
+  getUserReviews: (userId: number) => Promise<void>;
   addReview: (params: TAddReview) => Promise<void>;
 }

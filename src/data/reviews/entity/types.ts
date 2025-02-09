@@ -6,7 +6,7 @@ export interface IReview {
   rating: number;
   review: string;
   bookId: string;
-  userId: string;
+  userId: number;
   author: TUser | null;
   createdAt: Timestamp;
   updatedAt: Timestamp;

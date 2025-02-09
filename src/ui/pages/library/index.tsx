@@ -5,23 +5,7 @@ import { Link } from 'react-router-dom';
 
 const MyLibraryLinks = [
   {
-    label: 'Books',
-    url: ROUTE.LIBRARY_MY_BOOKS,
-  },
-  {
-    label: 'Reading',
-    url: ROUTE.LIBRARY_READING,
-  },
-  {
-    label: 'To-read',
-    url: ROUTE.LIBRARY_WANT_TO_READ,
-  },
-  {
     label: 'Diary',
-    url: ROUTE.REVIEWS,
-  },
-  {
-    label: 'Favorites',
     url: ROUTE.REVIEWS,
   },
   {

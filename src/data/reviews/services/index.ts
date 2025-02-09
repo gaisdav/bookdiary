@@ -33,7 +33,7 @@ export class ReviewsService {
         updatedAt: serverTimestamp(),
       });
 
-      const author = await getDoc(doc(db, 'users', userId));
+      const author = await getDoc(doc(db, 'users', userId.toString()));
       return {
         id,
         bookId,
@@ -50,7 +50,7 @@ export class ReviewsService {
     }
   }
 
-  static async getUserReviews(userId: string): Promise<IReview[]> {
+  static async getUserReviews(userId: number): Promise<IReview[]> {
     try {
       const reviewsRef = collection(db, 'reviews');
 
