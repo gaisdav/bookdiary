@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import { JSX, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
@@ -52,6 +52,7 @@ import { convertJSONToHTML } from '@/lib/utils.ts';
 import { Progress } from '@/ui/components/Progress.tsx';
 
 export const Book = (): JSX.Element => {
+  const [openDrawer, setOpenDrawer] = useState(false);
   // const [reviewJSON, setReviewJSON] = useState('');
   // const [reviewText, setReviewText] = useState('');
   // const [rating, setRating] = useState(0);
@@ -155,7 +156,11 @@ export const Book = (): JSX.Element => {
   const title = book.title || 'Book';
 
   return (
-    <Drawer>
+    <Drawer
+      open={openDrawer}
+      onOpenChange={setOpenDrawer}
+      autoFocus={openDrawer}
+    >
       <PageWrapper
         title={title}
         className={css.pageWrapper}
@@ -214,7 +219,7 @@ export const Book = (): JSX.Element => {
           </div>
         </div>
 
-        <DrawerTrigger asChild>
+        <DrawerTrigger asChild autoFocus={openDrawer}>
           <Button className={css.addButton} variant="outline" size="icon">
             <PlusIcon />
           </Button>
