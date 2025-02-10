@@ -21,7 +21,6 @@ const Toaster = ({
       toastOptions={{
         ...toastOptions,
         classNames: {
-          ...toastOptions?.classNames,
           toast:
             'group toast group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg',
           description:
@@ -30,6 +29,8 @@ const Toaster = ({
             'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground',
           cancelButton:
             'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground',
+          closeButton: 'group-[.toast]:-right-4 group-[.toast]:left-auto',
+          ...toastOptions?.classNames,
         },
       }}
       {...props}
