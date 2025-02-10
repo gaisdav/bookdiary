@@ -94,6 +94,7 @@ function Search() {
             type="search"
             placeholder="Book title"
             name={BOOK_TITLE_FIELD}
+            autoFocus={true}
             required
           />
           <Button
