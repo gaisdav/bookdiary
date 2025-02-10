@@ -33,10 +33,6 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
       const {
         data: { subscription },
       } = supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'INITIAL_SESSION') {
-          return;
-        }
-
         const providerUser = session?.user;
 
         if (!providerUser) {
@@ -44,36 +40,38 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
           return;
         }
 
-        supabase
-          .from('users')
-          .select('*')
-          .eq('provider_id', providerUser.id)
-          .single()
-          .then(({ data: DBUser, error }) => {
-            if (error) {
-              set({
-                profile: null,
-                profileLoading: false,
-                errors: { ...get().errors, signInError: error.message },
-              });
-              return;
-            }
+        if (event === 'SIGNED_IN') {
+          supabase
+            .from('users')
+            .select('*')
+            .eq('provider_id', providerUser.id)
+            .single()
+            .then(({ data: DBUser, error }) => {
+              if (error) {
+                set({
+                  profile: null,
+                  profileLoading: false,
+                  errors: { ...get().errors, signInError: error.message },
+                });
+                return;
+              }
 
-            if (!DBUser) {
-              set({ profile: null, profileLoading: false });
-              return;
-            }
+              if (!DBUser) {
+                set({ profile: null, profileLoading: false });
+                return;
+              }
 
-            const oldProfile = get().profile;
-            if (oldProfile && DBUser.updated_at === oldProfile.updatedAt) {
-              return;
-            }
+              const oldProfile = get().profile;
+              if (oldProfile && DBUser.updated_at === oldProfile.updatedAt) {
+                return;
+              }
 
-            const profile: TUser = new UserDecorator(DBUser.id, providerUser);
+              const profile: TUser = new UserDecorator(DBUser.id, providerUser);
 
-            set({ profile, profileLoading: false });
-            sessionSubscription = subscription;
-          });
+              set({ profile, profileLoading: false });
+              sessionSubscription = subscription;
+            });
+        }
       });
     },
 

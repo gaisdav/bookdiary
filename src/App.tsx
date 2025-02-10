@@ -5,11 +5,12 @@ import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useProfileStore } from './data/profile/useProfileStore';
 
 export const App: FC = () => {
+  const profileLoading = useProfileStore().profileLoading;
   const profile = useProfileStore().profile;
 
   return (
     <>
-      {!profile ? (
+      {profileLoading ? (
         <PageWrapper title="Initializing app..." showSearch={false}>
           Initializing app...
         </PageWrapper>
