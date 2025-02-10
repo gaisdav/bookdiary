@@ -1,10 +1,11 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '@/database.types.ts';
 import { cache } from '@/lib/cache/CacheService.ts';
-import { cacheKeys } from '@/lib/cache/cacheKeys.ts';
 import {
-  TAddFavorite,
+  TUserIdBookId,
+  TChangeStatus,
   TGoogleBookSearchParams,
+  TUserIdStatuses,
 } from '@/data/books/services/types.ts';
 import { TBooksRepository } from '@/data/books/repository/types.ts';
 import {
@@ -12,14 +13,14 @@ import {
   constructGoogleBookUrl,
 } from '@/data/books/services/utils.ts';
 import { TGoogleBook, TGoogleBookSearch } from '@/data/books/store/types.ts';
-import { TFavoriteBookData } from '@/lib/cache/types.ts';
+import { cacheKeys } from '@/lib/cache/constants';
 
 export class BooksRepository implements TBooksRepository {
   constructor(private repository: SupabaseClient<Database>) {}
 
   async fetchBookById(bookId: string): Promise<TGoogleBook> {
     const cacheKey = cacheKeys.books.book(bookId);
-    const cachedBook = await cache.get<TGoogleBook>(cacheKey);
+    const cachedBook = await cache.get<TGoogleBook>('books', cacheKey);
 
     if (cachedBook) {
       return cachedBook;
@@ -28,7 +29,8 @@ export class BooksRepository implements TBooksRepository {
     const url = constructGoogleBookUrl(bookId);
     const result = await fetch(url);
     const book = await result.json();
-    await cache.set(cacheKey, book, { ttl: 1000 * 60 * 60 * 24 });
+
+    await cache.set('books', cacheKey, book, { ttl: 1000 * 60 * 60 * 24 });
 
     return book;
   }
@@ -42,8 +44,35 @@ export class BooksRepository implements TBooksRepository {
     return await result.json();
   }
 
-  async addToFavorite(params: TAddFavorite): Promise<void> {
-    await this.deleteFavoriteBooksData(params);
+  async fetchBooksDataByStatuses(params: TUserIdStatuses): Promise<string[]> {
+    const cacheKey = cacheKeys.booksStatuses.booksStatusesData(params);
+    const cachedBooks = await cache.get<string[]>('booksStatuses', cacheKey);
+
+    if (cachedBooks) {
+      return cachedBooks;
+    }
+
+    const { data, error } = await this.repository
+      .from('user_books')
+      .select('book_provider_id')
+      .in('status_id', params.statuses)
+      .eq('user_id', params.userId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const bookIds = data.map((book) => book.book_provider_id);
+
+    await cache.set('booksStatuses', cacheKey, bookIds, {
+      ttl: 1000 * 60 * 60 * 24,
+    });
+
+    return bookIds;
+  }
+
+  async addToFavorite(params: TUserIdBookId): Promise<void> {
+    await cache.clear('favoriteBooks');
 
     await this.repository.from('favorite_books').insert({
       user_id: params.userId,
@@ -51,8 +80,8 @@ export class BooksRepository implements TBooksRepository {
     });
   }
 
-  async removeFromFavorite(params: TAddFavorite): Promise<void> {
-    await this.deleteFavoriteBooksData(params);
+  async removeFromFavorite(params: TUserIdBookId): Promise<void> {
+    await cache.clear('favoriteBooks');
 
     await this.repository
       .from('favorite_books')
@@ -61,12 +90,15 @@ export class BooksRepository implements TBooksRepository {
       .eq('book_provider_id', params.bookId);
   }
 
-  async fetchFavoriteBookData(
-    userId: number,
-    bookId: string,
-  ): Promise<string | null> {
-    const cacheKey = cacheKeys.user.favoriteBookData({ userId, bookId });
-    const cachedBook = await cache.get<string>(cacheKey);
+  async fetchFavoriteBookData({
+    userId,
+    bookId,
+  }: TUserIdBookId): Promise<string | null> {
+    const cacheKey = cacheKeys.favoriteBooks.favoriteBookData({
+      userId,
+      bookId,
+    });
+    const cachedBook = await cache.get<string>('favoriteBooks', cacheKey);
 
     if (cachedBook) {
       return cachedBook;
@@ -85,7 +117,7 @@ export class BooksRepository implements TBooksRepository {
 
     const bookProviderId = data?.book_provider_id || null;
 
-    await cache.set(cacheKey, bookProviderId, {
+    await cache.set('favoriteBooks', cacheKey, bookProviderId, {
       ttl: 1000 * 60 * 60 * 24,
     });
 
@@ -94,8 +126,8 @@ export class BooksRepository implements TBooksRepository {
 
   async getFavoriteBooksData(userId: number): Promise<string[]> {
     const dbKey = 'favorite_books';
-    const cacheKey = cacheKeys.user.favoriteBooksData(userId);
-    const cachedBooks = await cache.get<string[]>(cacheKey);
+    const cacheKey = cacheKeys.favoriteBooks.favoriteBooksData(userId);
+    const cachedBooks = await cache.get<string[]>('favoriteBooks', cacheKey);
 
     if (cachedBooks) {
       return cachedBooks;
@@ -112,18 +144,72 @@ export class BooksRepository implements TBooksRepository {
 
     const bookIds = data.map((book) => book.book_provider_id);
 
-    await cache.set(cacheKey, bookIds, { ttl: 1000 * 60 * 60 * 24 });
+    await cache.set('favoriteBooks', cacheKey, bookIds, {
+      ttl: 1000 * 60 * 60 * 24,
+    });
 
     return bookIds;
   }
 
-  private async deleteFavoriteBooksData(
-    params: TFavoriteBookData,
-  ): Promise<void> {
-    const cacheBooksKey = cacheKeys.user.favoriteBooksData(params.userId);
-    const cacheBookKey = cacheKeys.user.favoriteBookData(params);
+  async changeBookStatus(params: TChangeStatus): Promise<void> {
+    await cache.clear('booksStatuses');
 
-    await cache.delete(cacheBooksKey);
-    await cache.delete(cacheBookKey);
+    const { error } = await this.repository.from('user_books').upsert(
+      {
+        user_id: params.userId,
+        book_provider_id: params.bookId,
+        status_id: params.status,
+      },
+      { onConflict: 'user_id, book_provider_id' }, // Ключи для проверки на дубликаты
+    );
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async fetchBookStatus(params: TUserIdBookId): Promise<number | null> {
+    const cacheKey = cacheKeys.booksStatuses.bookStatusData(params);
+    const cachedStatus = await cache.get<number | null>(
+      'booksStatuses',
+      cacheKey,
+    );
+
+    if (cachedStatus) {
+      return cachedStatus;
+    }
+
+    const { data, error } = await this.repository
+      .from('user_books')
+      .select('status_id')
+      .eq('user_id', params.userId)
+      .eq('book_provider_id', params.bookId)
+      .maybeSingle();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const status = data?.status_id || null;
+
+    await cache.set('booksStatuses', cacheKey, status || null, {
+      ttl: 1000 * 60 * 60 * 24,
+    });
+
+    return status;
+  }
+
+  async resetBookStatus(params: TUserIdBookId): Promise<void> {
+    await cache.clear('booksStatuses');
+
+    const { error } = await this.repository
+      .from('user_books')
+      .delete()
+      .eq('user_id', params.userId)
+      .eq('book_provider_id', params.bookId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
   }
 }

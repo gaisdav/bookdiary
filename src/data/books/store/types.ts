@@ -1,8 +1,9 @@
 import { IBook } from '@/data/books/enitites/book/types.ts';
 import {
-  TAddFavorite,
-  TAddToCollection,
+  TChangeStatus,
+  TUserIdBookId,
   TGoogleBookSearchParams,
+  TUserIdStatuses,
 } from '@/data/books/services/types.ts';
 
 export type TGoogleBook = {
@@ -68,6 +69,7 @@ export interface BooksState {
   bookLoading: boolean;
   collectionLoading: boolean;
   favoriteLoading: boolean;
+  statusLoading: boolean;
   list: IBookList | null;
   book: IBook | null;
   favoriteBooks: Map<string, IBook>;
@@ -81,8 +83,13 @@ export interface BooksActions {
   resetAll: () => void;
   fetchPaginatedList: (params: TGoogleBookSearchParams) => void;
   fetchFirstList: (params: TGoogleBookSearchParams) => void;
-  fetchBook: (params: Omit<TAddToCollection, 'status'>) => void;
-  addToFavorite: (params: TAddFavorite) => void;
-  removeFromFavorite: (params: TAddFavorite) => void;
+  fetchBook: (params: TUserIdBookId) => void;
+  fetchBooksByStatuses: (params: TUserIdStatuses) => void;
+
+  addToFavorite: (params: TUserIdBookId) => void;
+  removeFromFavorite: (params: TUserIdBookId) => void;
   getFavoriteBooks: (userId: number) => void;
+
+  changeBookStatus: (params: TChangeStatus) => void;
+  resetBookStatus: (params: TUserIdBookId) => void;
 }

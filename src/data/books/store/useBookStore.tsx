@@ -4,11 +4,13 @@ import { BooksActions, BooksState } from '@/data/books/store/types.ts';
 import { supabase } from '@/lib/supabase.config.ts';
 import { BooksRepository } from '@/data/books/repository/BooksRepository.ts';
 import { getErrorMessage } from '@/lib/utils.ts';
+
 const initialState: BooksState = {
   bookLoading: false,
   listLoading: false,
   collectionLoading: false,
   favoriteLoading: false,
+  statusLoading: false,
   list: null,
   book: null,
   collection: new Map(),
@@ -65,10 +67,10 @@ export const useBookStore = create<BooksState & BooksActions>((set, get) => ({
     }
   },
 
-  fetchBook: async ({ bookId, userId }) => {
+  fetchBook: async (params) => {
     set(() => ({ bookLoading: true }));
     try {
-      const book = await bookService.fetchBookById(bookId, userId);
+      const book = await bookService.fetchBookById(params);
       set({ book });
     } catch (error) {
       set({ errors: { ...get().errors, bookError: getErrorMessage(error) } });
@@ -78,14 +80,24 @@ export const useBookStore = create<BooksState & BooksActions>((set, get) => ({
     }
   },
 
+  fetchBooksByStatuses: async (params) => {
+    set(() => ({ collectionLoading: true }));
+    try {
+      const books = await bookService.fetchBooksByStatuses(params);
+      set({ collection: new Map(books.map((book) => [book.id, book])) });
+    } catch (error) {
+      set({ errors: { ...get().errors, bookError: getErrorMessage(error) } });
+      throw error;
+    } finally {
+      set({ collectionLoading: false });
+    }
+  },
+
   addToFavorite: async (params) => {
     set(() => ({ favoriteLoading: true }));
     try {
       await bookService.addToFavorite(params);
-      const favoriteBook = await bookService.fetchBookById(
-        params.bookId,
-        params.userId,
-      );
+      const favoriteBook = await bookService.fetchBookById(params);
 
       const favoriteBooks = get().favoriteBooks;
       favoriteBooks.set(favoriteBook.id, favoriteBook);
@@ -107,10 +119,7 @@ export const useBookStore = create<BooksState & BooksActions>((set, get) => ({
     set(() => ({ favoriteLoading: true }));
     try {
       await bookService.removeFromFavorite(params);
-      const updatedBook = await bookService.fetchBookById(
-        params.bookId,
-        params.userId,
-      );
+      const updatedBook = await bookService.fetchBookById(params);
 
       const favoriteBooks = get().favoriteBooks;
       favoriteBooks.delete(params.bookId);
@@ -141,6 +150,34 @@ export const useBookStore = create<BooksState & BooksActions>((set, get) => ({
       throw error;
     } finally {
       set({ favoriteLoading: false });
+    }
+  },
+
+  changeBookStatus: async (params) => {
+    set(() => ({ statusLoading: true }));
+    try {
+      await bookService.changeBookStatus(params);
+      const book = await bookService.fetchBookById(params);
+      set({ book });
+    } catch (error) {
+      set({ errors: { ...get().errors, bookError: getErrorMessage(error) } });
+      throw error;
+    } finally {
+      set({ statusLoading: false });
+    }
+  },
+
+  resetBookStatus: async (params) => {
+    set(() => ({ statusLoading: true }));
+    try {
+      await bookService.resetBookStatus(params);
+      const book = await bookService.fetchBookById(params);
+      set({ book });
+    } catch (error) {
+      set({ errors: { ...get().errors, bookError: getErrorMessage(error) } });
+      throw error;
+    } finally {
+      set({ statusLoading: false });
     }
   },
 }));

@@ -7,21 +7,36 @@ export type TGoogleBookSearchParams = {
   limit?: number;
 };
 
-export type TAddToCollection = {
+export type TChangeStatus = {
   userId: number;
   bookId: string;
   status: number;
 };
 
-export type TAddFavorite = {
+export type TUserIdBookId = {
   userId: number;
   bookId: string;
 };
 
+export type TUserIdStatuses = {
+  userId: number;
+  statuses: number[];
+};
+
+export type TUserIdBookIdStatuses = {
+  userId: number;
+  bookId: string;
+  statuses: number[];
+};
+
 export type TBooksService = {
   searchBooks: (params: TGoogleBookSearchParams) => Promise<IBookList>;
-  addToFavorite: (params: TAddFavorite) => Promise<void>;
-  removeFromFavorite: (params: TAddFavorite) => Promise<void>;
+  addToFavorite: (params: TUserIdBookId) => Promise<void>;
+  removeFromFavorite: (params: TUserIdBookId) => Promise<void>;
   fetchFavoriteBooks: (userId: number) => Promise<IBook[]>;
-  fetchBookById: (bookId: string, userId: number) => Promise<IBook>;
+  fetchBookById: (params: TUserIdBookId) => Promise<IBook>;
+  fetchBooksByStatuses: (params: TUserIdStatuses) => Promise<IBook[]>;
+
+  changeBookStatus: (params: TChangeStatus) => Promise<void>;
+  resetBookStatus: (params: TUserIdBookId) => Promise<void>;
 };

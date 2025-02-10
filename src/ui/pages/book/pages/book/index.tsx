@@ -64,11 +64,11 @@ export const Book = (): JSX.Element => {
   const isPending = useBookStore().bookLoading;
   const addToFavorite = useBookStore().addToFavorite;
   const removeFromFavorite = useBookStore().removeFromFavorite;
+  const changeBookStatus = useBookStore().changeBookStatus;
+  const resetBookStatus = useBookStore().resetBookStatus;
   const favoriteLoading = useBookStore().favoriteLoading;
 
   const book = useBookStore().book;
-  // const addBookToCollection = useBookStore().addToCollection;
-  // const removeFromCollection = useBookStore().removeFromCollection;
 
   if (isPending) {
     return <PageWrapper title="Loading book...">Loading book...</PageWrapper>;
@@ -84,26 +84,28 @@ export const Book = (): JSX.Element => {
     setRating(0);
   };
 
-  // const handleStatusChange = (status: string = '') => {
-  //   if (!profile) {
-  //     return;
-  //   }
-  //
-  //   if (status === 'reset') {
-  //     removeFromCollection({
-  //       userId: profile.id,
-  //       bookId: book.id,
-  //     });
-  //   } else {
-  //     addBookToCollection({
-  //       userId: profile.id,
-  //       bookId: book.id,
-  //       status: status as TBookStatus,
-  //     });
-  //   }
-  //
-  //   resetReviewAdding();
-  // };
+  const handleStatusChange = (status?: string) => {
+    if (!profile) {
+      return;
+    }
+
+    if (!status) {
+      resetBookStatus({
+        userId: profile.id,
+        bookId: book.id,
+      });
+
+      return;
+    }
+
+    changeBookStatus({
+      userId: profile.id,
+      bookId: book.id,
+      status: Number(status),
+    });
+
+    // resetReviewAdding();
+  };
 
   const handleSaveReview = async () => {
     if (!profile) {
@@ -229,21 +231,25 @@ export const Book = (): JSX.Element => {
           </DrawerHeader>
           <div className="flex flex-col flex-1 overflow-auto px-4 gap-3">
             <div className="flex justify-between">
-              <ToggleGroup type="single">
+              <ToggleGroup
+                type="single"
+                value={book.status ? book.status.toString() : ''}
+                onValueChange={handleStatusChange}
+              >
                 <div className="flex flex-col items-center">
-                  <ToggleGroupItem value="read" aria-label="Read">
+                  <ToggleGroupItem value="1" aria-label="Read">
                     <BookOpenCheckIcon />
                   </ToggleGroupItem>
                   <ExtraSmall>Read</ExtraSmall>
                 </div>
                 <div className="flex flex-col items-center">
-                  <ToggleGroupItem value="reading" aria-label="Reading">
+                  <ToggleGroupItem value="2" aria-label="Reading">
                     <BookOpenTextIcon />
                   </ToggleGroupItem>
                   <ExtraSmall>Reading</ExtraSmall>
                 </div>
                 <div className="flex flex-col items-center">
-                  <ToggleGroupItem value="want-to-read" aria-label="Readlist">
+                  <ToggleGroupItem value="3" aria-label="Readlist">
                     <BookOpenIcon />
                   </ToggleGroupItem>
                   <ExtraSmall>Readlist</ExtraSmall>

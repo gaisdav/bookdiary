@@ -16,7 +16,7 @@ export class GoogleBook extends BookEntity implements IBook {
       categories: info.volumeInfo.categories || [],
       language: info.volumeInfo.language,
       pageCount: info.volumeInfo.pageCount,
-      status: info.status,
+      status: info.status || null,
       isFavorite: info.isFavorite,
     });
   }

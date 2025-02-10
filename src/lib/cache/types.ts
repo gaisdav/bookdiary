@@ -1,4 +1,7 @@
-export type TFavoriteBookData = {
-  userId: number;
-  bookId: string;
-};
+export type TCacheNames =
+  | 'books'
+  | 'profile'
+  | 'reviews'
+  | 'users'
+  | 'favoriteBooks'
+  | 'booksStatuses';

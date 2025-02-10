@@ -22,7 +22,6 @@ const initialState: ProfileState = {
 
 let sessionSubscription: null | Subscription = null;
 
-// TODO move requests to the service
 export const useProfileStore = create<ProfileState & ProfileActions>(
   (set, get) => ({
     ...initialState,

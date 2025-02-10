@@ -1,9 +1,11 @@
 import { GoogleBook } from '@/ui/pages/book/decorators/GoogleBook.decorator.ts';
 import { GoogleBookItems } from '@/ui/pages/book/decorators/GoogleBooks.decorator.ts';
 import {
-  TAddFavorite,
+  TUserIdBookId,
   TBooksService,
+  TChangeStatus,
   TGoogleBookSearchParams,
+  TUserIdStatuses,
 } from '@/data/books/services/types.ts';
 import { IBook } from '@/data/books/enitites/book/types.ts';
 import { TBooksRepository } from '@/data/books/repository/types.ts';
@@ -28,28 +30,42 @@ export class BooksService implements TBooksService {
     return new GoogleBookItems(data, limit, page);
   }
 
-  async fetchBookById(bookId: string, userId?: number): Promise<IBook> {
-    const data = await this.repository.fetchBookById(bookId);
+  async fetchBookById(params: TUserIdBookId): Promise<IBook> {
+    const data = await this.repository.fetchBookById(params.bookId);
 
     const book = new GoogleBook(data);
 
-    if (userId) {
-      const bookData = await this.repository.fetchFavoriteBookData(
-        userId,
-        bookId,
-      );
+    if (params.userId) {
+      const [favoriteData, bookStatus] = await Promise.all([
+        await this.repository.fetchFavoriteBookData(params),
+        await this.repository.fetchBookStatus(params),
+      ]);
 
-      book.isFavorite = Boolean(bookData);
+      book.isFavorite = Boolean(favoriteData);
+      book.status = bookStatus;
     }
 
     return book;
   }
 
-  async addToFavorite(params: TAddFavorite): Promise<void> {
+  async fetchBooksByStatuses(params: TUserIdStatuses): Promise<IBook[]> {
+    const bookIds = await this.repository.fetchBooksDataByStatuses(params);
+
+    return Promise.all(
+      bookIds.map((book_provider_id) =>
+        this.fetchBookById({
+          bookId: book_provider_id,
+          userId: params.userId,
+        }),
+      ),
+    );
+  }
+
+  async addToFavorite(params: TUserIdBookId): Promise<void> {
     await this.repository.addToFavorite(params);
   }
 
-  async removeFromFavorite(params: TAddFavorite): Promise<void> {
+  async removeFromFavorite(params: TUserIdBookId): Promise<void> {
     await this.repository.removeFromFavorite(params);
   }
 
@@ -58,8 +74,16 @@ export class BooksService implements TBooksService {
 
     return Promise.all(
       bookIds.map((book_provider_id) =>
-        this.fetchBookById(book_provider_id, userId),
+        this.fetchBookById({ bookId: book_provider_id, userId }),
       ),
     );
+  }
+
+  async changeBookStatus(params: TChangeStatus): Promise<void> {
+    await this.repository.changeBookStatus(params);
+  }
+
+  async resetBookStatus(params: TUserIdBookId): Promise<void> {
+    await this.repository.resetBookStatus(params);
   }
 }

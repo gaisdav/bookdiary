@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
 import { IDBPDatabase, openDB } from 'idb';
+import { dbNames } from '@/lib/cache/constants.ts';
+import { TCacheNames } from '@/lib/cache/types.ts';
 
-const DB_NAME = 'appCache';
+const DB_NAME = 'bookDiaryCache';
 const STORE_VERSION = 1;
 
 interface CacheOptions {
@@ -28,14 +31,17 @@ class CacheService {
   private async getDB() {
     return openDB(this.dbName, STORE_VERSION, {
       upgrade(db) {
-        if (!db.objectStoreNames.contains('cache')) {
-          db.createObjectStore('cache');
-        }
+        dbNames.forEach((name) => {
+          if (!db.objectStoreNames.contains(name)) {
+            db.createObjectStore(name);
+          }
+        });
       },
     });
   }
 
   async set<T>(
+    storeName: TCacheNames,
     key: string,
     value: T,
     options: CacheOptions = { ttl: 1000 * 60 * 60 * 24 },
@@ -47,17 +53,17 @@ class CacheService {
         timestamp: Date.now(),
         ttl: options.ttl ?? null,
       };
-      await db.put('cache', dataToStore, key);
+      await db.put(storeName, dataToStore, key);
     } catch (error) {
       console.error('Ошибка при сохранении данных:', error);
       throw error;
     }
   }
 
-  async get<T>(key: string): Promise<T | null> {
+  async get<T>(storeName: TCacheNames, key: string): Promise<T | null> {
     try {
       const db = await this.getDB();
-      const storedData = await db.get('cache', key);
+      const storedData = await db.get(storeName, key);
       if (storedData && this.isValid(storedData)) {
         return storedData.value;
       }
@@ -68,45 +74,48 @@ class CacheService {
     }
   }
 
+  async delete(storeName: TCacheNames, key: string) {
+    try {
+      const db = await this.getDB();
+      await db.delete(storeName, key);
+    } catch (error) {
+      console.error(
+        `Ошибка при удалении ключа ${key} в хранилище кэща ${storeName}:`,
+        error,
+      );
+      throw error;
+    }
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private isValid(data: any) {
     return !data.ttl || Date.now() - data.timestamp < data.ttl;
   }
 
-  async delete(key: string) {
+  async clear(storeName: TCacheNames) {
     try {
       const db = await this.getDB();
-      await db.delete('cache', key);
+      await db.clear(storeName);
     } catch (error) {
-      console.error(`Ошибка при удалении ключа ${key}:`, error);
-      throw error;
-    }
-  }
-
-  async clear() {
-    try {
-      const db = await this.getDB();
-      await db.clear('cache');
-    } catch (error) {
-      console.error('Ошибка при очистке кэша:', error);
+      console.error(`Ошибка при очистке кэша: ${storeName}`, error);
       throw error;
     }
   }
 
   private async cleanupExpiredEntries(db: IDBPDatabase) {
     try {
-      const tx = db.transaction('cache', 'readwrite');
-      const store = tx.objectStore('cache');
-      const allKeys = await store.getAllKeys();
+      for (const storeName of dbNames) {
+        const tx = db.transaction(storeName, 'readwrite');
+        const store = tx.objectStore(storeName);
+        const keys = await store.getAllKeys();
 
-      const deletePromises = allKeys.map(async (key) => {
-        const data = await store.get(key);
-        if (data && !this.isValid(data)) {
-          await store.delete(key);
+        for (const key of keys) {
+          const data = await store.get(key);
+          if (data && !this.isValid(data)) {
+            await store.delete(key);
+          }
         }
-      });
-
-      await Promise.all(deletePromises);
+      }
     } catch (error) {
       console.error('Ошибка при очистке устаревших данных:', error);
       throw error;

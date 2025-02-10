@@ -11,7 +11,7 @@ export interface IBook {
   language?: string;
   pageCount?: number;
 
-  status?: number;
+  status?: number | null;
   isFavorite?: boolean;
 }
 

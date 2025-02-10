@@ -12,7 +12,7 @@ export class BookEntity implements IBook {
   categories?: string[];
   language?: string;
   pageCount?: number;
-  status?: number;
+  status: number | null;
   isFavorite?: boolean = false;
 
   constructor(bookInfo: IBook) {
@@ -28,7 +28,7 @@ export class BookEntity implements IBook {
     this.language = bookInfo.language;
     this.pageCount = bookInfo.pageCount;
 
-    this.status = bookInfo.status;
+    this.status = bookInfo.status || null;
     this.isFavorite = bookInfo.isFavorite;
   }
 }

@@ -20,8 +20,13 @@ import { Books } from '@/ui/pages/books';
 import { Settings } from '@/ui/pages/settings';
 import { ForgotPassword } from '@/ui/pages/forgotPassword';
 
-const { fetchFirstList, fetchBook, getFavoriteBooks, favoriteBooks } =
-  useBookStore.getState();
+const {
+  fetchFirstList,
+  fetchBook,
+  getFavoriteBooks,
+  favoriteBooks,
+  fetchBooksByStatuses,
+} = useBookStore.getState();
 
 const { getBookReviews, getUserReviews } = useReviewStore.getState();
 
@@ -154,6 +159,11 @@ export const initRouter = (profile: TUser | null) =>
               return redirect(ROUTE.LOGIN);
             }
 
+            fetchBooksByStatuses({
+              userId: profile.id,
+              statuses: [1, 2],
+            });
+
             return null;
           },
           element: <Books type="my-books" />,
@@ -174,6 +184,22 @@ export const initRouter = (profile: TUser | null) =>
             return null;
           },
           element: <Books type="favorites" />,
+        },
+        {
+          path: ROUTE.WANT_TO_READ,
+          loader: async () => {
+            if (!profile) {
+              return redirect(ROUTE.LOGIN);
+            }
+
+            fetchBooksByStatuses({
+              userId: profile.id,
+              statuses: [3],
+            });
+
+            return null;
+          },
+          element: <Books type="want-to-read" />,
         },
         {
           path: ROUTE.LIBRARY_READ_BOOK,
@@ -211,17 +237,7 @@ export const initRouter = (profile: TUser | null) =>
             return null;
           },
         },
-        {
-          path: ROUTE.WANT_TO_READ,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
 
-            return null;
-          },
-          element: <Books type="want-to-read" />,
-        },
         {
           path: ROUTE.LIBRARY_WANT_TO_READ_BOOK,
           element: <Book />,
