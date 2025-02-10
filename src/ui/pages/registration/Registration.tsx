@@ -15,6 +15,8 @@ import { EyeIcon, EyeOffIcon, MoonIcon, SunIcon } from 'lucide-react';
 import { useTheme } from '@/ui/hooks/useTheme.tsx';
 import { toast } from 'sonner';
 import { InputWithIcon } from '@/ui/components/InputWithIcon';
+import { NavLink } from 'react-router-dom';
+import { ROUTE } from '@/ui/routes/routes.ts';
 
 interface IInputTypes {
   'new-password': 'password' | 'text';
@@ -22,6 +24,7 @@ interface IInputTypes {
 }
 
 const Registration: FC = () => {
+  const [signedUp, setSignedUp] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [inputTypes, setInputTypes] = useState<IInputTypes>({
     'new-password': 'password',
@@ -63,6 +66,13 @@ const Registration: FC = () => {
     }
 
     await createUser(fields as TCreatUser);
+    setSignedUp(true);
+    toast.success(
+      'You have successfully signed up. Please check your email to confirm your registration.',
+      {
+        closeButton: true,
+      },
+    );
   };
 
   const switchInputType: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -153,6 +163,11 @@ const Registration: FC = () => {
             </>
           )}
         </Button>
+        {signedUp && (
+          <NavLink to={ROUTE.LOGIN} className="text-center">
+            Go sign in page
+          </NavLink>
+        )}
       </form>
     </PageWrapper>
   );

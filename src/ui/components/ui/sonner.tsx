@@ -1,15 +1,23 @@
+import React from 'react';
 import { useTheme } from 'next-themes';
 import { Toaster as Sonner } from 'sonner';
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
-const Toaster = ({ toastOptions, ...props }: ToasterProps) => {
+const Toaster = ({
+  toastOptions,
+  position = 'top-right',
+  richColors = true,
+  ...props
+}: ToasterProps) => {
   const { theme = 'system' } = useTheme();
 
   return (
     <Sonner
       theme={theme as ToasterProps['theme']}
       className="toaster group"
+      position={position}
+      richColors={richColors}
       toastOptions={{
         ...toastOptions,
         classNames: {
@@ -22,8 +30,6 @@ const Toaster = ({ toastOptions, ...props }: ToasterProps) => {
             'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground',
           cancelButton:
             'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground',
-          error: 'bg-red-400',
-          info: 'bg-blue-400',
         },
       }}
       {...props}
