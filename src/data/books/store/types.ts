@@ -57,6 +57,12 @@ export type TGoogleBookSearch = {
   items: TGoogleBook[];
 };
 
+export interface BooksStateErrors {
+  listError?: string | null;
+  bookError?: string | null;
+  favoriteError?: string | null;
+}
+
 export interface BooksState {
   listLoading: boolean;
   bookLoading: boolean;
@@ -66,6 +72,7 @@ export interface BooksState {
   book: IBook | null;
   favoriteBooks: Map<string, IBook>;
   collection: Map<string, IBook>;
+  errors: BooksStateErrors;
 }
 
 export interface BooksActions {

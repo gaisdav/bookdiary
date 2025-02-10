@@ -254,7 +254,7 @@ export const Book = (): JSX.Element => {
                 <div className="flex flex-col items-center">
                   <Toggle
                     aria-label="Like"
-                    pressed={book.isFavorite}
+                    defaultPressed={book.isFavorite}
                     onPressedChange={handleFavorite}
                   >
                     {favoriteLoading ? <Progress /> : <BookHeartIcon />}

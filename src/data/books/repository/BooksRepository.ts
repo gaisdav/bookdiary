@@ -61,7 +61,10 @@ export class BooksRepository implements TBooksRepository {
       .eq('book_provider_id', params.bookId);
   }
 
-  async fetchFavoriteBookData(userId: number, bookId: string): Promise<string> {
+  async fetchFavoriteBookData(
+    userId: number,
+    bookId: string,
+  ): Promise<string | null> {
     const cacheKey = cacheKeys.user.favoriteBookData({ userId, bookId });
     const cachedBook = await cache.get<string>(cacheKey);
 
@@ -74,13 +77,13 @@ export class BooksRepository implements TBooksRepository {
       .select('id, user_id, book_provider_id')
       .eq('user_id', userId)
       .eq('book_provider_id', bookId)
-      .single();
+      .maybeSingle();
 
     if (error) {
       throw new Error(error.message);
     }
 
-    const bookProviderId = data.book_provider_id;
+    const bookProviderId = data?.book_provider_id || null;
 
     await cache.set(cacheKey, bookProviderId, {
       ttl: 1000 * 60 * 60 * 24,
@@ -119,6 +122,7 @@ export class BooksRepository implements TBooksRepository {
   ): Promise<void> {
     const cacheBooksKey = cacheKeys.user.favoriteBooksData(params.userId);
     const cacheBookKey = cacheKeys.user.favoriteBookData(params);
+
     await cache.delete(cacheBooksKey);
     await cache.delete(cacheBookKey);
   }

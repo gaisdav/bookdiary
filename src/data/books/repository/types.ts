@@ -9,6 +9,6 @@ export type TBooksRepository = {
   fetchBooks(params: TGoogleBookSearchParams): Promise<TGoogleBookSearch>;
   addToFavorite(params: TAddFavorite): Promise<void>;
   removeFromFavorite(params: TAddFavorite): Promise<void>;
-  fetchFavoriteBookData(userId: number, bookId: string): Promise<string>;
+  fetchFavoriteBookData(userId: number, bookId: string): Promise<string | null>;
   getFavoriteBooksData(userId: number): Promise<string[]>;
 };
