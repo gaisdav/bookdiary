@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import { JSX } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
@@ -7,15 +7,15 @@ import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { useReviewStore } from '@/data/reviews/store/useReviewStore.tsx';
 import { Ratings } from '@/ui/components/Ratings';
-import { Editor } from '@/ui/components/Editor';
+// import { Editor } from '@/ui/components/Editor';
 import {
   PlusIcon,
   BookOpenCheckIcon,
   BookOpenTextIcon,
   BookOpenIcon,
   BookHeartIcon,
-  BookPlusIcon,
-  CalendarIcon,
+  // BookPlusIcon,
+  // CalendarIcon,
 } from 'lucide-react';
 import { Toggle } from '@/ui/components/ui/toggle.tsx';
 import { ExtraSmall, H4, P, Small } from '@/ui/components/ui/typography.tsx';
@@ -23,27 +23,27 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/ui/components/ui/toggle-group.tsx';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/ui/components/ui/popover';
-import { format } from 'date-fns';
-import { Calendar } from '@/ui/components/ui/calendar.tsx';
-import { SelectSingleEventHandler } from 'react-day-picker';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/ui/components/ui/select';
+// import {
+//   Popover,
+//   PopoverContent,
+//   PopoverTrigger,
+// } from '@/ui/components/ui/popover';
+// import { format } from 'date-fns';
+// import { Calendar } from '@/ui/components/ui/calendar.tsx';
+// import { SelectSingleEventHandler } from 'react-day-picker';
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from '@/ui/components/ui/select';
 import {
   Drawer,
-  DrawerClose,
+  // DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
+  // DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -52,13 +52,13 @@ import { convertJSONToHTML } from '@/lib/utils.ts';
 import { Progress } from '@/ui/components/Progress.tsx';
 
 export const Book = (): JSX.Element => {
-  const [reviewJSON, setReviewJSON] = useState('');
+  // const [reviewJSON, setReviewJSON] = useState('');
   // const [reviewText, setReviewText] = useState('');
-  const [rating, setRating] = useState(0);
-  const [showLists, setShowLists] = useState(false);
-  const [date, setDate] = useState<Date>(new Date());
+  // const [rating, setRating] = useState(0);
+  // const [showLists, setShowLists] = useState(false);
+  // const [date, setDate] = useState<Date>(new Date());
 
-  const addReview = useReviewStore().addReview;
+  // const addReview = useReviewStore().addReview;
   const reviews = useReviewStore().reviews;
   const profile = useProfileStore().profile;
   const isPending = useBookStore().bookLoading;
@@ -78,11 +78,11 @@ export const Book = (): JSX.Element => {
     return <PageWrapper>No data</PageWrapper>;
   }
 
-  const resetReviewAdding = () => {
-    setReviewJSON('');
-    // setReviewText('');
-    setRating(0);
-  };
+  // const resetReviewAdding = () => {
+  //   setReviewJSON('');
+  //   // setReviewText('');
+  //   setRating(0);
+  // };
 
   const handleStatusChange = (status?: string) => {
     if (!profile) {
@@ -107,33 +107,33 @@ export const Book = (): JSX.Element => {
     // resetReviewAdding();
   };
 
-  const handleSaveReview = async () => {
-    if (!profile) {
-      return;
-    }
-
-    await addReview({
-      bookId: book.id,
-      review: reviewJSON,
-      userId: profile.id,
-      rating,
-    });
-
-    resetReviewAdding();
-  };
-
-  const handleReviewChange = (
-    json: string,
-    // text: string = ''
-  ) => {
-    setReviewJSON(json);
-    // setReviewText(text);
-  };
-
-  const handleDateChange: SelectSingleEventHandler = (date) => {
-    if (!date) return;
-    setDate(date);
-  };
+  // const handleSaveReview = async () => {
+  //   if (!profile) {
+  //     return;
+  //   }
+  //
+  //   await addReview({
+  //     bookId: book.id,
+  //     review: reviewJSON,
+  //     userId: profile.id,
+  //     rating,
+  //   });
+  //
+  //   resetReviewAdding();
+  // };
+  //
+  // const handleReviewChange = (
+  //   json: string,
+  //   // text: string = ''
+  // ) => {
+  //   setReviewJSON(json);
+  //   // setReviewText(text);
+  // };
+  //
+  // const handleDateChange: SelectSingleEventHandler = (date) => {
+  //   if (!date) return;
+  //   setDate(date);
+  // };
 
   const handleFavorite = async (pressed: boolean) => {
     if (!profile) {
@@ -267,68 +267,68 @@ export const Book = (): JSX.Element => {
                   </Toggle>
                   <ExtraSmall>Like</ExtraSmall>
                 </div>
-                <div className="flex flex-col items-center">
-                  <Toggle
-                    aria-label="Add to list"
-                    pressed={showLists}
-                    onPressedChange={setShowLists}
-                  >
-                    <BookPlusIcon />
-                  </Toggle>
-                  <ExtraSmall>Add to list</ExtraSmall>
-                </div>
+                {/*<div className="flex flex-col items-center">*/}
+                {/*  <Toggle*/}
+                {/*    aria-label="Add to list"*/}
+                {/*    pressed={showLists}*/}
+                {/*    onPressedChange={setShowLists}*/}
+                {/*  >*/}
+                {/*    <BookPlusIcon />*/}
+                {/*  </Toggle>*/}
+                {/*  <ExtraSmall>Add to list</ExtraSmall>*/}
+                {/*</div>*/}
               </div>
             </div>
-            {showLists && (
-              <Select
-              // onValueChange={handleStatusChange}
-              // defaultValue={book?.status}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select list" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="read">List 1</SelectItem>
-                  <SelectItem value="reading">Test</SelectItem>
-                  <SelectItem value="want-to-read">Panda</SelectItem>
-                  <SelectItem value="reset">Reset</SelectItem>
-                </SelectContent>
-              </Select>
-            )}
-            <div className="flex flex-1 flex-col gap-1">
-              <Ratings rating={rating} onChange={setRating} />
+            {/*{showLists && (*/}
+            {/*  <Select*/}
+            {/*  // onValueChange={handleStatusChange}*/}
+            {/*  // defaultValue={book?.status}*/}
+            {/*  >*/}
+            {/*    <SelectTrigger>*/}
+            {/*      <SelectValue placeholder="Select list" />*/}
+            {/*    </SelectTrigger>*/}
+            {/*    <SelectContent>*/}
+            {/*      <SelectItem value="read">List 1</SelectItem>*/}
+            {/*      <SelectItem value="reading">Test</SelectItem>*/}
+            {/*      <SelectItem value="want-to-read">Panda</SelectItem>*/}
+            {/*      <SelectItem value="reset">Reset</SelectItem>*/}
+            {/*    </SelectContent>*/}
+            {/*  </Select>*/}
+            {/*)}*/}
+            {/*<div className="flex flex-1 flex-col gap-1">*/}
+            {/*  <Ratings rating={rating} onChange={setRating} />*/}
 
-              <Editor
-                onChange={handleReviewChange}
-                autoFocus={false}
-                containerClassName="flex-1"
-              />
-              <div className="flex justify-end">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="ghost" className="justify-start">
-                      {format(date, 'PPP')}
-                      <CalendarIcon />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={handleDateChange}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-            </div>
-            <DrawerFooter>
-              <DrawerClose asChild>
-                <Button type="submit" onClick={handleSaveReview}>
-                  Save changes
-                </Button>
-              </DrawerClose>
-            </DrawerFooter>
+            {/*  <Editor*/}
+            {/*    onChange={handleReviewChange}*/}
+            {/*    autoFocus={false}*/}
+            {/*    containerClassName="flex-1"*/}
+            {/*  />*/}
+            {/*  <div className="flex justify-end">*/}
+            {/*    <Popover>*/}
+            {/*      <PopoverTrigger asChild>*/}
+            {/*        <Button variant="ghost" className="justify-start">*/}
+            {/*          {format(date, 'PPP')}*/}
+            {/*          <CalendarIcon />*/}
+            {/*        </Button>*/}
+            {/*      </PopoverTrigger>*/}
+            {/*      <PopoverContent className="w-auto p-0" align="start">*/}
+            {/*        <Calendar*/}
+            {/*          mode="single"*/}
+            {/*          selected={date}*/}
+            {/*          onSelect={handleDateChange}*/}
+            {/*          initialFocus*/}
+            {/*        />*/}
+            {/*      </PopoverContent>*/}
+            {/*    </Popover>*/}
+            {/*  </div>*/}
+            {/*</div>*/}
+            {/*<DrawerFooter>*/}
+            {/*  <DrawerClose asChild>*/}
+            {/*    <Button type="submit" onClick={handleSaveReview}>*/}
+            {/*      Save changes*/}
+            {/*    </Button>*/}
+            {/*  </DrawerClose>*/}
+            {/*</DrawerFooter>*/}
           </div>
         </DrawerContent>
       </PageWrapper>
