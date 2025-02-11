@@ -155,7 +155,7 @@ const Registration: FC = () => {
         />
 
         <Button size="sm" type="submit">
-          Registration{' '}
+          Sign up{' '}
           {loading && (
             <>
               {' '}
