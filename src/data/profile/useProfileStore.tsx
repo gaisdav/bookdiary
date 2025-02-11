@@ -129,12 +129,13 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
 
     createUser: async ({ email, password, ...data }: TCreatUser) => {
       set({ registrationLoading: true });
+      const emailRedirectTo = `${window.location.origin}/login`;
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data,
-          emailRedirectTo: `${window.location.origin}/login`,
+          emailRedirectTo,
         },
       });
 
