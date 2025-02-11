@@ -1,6 +1,12 @@
 .pageWrapper {
+  --header-height: 36px;
+  --page-padding: 1rem;
+
   position: relative;
-  padding: 1rem;
+  padding: calc(
+      var(--header-height) + var(--page-padding) + var(--page-padding)
+    )
+    var(--page-padding) var(--page-padding);
   max-height: 100%;
   overflow: auto;
   flex: 1;
@@ -8,14 +14,18 @@
 
 .header {
   display: grid;
-  position: relative;
-  grid-auto-columns: 36px 1fr 36px;
+  position: fixed;
+  padding: var(--page-padding) var(--page-padding) 0;
+  width: 100%;
+  top: 0;
+  left: 0;
+  grid-auto-columns: var(--header-height) 1fr var(--header-height);
   grid-auto-flow: column;
+  background-color: hsl(var(--background));
 }
 
 .titleWrapper {
-  text-overflow: ellipsis;
+  overflow: auto;
   white-space: nowrap;
-  overflow: hidden;
   text-align: center;
 }

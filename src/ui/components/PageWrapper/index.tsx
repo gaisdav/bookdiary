@@ -78,8 +78,8 @@ export const PageWrapper: FC<PageWrapperProps> = ({
       {(leftButton || rightButton) && (
         <header className={css.header}>
           <div>{leftButton}</div>
-          <div className={css.titleWrapper}>
-            {headerTitle && <H3>{headerTitle}</H3>}
+          <div className={cn(css.titleWrapper, 'hideScrollBar')}>
+            {headerTitle && <H3 className="pt-0.5 h-full">{headerTitle}</H3>}
           </div>
           <div>{rightButton}</div>
         </header>

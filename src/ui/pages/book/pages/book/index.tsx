@@ -18,7 +18,7 @@ import {
   // CalendarIcon,
 } from 'lucide-react';
 import { Toggle } from '@/ui/components/ui/toggle.tsx';
-import { ExtraSmall, H4, P, Small } from '@/ui/components/ui/typography.tsx';
+import { ExtraSmall, H4, Small } from '@/ui/components/ui/typography.tsx';
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -184,7 +184,12 @@ export const Book = (): JSX.Element => {
             {book.publishedDate && <Small>{book.publishedDate}</Small>}
           </div>
         </div>
-        {book.description && <P>{book.description}</P>}
+        {book.description && (
+          <div
+            className="leading-7 [&:not(:first-child)]:mt-6"
+            dangerouslySetInnerHTML={{ __html: book.description }}
+          />
+        )}
 
         <div className="mt-6">
           <H4 className="mb-4">Reviews</H4>
