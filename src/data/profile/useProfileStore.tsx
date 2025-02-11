@@ -132,7 +132,7 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
       const { origin, pathname } = window.location;
 
       const emailRedirectTo = origin + pathname;
-      console.log(emailRedirectTo);
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
