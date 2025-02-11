@@ -20,7 +20,7 @@ type PageWrapperProps = PropsWithChildren &
     showSearch?: boolean;
     showBack?: boolean;
     title?: string;
-    customHeaderTitle?: string;
+    customHeaderTitle?: ReactNode;
     contentClassName?: string;
     customRightButton?: ReactNode;
     customLeftButton?: ReactNode;
@@ -30,7 +30,7 @@ export const PageWrapper: FC<PageWrapperProps> = ({
   children,
   className = DEFAULT_DOCUMENT_TITLE,
   title = '',
-  customHeaderTitle = '',
+  customHeaderTitle,
   showBack = false,
   showSearch = true,
   contentClassName = '',
@@ -46,7 +46,6 @@ export const PageWrapper: FC<PageWrapperProps> = ({
     window.history.back();
   };
 
-  const headerTitle = customHeaderTitle || title;
   const leftButton =
     customLeftButton ||
     (showBack ? (
@@ -63,7 +62,12 @@ export const PageWrapper: FC<PageWrapperProps> = ({
   const rightButton =
     customRightButton ||
     (showSearch ? (
-      <Button variant="ghost" size="icon" asChild className="relative right-0">
+      <Button
+        variant="outline"
+        size="icon"
+        asChild
+        className="relative right-0"
+      >
         <NavLink viewTransition to={ROUTE.BOOKS}>
           <SearchIcon />
         </NavLink>
@@ -84,7 +88,9 @@ export const PageWrapper: FC<PageWrapperProps> = ({
         <header className={css.header}>
           <div>{leftButton}</div>
           <div className={cn(css.titleWrapper, 'hideScrollBar')}>
-            {headerTitle && <H3 className="pt-0.5 h-full">{headerTitle}</H3>}
+            {customHeaderTitle || (
+              <H3 className="pt-[0.2rem] h-full">{title}</H3>
+            )}
           </div>
           <div>{rightButton}</div>
         </header>

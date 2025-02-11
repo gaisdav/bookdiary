@@ -2,10 +2,6 @@
   max-height: 100%;
 }
 
-.error {
-  margin-top: 1rem;
-}
-
 .form {
   display: flex;
   flex: 1;
@@ -15,8 +11,4 @@
 
 .searchBtn {
   min-width: 36px;
-}
-
-.list {
-  margin-top: var(--spacing-md);
 }

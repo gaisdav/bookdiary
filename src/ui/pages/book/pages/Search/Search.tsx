@@ -76,18 +76,32 @@ function Search() {
     window.history.back();
   };
 
+  const handleSearch = () => {
+    formRef.current?.requestSubmit();
+  };
+
   return (
     <PageWrapper
       onScroll={handleScroll}
       className={css.wrapper}
       title="Search"
       showSearch={false}
-    >
-      <div className="flex justify-between">
+      customLeftButton={
         <Button variant="ghost" size="icon" onClick={goBack}>
           <MoveLeftIcon />
         </Button>
-
+      }
+      customRightButton={
+        <Button
+          className={css.searchBtn}
+          variant="outline"
+          onClick={handleSearch}
+          size="icon"
+        >
+          <MagnifyingGlassIcon />
+        </Button>
+      }
+      customHeaderTitle={
         <form className={css.form} onSubmit={searchBook} ref={formRef}>
           <Input
             ref={bookTitleField}
@@ -96,21 +110,12 @@ function Search() {
             name={BOOK_TITLE_FIELD}
             autoFocus={true}
             required
+            className="focus:ring-0 focus-visible:ring-0"
           />
-          <Button
-            className={css.searchBtn}
-            variant="outline"
-            type="submit"
-            size="icon"
-          >
-            <MagnifyingGlassIcon />
-          </Button>
         </form>
-      </div>
-
-      {/*{error && <div className={css.error}>{error.message}</div>}*/}
-
-      <div className={css.list}>
+      }
+    >
+      <div>
         {firstPageIsLoading ? (
           'Loading...'
         ) : Array.isArray(data?.items) ? (

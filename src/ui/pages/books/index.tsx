@@ -28,7 +28,7 @@ export const Books: FC<PageType> = ({ type }) => {
 
   return (
     <PageWrapper showBack showSearch title={header[type]}>
-      <div className="mt-4 grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-1">
+      <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-1">
         {[...list.values()].map((book) => (
           <BookCardItem key={book.id} book={book} />
         ))}
