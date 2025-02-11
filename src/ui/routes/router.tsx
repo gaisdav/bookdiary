@@ -13,7 +13,7 @@ import Home from '@/ui/pages/home';
 import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { ROUTE } from '@/ui/routes/routes.ts';
 import { TUser } from '@/data/user/enitites/user';
-import Library from '@/ui/pages/library';
+import MyDiary from '@/ui/pages/diary';
 import { useReviewStore } from '@/data/reviews/store/useReviewStore.tsx';
 import { MyReviews } from '@/ui/pages/reviews';
 import { Books } from '@/ui/pages/books';
@@ -89,8 +89,8 @@ export const initRouter = (profile: TUser | null) =>
           },
         },
         {
-          path: ROUTE.LIBRARY,
-          element: <Library />,
+          path: ROUTE.DIARY,
+          element: <MyDiary />,
           loader: async () => {
             if (!profile) {
               return redirect(ROUTE.LOGIN);

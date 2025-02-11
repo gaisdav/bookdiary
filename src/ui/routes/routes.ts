@@ -2,7 +2,7 @@ export enum ROUTE {
   HOME = '/',
   BOOKS = '/books',
   BOOK = '/books/:bookId',
-  LIBRARY = '/library',
+  DIARY = '/diary',
   MY_BOOKS = '/my-books',
   FAVORITES = '/favorites',
   WANT_TO_READ = '/want-to-read',
