@@ -61,7 +61,13 @@ const Login: FC = () => {
       contentClassName="items-center"
     >
       <form className={css.form} onSubmit={submitLogin}>
-        <Input type="email" name="login" required disabled={loading} />
+        <Input
+          type="email"
+          name="login"
+          required
+          disabled={loading}
+          placeholder="Email"
+        />
         <InputWithIcon
           type={passwordInputType}
           name="password"
