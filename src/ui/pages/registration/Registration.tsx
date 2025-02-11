@@ -6,7 +6,6 @@ import {
   useState,
 } from 'react';
 import css from './styles.module.scss';
-import { TCreatUser } from '@/data/user/enitites/user';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { Button } from '@/ui/components/ui/button.tsx';
 import { Input } from '@/ui/components/ui/input.tsx';
@@ -65,7 +64,11 @@ const Registration: FC = () => {
       return;
     }
 
-    await createUser(fields as TCreatUser);
+    await createUser({
+      email: fields.email.toString(),
+      password: fields.password.toString(),
+      full_name: fields.full_name.toString(),
+    });
     setSignedUp(true);
     toast.success(
       'You have successfully signed up. Please check your email to confirm your registration.',
