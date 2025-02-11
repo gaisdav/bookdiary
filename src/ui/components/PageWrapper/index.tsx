@@ -51,7 +51,7 @@ export const PageWrapper: FC<PageWrapperProps> = ({
     customLeftButton ||
     (showBack ? (
       <Button
-        variant="outline"
+        variant="ghost"
         size="icon"
         onClick={goBack}
         className="relative left-0"
@@ -63,24 +63,24 @@ export const PageWrapper: FC<PageWrapperProps> = ({
   const rightButton =
     customRightButton ||
     (showSearch ? (
-      <Button
-        variant="outline"
-        size="icon"
-        asChild
-        className="relative right-0"
-      >
+      <Button variant="ghost" size="icon" asChild className="relative right-0">
         <NavLink viewTransition to={ROUTE.BOOKS}>
           <SearchIcon />
         </NavLink>
       </Button>
     ) : null);
 
+  const showHeader = Boolean(leftButton || rightButton);
+
   return (
     <div
-      className={`hideScrollBar flex flex-col gap-4 ${css.pageWrapper} ${className}`}
+      className={cn(
+        `hideScrollBar flex flex-col gap-4 ${css.pageWrapper} ${className}`,
+        { [css.headerPadding]: showHeader },
+      )}
       {...props}
     >
-      {(leftButton || rightButton) && (
+      {showHeader && (
         <header className={css.header}>
           <div>{leftButton}</div>
           <div className={cn(css.titleWrapper, 'hideScrollBar')}>
@@ -89,7 +89,13 @@ export const PageWrapper: FC<PageWrapperProps> = ({
           <div>{rightButton}</div>
         </header>
       )}
-      <main className={cn('flex flex-col flex-1', contentClassName)}>
+      <main
+        className={cn(
+          'flex flex-col flex-1',
+
+          contentClassName,
+        )}
+      >
         {children}
         <PWABadge />
       </main>
