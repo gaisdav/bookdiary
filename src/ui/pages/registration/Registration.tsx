@@ -118,7 +118,7 @@ const Registration: FC = () => {
           required
           endIcon={
             <Button
-              variant="ghost"
+              variant="link"
               size="icon"
               type="button"
               data-input-type="password"
@@ -139,7 +139,7 @@ const Registration: FC = () => {
           placeholder="Repeat password"
           endIcon={
             <Button
-              variant="ghost"
+              variant="link"
               size="icon"
               type="button"
               data-input-type="repeat-password"

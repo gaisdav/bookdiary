@@ -76,7 +76,7 @@ const Login: FC = () => {
           disabled={loading}
           endIcon={
             <Button
-              variant="ghost"
+              variant="link"
               size="icon"
               type="button"
               onClick={switchInputType}

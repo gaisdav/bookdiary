@@ -119,7 +119,7 @@ export const UpdatePassword: FC = () => {
                 endIcon={
                   <Button
                     data-input-type="new-password"
-                    variant="ghost"
+                    variant="link"
                     size="icon"
                     type="button"
                     onClick={switchInputType}
@@ -144,7 +144,7 @@ export const UpdatePassword: FC = () => {
                 placeholder="Repeat password"
                 endIcon={
                   <Button
-                    variant="ghost"
+                    variant="link"
                     size="icon"
                     type="button"
                     data-input-type="repeat-new-password"

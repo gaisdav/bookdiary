@@ -16,7 +16,7 @@ export const InputWithIcon: FC<IInputWithIcon> = ({
   return (
     <div className="w-full relative">
       {startIcon && (
-        <div className="absolute left-2 top-1/2 transform -translate-y-1/2">
+        <div className="absolute left-0 top-1/2 transform -translate-y-1/2">
           {startIcon}
         </div>
       )}
@@ -24,7 +24,7 @@ export const InputWithIcon: FC<IInputWithIcon> = ({
       <Input className={cn('pr-8', className)} {...props} />
 
       {endIcon && (
-        <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+        <div className="absolute right-0 top-1/2 transform -translate-y-1/2">
           {endIcon}
         </div>
       )}
