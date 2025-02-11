@@ -58,6 +58,13 @@
           color var(--transition-default);
       }
 
+      header {
+        background-color: hsl(var(--background));
+        transition:
+          background-color var(--transition-default),
+          color var(--transition-default);
+      }
+
       #root {
         display: grid;
         grid-template-rows: 1fr calc(56px + env(safe-area-inset-bottom));

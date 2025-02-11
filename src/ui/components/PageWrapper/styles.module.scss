@@ -21,7 +21,6 @@
   left: 0;
   grid-auto-columns: var(--header-height) 1fr var(--header-height);
   grid-auto-flow: column;
-  background-color: hsl(var(--background));
 }
 
 .titleWrapper {
