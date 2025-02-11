@@ -40,10 +40,10 @@ import {
 // } from '@/ui/components/ui/select';
 import {
   Drawer,
-  // DrawerClose,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
-  // DrawerFooter,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -332,13 +332,11 @@ export const Book = (): JSX.Element => {
             {/*    </Popover>*/}
             {/*  </div>*/}
             {/*</div>*/}
-            {/*<DrawerFooter>*/}
-            {/*  <DrawerClose asChild>*/}
-            {/*    <Button type="submit" onClick={handleSaveReview}>*/}
-            {/*      Save changes*/}
-            {/*    </Button>*/}
-            {/*  </DrawerClose>*/}
-            {/*</DrawerFooter>*/}
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button type="submit">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
           </div>
         </DrawerContent>
       </PageWrapper>
