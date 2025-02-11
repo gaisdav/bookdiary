@@ -19,16 +19,16 @@ import { NavLink } from 'react-router-dom';
 import { ROUTE } from '@/ui/routes/routes.ts';
 
 interface IInputTypes {
-  'new-password': 'password' | 'text';
-  'repeat-new-password': 'password' | 'text';
+  password: 'password' | 'text';
+  'repeat-password': 'password' | 'text';
 }
 
 const Registration: FC = () => {
   const [signedUp, setSignedUp] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [inputTypes, setInputTypes] = useState<IInputTypes>({
-    'new-password': 'password',
-    'repeat-new-password': 'password',
+    password: 'password',
+    'repeat-password': 'password',
   });
 
   const { switchTheme, theme } = useTheme();
@@ -109,7 +109,7 @@ const Registration: FC = () => {
         <Input type="email" name="email" placeholder="Email" required />
         <Input type="text" name="full_name" placeholder="Full name" required />
         <InputWithIcon
-          type={inputTypes['new-password']}
+          type={inputTypes['password']}
           name="password"
           placeholder="Password"
           required
@@ -118,13 +118,10 @@ const Registration: FC = () => {
               variant="ghost"
               size="icon"
               type="button"
+              data-input-type="password"
               onClick={switchInputType}
             >
-              {inputTypes['new-password'] === 'text' ? (
-                <EyeIcon />
-              ) : (
-                <EyeOffIcon />
-              )}
+              {inputTypes['password'] === 'text' ? <EyeIcon /> : <EyeOffIcon />}
             </Button>
           }
         />
@@ -133,7 +130,7 @@ const Registration: FC = () => {
             e.preventDefault();
             return false;
           }}
-          type={inputTypes['repeat-new-password']}
+          type={inputTypes['repeat-password']}
           name="repeated-password"
           required
           placeholder="Repeat password"
@@ -142,10 +139,10 @@ const Registration: FC = () => {
               variant="ghost"
               size="icon"
               type="button"
-              data-input-type="repeat-new-password"
+              data-input-type="repeat-password"
               onClick={switchInputType}
             >
-              {inputTypes['repeat-new-password'] === 'text' ? (
+              {inputTypes['repeat-password'] === 'text' ? (
                 <EyeIcon />
               ) : (
                 <EyeOffIcon />

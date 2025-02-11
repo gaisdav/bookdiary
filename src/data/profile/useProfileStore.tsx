@@ -134,6 +134,7 @@ export const useProfileStore = create<ProfileState & ProfileActions>(
         password,
         options: {
           data,
+          emailRedirectTo: `${window.location.origin}/login`,
         },
       });
 
