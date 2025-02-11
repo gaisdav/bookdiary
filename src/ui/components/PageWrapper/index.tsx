@@ -51,7 +51,7 @@ export const PageWrapper: FC<PageWrapperProps> = ({
     customLeftButton ||
     (showBack ? (
       <Button
-        variant="ghost"
+        variant="outline"
         size="icon"
         onClick={goBack}
         className="relative left-0"
@@ -63,7 +63,12 @@ export const PageWrapper: FC<PageWrapperProps> = ({
   const rightButton =
     customRightButton ||
     (showSearch ? (
-      <Button variant="ghost" size="icon" asChild className="relative right-0">
+      <Button
+        variant="outline"
+        size="icon"
+        asChild
+        className="relative right-0"
+      >
         <NavLink viewTransition to={ROUTE.BOOKS}>
           <SearchIcon />
         </NavLink>
