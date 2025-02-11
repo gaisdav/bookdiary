@@ -20,7 +20,7 @@ const MyLibraryLinks = [
 
 const Library: FC = () => {
   return (
-    <PageWrapper showSearch title="My library">
+    <PageWrapper showSearch title="My Diary">
       <div className="mt-3">
         {MyLibraryLinks.map((link) => {
           return (
