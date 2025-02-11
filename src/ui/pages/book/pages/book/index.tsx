@@ -1,4 +1,4 @@
-import { JSX } from 'react';
+import { JSX, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
@@ -40,25 +40,24 @@ import {
 // } from '@/ui/components/ui/select';
 import {
   Drawer,
+  // DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
+  // DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerTrigger,
 } from '@/ui/components/ui/drawer';
 import { convertJSONToHTML } from '@/lib/utils.ts';
 import { Progress } from '@/ui/components/Progress.tsx';
-import { useSearchParams, useParams } from 'react-router';
 
 export const Book = (): JSX.Element => {
+  const [openDrawer, setOpenDrawer] = useState(false);
   // const [reviewJSON, setReviewJSON] = useState('');
   // const [reviewText, setReviewText] = useState('');
   // const [rating, setRating] = useState(0);
   // const [showLists, setShowLists] = useState(false);
   // const [date, setDate] = useState<Date>(new Date());
-
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { bookId } = useParams();
 
   // const addReview = useReviewStore().addReview;
   const reviews = useReviewStore().reviews;
@@ -72,7 +71,7 @@ export const Book = (): JSX.Element => {
 
   const book = useBookStore().book;
 
-  if (isPending && book?.id !== bookId) {
+  if (isPending) {
     return <PageWrapper title="Loading book...">Loading book...</PageWrapper>;
   }
 
@@ -156,21 +155,11 @@ export const Book = (): JSX.Element => {
 
   const title = book.title || 'Book';
 
-  const handleOpenDrawer = () => {
-    setSearchParams({ openDiary: '1' });
-  };
-
-  const handleCloseDrawer = () => {
-    setSearchParams({ openDiary: '0' });
-  };
-
-  const openDrawer = searchParams.get('openDiary') === '1';
-
   return (
     <Drawer
       open={openDrawer}
+      onOpenChange={setOpenDrawer}
       autoFocus={openDrawer}
-      onClose={handleCloseDrawer}
     >
       <PageWrapper
         title={title}
@@ -235,14 +224,11 @@ export const Book = (): JSX.Element => {
           </div>
         </div>
 
-        <Button
-          className={css.addButton}
-          variant="outline"
-          size="icon"
-          onClick={handleOpenDrawer}
-        >
-          <PlusIcon />
-        </Button>
+        <DrawerTrigger asChild autoFocus={openDrawer}>
+          <Button className={css.addButton} variant="outline" size="icon">
+            <PlusIcon />
+          </Button>
+        </DrawerTrigger>
         <DrawerContent
           className="flex flex-col max-h-[95%] h-[90%]"
           aria-describedby="Add to diary"
@@ -346,9 +332,13 @@ export const Book = (): JSX.Element => {
             {/*    </Popover>*/}
             {/*  </div>*/}
             {/*</div>*/}
-            <DrawerFooter>
-              <Button onClick={handleCloseDrawer}>Close</Button>
-            </DrawerFooter>
+            {/*<DrawerFooter>*/}
+            {/*  <DrawerClose asChild>*/}
+            {/*    <Button type="submit" onClick={handleSaveReview}>*/}
+            {/*      Save changes*/}
+            {/*    </Button>*/}
+            {/*  </DrawerClose>*/}
+            {/*</DrawerFooter>*/}
           </div>
         </DrawerContent>
       </PageWrapper>
