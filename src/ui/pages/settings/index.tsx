@@ -6,9 +6,19 @@ import css from './styles.module.scss';
 import { MoonIcon, SunIcon } from 'lucide-react';
 import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { Img } from '@/ui/components/Img';
+import { changeLanguage } from '@/lib/utils.ts';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/ui/components/ui/select.tsx';
+import { useTranslation } from 'react-i18next';
 
 export const Settings: FC = () => {
   const { switchTheme, theme } = useTheme();
+  const { t, i18n } = useTranslation();
   const profile = useProfileStore().profile;
 
   if (!profile) {
@@ -17,7 +27,7 @@ export const Settings: FC = () => {
 
   return (
     <PageWrapper
-      title="Settings"
+      title={t('settings.title')}
       showBack
       customRightButton={
         <Button variant="outline" size="icon" onClick={switchTheme}>
@@ -35,6 +45,17 @@ export const Settings: FC = () => {
           <div>{profile.fullName}</div>
           <div>{profile.email}</div>
         </div>
+      </div>
+      <div className="flex flex-col gap-4 flex-1">
+        <Select onValueChange={changeLanguage} value={i18n.language}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder={t('settings.language')} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="en">English</SelectItem>
+            <SelectItem value="ru">Русский</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
     </PageWrapper>
   );

@@ -1,7 +1,38 @@
 {
-  "example": "Welcome {{name}}",
-  "example-description": {
-    "part1": "This is a simple example.",
-    "part2": "😉"
+  "common": {
+    "welcome": "Welcome",
+    "error": {
+      "404": "Page not found",
+      "500": "Server error"
+    },
+    "loading": "Loading..."
+  },
+  "auth": {
+    "create-account": "Create Account",
+    "full-name": "Full Name",
+    "sign-in": "Sign In",
+    "sign-out": "Sign Out",
+    "sign-up": "Sign Up",
+    "forgot-password": "Forgot Password",
+    "reset-password": "Reset Password",
+    "email": "Email",
+    "password": "Password",
+    "new-password": "New Password"
+  },
+  "my-library": {
+    "title": "My Library",
+    "my-books": "My Books",
+    "favorites": "Favorites",
+    "want-to-read": "Want to Read"
+  },
+  "my-diary": {
+    "title": "My Diary",
+    "reviews": "Reviews",
+    "diary": "Diary",
+    "lists": "Lists"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language"
   }
 }

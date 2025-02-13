@@ -10,11 +10,14 @@ import { useTheme } from '@/ui/hooks/useTheme.tsx';
 import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { toast } from 'sonner';
 import { InputWithIcon } from '@/ui/components/InputWithIcon';
+import { useTranslation } from 'react-i18next';
 
 const Login: FC = () => {
   const [passwordInputType, setPasswordInputType] = useState<
     'password' | 'text'
   >('password');
+
+  const { t } = useTranslation();
 
   const signIn = useProfileStore().signIn;
   const loading = useProfileStore().signInLoading;
@@ -48,7 +51,7 @@ const Login: FC = () => {
 
   return (
     <PageWrapper
-      title="Login"
+      title={t('common.welcome')}
       customRightButton={
         <Button variant="outline" size="icon" onClick={switchTheme}>
           {theme === 'light' ? (
@@ -66,12 +69,12 @@ const Login: FC = () => {
           name="login"
           required
           disabled={loading}
-          placeholder="Email"
+          placeholder={t('auth.email')}
         />
         <InputWithIcon
           type={passwordInputType}
           name="password"
-          placeholder="Password"
+          placeholder={t('auth.password')}
           required
           disabled={loading}
           endIcon={
@@ -89,7 +92,7 @@ const Login: FC = () => {
         <div className="flex flex-col gap-2 items-center">
           <div className="flex gap-4 w-full">
             <Button type="submit" disabled={loading} className="flex-1">
-              Sign in
+              {t('auth.sign-in')}
               {loading && (
                 <>
                   {' '}
@@ -100,10 +103,12 @@ const Login: FC = () => {
           </div>
           <div className="flex gap-2">
             <Button asChild variant="outline" size="sm" disabled={loading}>
-              <NavLink to={ROUTE.REGISTRATION}>Sign up</NavLink>
+              <NavLink to={ROUTE.REGISTRATION}>{t('auth.sign-up')}</NavLink>
             </Button>
             <Button asChild variant="outline" size="sm" disabled={loading}>
-              <NavLink to={ROUTE.FORGOT_PASSWORD}>Forgot password</NavLink>
+              <NavLink to={ROUTE.FORGOT_PASSWORD}>
+                {t('auth.forgot-password')}
+              </NavLink>
             </Button>
           </div>
         </div>
