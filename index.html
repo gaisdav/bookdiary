@@ -87,6 +87,7 @@
 
     <script>
       const THEME_ATTRIBUTE_KEY = 'data-theme';
+      const LNG_ATTRIBUTE_KEY = 'bookdiary-lng';
       const GET_THEME = () => {
         const isDeviceDark = window.matchMedia(
           '(prefers-color-scheme: dark)',
@@ -109,9 +110,20 @@
         localStorage.setItem(THEME_ATTRIBUTE_KEY, themeValue);
       };
 
+      const SWITCH_LNG = (lngValue) => {
+        document.documentElement.lang = lngValue;
+        localStorage.setItem(LNG_ATTRIBUTE_KEY, lngValue);
+      };
+
+      const GET_LNG = () => {
+        return localStorage.getItem(LNG_ATTRIBUTE_KEY) || 'en';
+      };
+
       const theme = GET_THEME();
+      const lng = GET_LNG();
 
       SWITCH_THEME(theme);
+      SWITCH_LNG(lng);
     </script>
   </head>
   <body>

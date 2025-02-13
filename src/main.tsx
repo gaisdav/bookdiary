@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import { App } from '@/App.tsx';
 import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
+import './lib/i18n/i18n.ts';
 
 const root = document.getElementById('root');
 

@@ -1,0 +1,7 @@
+{
+  "example": "Welcome {{name}}",
+  "example-description": {
+    "part1": "This is a simple example.",
+    "part2": "😉"
+  }
+}

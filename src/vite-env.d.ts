@@ -23,7 +23,10 @@ interface ImportMeta {
 }
 
 declare const SWITCH_THEME: (themeValue: string) => void;
+declare const SWITCH_LNG: (lngValue: string) => void;
 declare const GET_THEME: () => 'light' | 'dark';
+declare const GET_LNG: () => string;
 declare const THEME_ATTRIBUTE_KEY: string;
+declare const LNG_ATTRIBUTE_KEY: string;
 
 type Optional<T> = T | undefined;

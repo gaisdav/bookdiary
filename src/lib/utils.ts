@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { createEditor } from 'lexical';
 import { $generateHtmlFromNodes } from '@lexical/html';
+import i18next from 'i18next';
 
 /**
  * Tailwind CSS classnames
@@ -38,4 +39,9 @@ export const getErrorMessage = (
   }
 
   return defaultMessage;
+};
+
+export const changeLanguage = async (lng: string) => {
+  await i18next.changeLanguage(lng);
+  SWITCH_LNG(lng);
 };
