@@ -53,7 +53,7 @@ export const PageWrapper: FC<PageWrapperProps> = ({
     } else if (location.key === 'default') {
       navigate(ROUTE.HOME.ROOT);
     } else {
-      window.history.back();
+      navigate(-1);
     }
   };
 

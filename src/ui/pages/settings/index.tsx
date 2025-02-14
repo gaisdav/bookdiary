@@ -16,20 +16,28 @@ import {
 } from '@/ui/components/ui/select.tsx';
 import { useTranslation } from 'react-i18next';
 import { Label } from '@/ui/components/ui/label.tsx';
+import { useNavigate } from 'react-router-dom';
+import { ROUTE } from '@/ui/routes/routes.ts';
 
 export const Settings: FC = () => {
   const { switchTheme, theme } = useTheme();
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const profile = useProfileStore().profile;
 
   if (!profile) {
     return <div>user not found</div>;
   }
 
+  const goBack = () => {
+    navigate(ROUTE.PROFILE.ROOT);
+  };
+
   return (
     <PageWrapper
       title={t('settings.title')}
       showBack
+      onGoBack={goBack}
       customRightButton={
         <Button variant="outline" size="icon" onClick={switchTheme}>
           {theme === 'light' ? (
