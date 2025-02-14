@@ -172,9 +172,9 @@ export const UpdatePassword: FC = () => {
           )}
 
           {passwordUpdated ? (
-            <NavLink to={ROUTE.HOME}>Go to app</NavLink>
+            <NavLink to={ROUTE.HOME.ROOT}>Go to app</NavLink>
           ) : (
-            <NavLink to={ROUTE.LOGIN}>Go to sign in page</NavLink>
+            <NavLink to={ROUTE.AUTH.LOGIN}>Go to sign in page</NavLink>
           )}
         </form>
       </div>

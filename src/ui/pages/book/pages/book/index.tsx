@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react';
+import { FC, useState } from 'react';
 import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { Img } from '@/ui/components/Img';
@@ -50,8 +50,14 @@ import {
 } from '@/ui/components/ui/drawer';
 import { convertJSONToHTML } from '@/lib/utils.ts';
 import { Progress } from '@/ui/components/Progress.tsx';
+import { TMyBookPage } from '@/ui/pages/book/pages/book/types.ts';
+import { useNavigate } from 'react-router-dom';
 
-export const Book = (): JSX.Element => {
+export type TBookProps = {
+  parentRoute?: TMyBookPage;
+};
+
+export const Book: FC<TBookProps> = ({ parentRoute }) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   // const [reviewJSON, setReviewJSON] = useState('');
   // const [reviewText, setReviewText] = useState('');
@@ -63,13 +69,14 @@ export const Book = (): JSX.Element => {
   const reviews = useReviewStore().reviews;
   const profile = useProfileStore().profile;
   const isPending = useBookStore().bookLoading;
+  const book = useBookStore().book;
   const addToFavorite = useBookStore().addToFavorite;
   const removeFromFavorite = useBookStore().removeFromFavorite;
   const changeBookStatus = useBookStore().changeBookStatus;
   const resetBookStatus = useBookStore().resetBookStatus;
   const favoriteLoading = useBookStore().favoriteLoading;
 
-  const book = useBookStore().book;
+  const navigate = useNavigate();
 
   if (isPending) {
     return <PageWrapper title="Loading book...">Loading book...</PageWrapper>;
@@ -155,6 +162,12 @@ export const Book = (): JSX.Element => {
 
   const title = book.title || 'Book';
 
+  const goBack = () => {
+    if (!parentRoute) return;
+
+    navigate(parentRoute);
+  };
+
   return (
     <Drawer
       open={openDrawer}
@@ -166,6 +179,7 @@ export const Book = (): JSX.Element => {
         className={css.pageWrapper}
         showSearch
         showBack
+        onGoBack={parentRoute ? goBack : void 0}
       >
         <div className={css.mainInfo}>
           {book.cover && (

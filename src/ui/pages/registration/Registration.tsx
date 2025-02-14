@@ -164,7 +164,7 @@ const Registration: FC = () => {
           )}
         </Button>
         {signedUp && (
-          <NavLink to={ROUTE.LOGIN} className="text-center">
+          <NavLink to={ROUTE.AUTH.LOGIN} className="text-center">
             Go sign in page
           </NavLink>
         )}

@@ -7,7 +7,6 @@ import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useSearchParams } from 'react-router-dom';
 import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { BookListItem } from '@/ui/components/BookListItem';
-import { MoveLeftIcon } from 'lucide-react';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
@@ -72,10 +71,6 @@ function Search() {
     }
   };
 
-  const goBack = () => {
-    window.history.back();
-  };
-
   const handleSearch = () => {
     formRef.current?.requestSubmit();
   };
@@ -86,11 +81,7 @@ function Search() {
       className={css.wrapper}
       title="Search"
       showSearch={false}
-      customLeftButton={
-        <Button variant="ghost" size="icon" onClick={goBack}>
-          <MoveLeftIcon />
-        </Button>
-      }
+      showBack
       customRightButton={
         <Button
           className={css.searchBtn}

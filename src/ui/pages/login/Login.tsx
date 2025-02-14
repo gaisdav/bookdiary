@@ -103,10 +103,12 @@ const Login: FC = () => {
           </div>
           <div className="flex gap-2">
             <Button asChild variant="outline" size="sm" disabled={loading}>
-              <NavLink to={ROUTE.REGISTRATION}>{t('auth.sign-up')}</NavLink>
+              <NavLink to={ROUTE.AUTH.REGISTRATION}>
+                {t('auth.sign-up')}
+              </NavLink>
             </Button>
             <Button asChild variant="outline" size="sm" disabled={loading}>
-              <NavLink to={ROUTE.FORGOT_PASSWORD}>
+              <NavLink to={ROUTE.AUTH.FORGOT_PASSWORD}>
                 {t('auth.forgot-password')}
               </NavLink>
             </Button>

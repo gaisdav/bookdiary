@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   createHashRouter,
+  Outlet,
   redirect,
 } from 'react-router-dom';
 import { Layout } from '@/ui/components/Layout/Layout.tsx';
@@ -19,6 +20,7 @@ import { MyReviews } from '@/ui/pages/reviews';
 import { Books } from '@/ui/pages/books';
 import { Settings } from '@/ui/pages/settings';
 import { ForgotPassword } from '@/ui/pages/forgotPassword';
+import { UpdatePassword } from '@/ui/pages/updatePassword';
 
 const {
   fetchFirstList,
@@ -38,257 +40,212 @@ const createRouter =
 export const initRouter = (profile: TUser | null) =>
   createRouter([
     {
-      path: ROUTE.HOME,
+      path: ROUTE.HOME.ROOT,
       Component: Layout,
       shouldRevalidate: () => false,
       children: [
         {
-          path: ROUTE.HOME,
-          shouldRevalidate: () => false,
+          path: ROUTE.HOME.ROOT,
           element: <Home />,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            return null;
-          },
+          loader: () => (!profile ? redirect(ROUTE.AUTH.LOGIN) : null),
         },
+
+        // Книги (поиск + страница книги)
         {
-          path: ROUTE.BOOKS,
-          loader: ({ request }) => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
+          path: ROUTE.SEARCH.ROOT,
+          element: <Outlet />,
 
-            const query = new URL(request.url).searchParams.get('query');
-            if (query) {
-              fetchFirstList({ query });
-            }
-
-            return null;
-          },
-          element: <Search />,
+          children: [
+            {
+              path: ROUTE.SEARCH.ROOT,
+              element: <Search />,
+              loader: ({ request }) => {
+                if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+                const query = new URL(request.url).searchParams.get('query');
+                if (query) fetchFirstList({ query });
+                return null;
+              },
+            },
+            {
+              path: ROUTE.SEARCH.BOOK,
+              element: <Book parentRoute={ROUTE.SEARCH.ROOT} />,
+              loader: async ({ params }) => {
+                if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+                if (params.bookId) {
+                  getBookReviews(params.bookId);
+                  fetchBook({ userId: profile.id, bookId: params.bookId });
+                }
+                return null;
+              },
+            },
+          ],
         },
+
+        // Дневник
         {
-          path: ROUTE.BOOK,
-          element: <Book />,
-          loader: async ({ params }) => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            const bookId = params.bookId;
-
-            if (bookId) {
-              getBookReviews(bookId);
-              fetchBook({ userId: profile.id, bookId });
-            }
-
-            return null;
-          },
-        },
-        {
-          path: ROUTE.DIARY,
+          path: ROUTE.DIARY.ROOT,
           element: <MyDiary />,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            return null;
-          },
+          loader: () => (!profile ? redirect(ROUTE.AUTH.LOGIN) : null),
         },
-        {
-          path: ROUTE.PROFILE,
-          element: <Profile />,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
 
-            return null;
-          },
+        // Профиль и настройки
+        {
+          path: ROUTE.PROFILE.ROOT,
+          element: <Outlet />,
+          children: [
+            {
+              path: ROUTE.PROFILE.ROOT,
+              element: <Profile />,
+              loader: () => (!profile ? redirect(ROUTE.AUTH.LOGIN) : null),
+            },
+            {
+              path: ROUTE.PROFILE.SETTINGS,
+              element: <Settings />,
+              loader: () => (!profile ? redirect(ROUTE.AUTH.LOGIN) : null),
+            },
+          ],
         },
+
+        // Рецензии
         {
-          path: ROUTE.SETTINGS,
-          element: <Settings />,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            return null;
-          },
-        },
-        {
-          path: ROUTE.REVIEWS,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            getUserReviews(profile.id);
-
-            return null;
-          },
+          path: ROUTE.REVIEWS.ROOT,
           element: <MyReviews />,
-        },
-        {
-          path: ROUTE.REVIEWS_BOOK,
-          element: <Book />,
-          loader: async ({ params }) => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            const bookId = params.bookId;
-
-            if (bookId) {
-              getBookReviews(bookId);
-              fetchBook({ userId: profile.id, bookId });
-            }
-
-            return null;
-          },
-        },
-        {
-          path: ROUTE.MY_BOOKS,
           loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            fetchBooksByStatuses({
-              userId: profile.id,
-              statuses: [1, 2],
-            });
-
+            if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+            getUserReviews(profile.id);
             return null;
           },
-          element: <Books type="my-books" />,
         },
         {
-          path: ROUTE.FAVORITES,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            if (favoriteBooks.size !== 0) {
-              return null;
-            }
-
-            getFavoriteBooks(profile.id);
-
-            return null;
-          },
-          element: <Books type="favorites" />,
-        },
-        {
-          path: ROUTE.WANT_TO_READ,
-          loader: async () => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            fetchBooksByStatuses({
-              userId: profile.id,
-              statuses: [3],
-            });
-
-            return null;
-          },
-          element: <Books type="want-to-read" />,
-        },
-        {
-          path: ROUTE.LIBRARY_READ_BOOK,
+          path: ROUTE.REVIEWS.BOOK,
           element: <Book />,
           loader: async ({ params }) => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
+            if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+            if (params.bookId) {
+              getBookReviews(params.bookId);
+              fetchBook({ userId: profile.id, bookId: params.bookId });
             }
-
-            const bookId = params.bookId;
-
-            if (bookId) {
-              getBookReviews(bookId);
-              fetchBook({ userId: profile.id, bookId });
-            }
-
-            return null;
-          },
-        },
-        {
-          path: ROUTE.LIBRARY_READING_BOOK,
-          element: <Book />,
-          loader: async ({ params }) => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
-
-            const bookId = params.bookId;
-
-            if (bookId) {
-              getBookReviews(bookId);
-              fetchBook({ userId: profile.id, bookId });
-            }
-
             return null;
           },
         },
 
+        // Моя библиотека
         {
-          path: ROUTE.LIBRARY_WANT_TO_READ_BOOK,
-          element: <Book />,
-          loader: async ({ params }) => {
-            if (!profile) {
-              return redirect(ROUTE.LOGIN);
-            }
+          path: ROUTE.MY_LIBRARY.MY_BOOKS.ROOT,
+          element: <Outlet />,
+          children: [
+            {
+              path: ROUTE.MY_LIBRARY.MY_BOOKS.ROOT,
+              element: <Books type="my-books" />,
+              loader: async () => {
+                if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+                fetchBooksByStatuses({ userId: profile.id, statuses: [1, 2] });
+                return null;
+              },
+            },
+            {
+              path: ROUTE.MY_LIBRARY.MY_BOOKS.BOOK,
+              element: <Book parentRoute={ROUTE.MY_LIBRARY.MY_BOOKS.ROOT} />,
+              loader: async ({ params }) => {
+                if (!profile) return redirect(ROUTE.AUTH.LOGIN);
 
-            const bookId = params.bookId;
+                if (params.bookId) {
+                  fetchBook({ userId: profile.id, bookId: params.bookId });
+                }
 
-            if (bookId) {
-              getBookReviews(bookId);
-              fetchBook({ userId: profile.id, bookId });
-            }
-
-            return null;
-          },
+                return null;
+              },
+            },
+          ],
         },
+
         {
-          path: ROUTE.LOGIN,
+          path: ROUTE.MY_LIBRARY.FAVORITES.ROOT,
+          element: <Outlet />,
+          children: [
+            {
+              path: ROUTE.MY_LIBRARY.FAVORITES.ROOT,
+              element: <Books type="favorites" />,
+              loader: async () => {
+                if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+                if (favoriteBooks.size === 0) {
+                  getFavoriteBooks(profile.id);
+                }
+                return null;
+              },
+            },
+            {
+              path: ROUTE.MY_LIBRARY.FAVORITES.BOOK,
+              element: <Book parentRoute={ROUTE.MY_LIBRARY.FAVORITES.ROOT} />,
+              loader: async ({ params }) => {
+                if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+
+                if (params.bookId) {
+                  fetchBook({ userId: profile.id, bookId: params.bookId });
+                }
+
+                return null;
+              },
+            },
+          ],
+        },
+
+        {
+          path: ROUTE.MY_LIBRARY.WANT_TO_READ.ROOT,
+          element: <Outlet />,
+          children: [
+            {
+              path: ROUTE.MY_LIBRARY.WANT_TO_READ.ROOT,
+              element: <Books type="want-to-read" />,
+              loader: async () => {
+                if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+                if (favoriteBooks.size === 0) {
+                  fetchBooksByStatuses({
+                    userId: profile.id,
+                    statuses: [3],
+                  });
+                }
+                return null;
+              },
+            },
+            {
+              path: ROUTE.MY_LIBRARY.WANT_TO_READ.BOOK,
+              element: (
+                <Book parentRoute={ROUTE.MY_LIBRARY.WANT_TO_READ.ROOT} />
+              ),
+              loader: async ({ params }) => {
+                if (!profile) return redirect(ROUTE.AUTH.LOGIN);
+
+                if (params.bookId) {
+                  fetchBook({ userId: profile.id, bookId: params.bookId });
+                }
+
+                return null;
+              },
+            },
+          ],
+        },
+
+        // Авторизация
+        {
+          path: ROUTE.AUTH.LOGIN,
           element: <Login />,
-          index: true,
-          loader: async () => {
-            if (profile) {
-              return redirect(ROUTE.HOME);
-            }
-
-            return null;
-          },
+          loader: () => (profile ? redirect(ROUTE.HOME.ROOT) : null),
         },
         {
-          path: ROUTE.REGISTRATION,
+          path: ROUTE.AUTH.REGISTRATION,
           element: <Registration />,
-          loader: async () => {
-            if (profile) {
-              return redirect(ROUTE.HOME);
-            }
-
-            return null;
-          },
+          loader: () => (profile ? redirect(ROUTE.HOME.ROOT) : null),
         },
         {
-          path: ROUTE.FORGOT_PASSWORD,
+          path: ROUTE.AUTH.FORGOT_PASSWORD,
           element: <ForgotPassword />,
-          loader: async () => {
-            if (profile) {
-              return redirect(ROUTE.HOME);
-            }
-
-            return null;
-          },
+          loader: () => (profile ? redirect(ROUTE.HOME.ROOT) : null),
+        },
+        {
+          path: ROUTE.AUTH.UPDATE_PASSWORD,
+          element: <UpdatePassword />,
+          loader: () => (profile ? redirect(ROUTE.HOME.ROOT) : null),
         },
       ],
     },

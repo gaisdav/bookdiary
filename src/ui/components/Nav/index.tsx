@@ -8,15 +8,15 @@ import { ROUTE } from '@/ui/routes/routes.ts';
 export const Navigation = () => {
   const links = [
     {
-      to: ROUTE.HOME,
+      to: ROUTE.HOME.ROOT,
       icon: <HomeIcon />,
     },
     {
-      to: ROUTE.DIARY,
+      to: ROUTE.DIARY.ROOT,
       icon: <BookIcon />,
     },
     {
-      to: ROUTE.PROFILE,
+      to: ROUTE.PROFILE.ROOT,
       icon: <PersonIcon />,
     },
   ];

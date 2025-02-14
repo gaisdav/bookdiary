@@ -25,7 +25,7 @@ const Profile: FC = () => {
       showSearch={false}
       customRightButton={
         <Button variant="outline" size="icon" asChild>
-          <NavLink viewTransition to={ROUTE.SETTINGS}>
+          <NavLink viewTransition to={ROUTE.PROFILE.SETTINGS}>
             <SettingsIcon />
           </NavLink>
         </Button>

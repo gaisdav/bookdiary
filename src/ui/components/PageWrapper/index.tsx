@@ -9,7 +9,7 @@ import css from './styles.module.scss';
 import { DEFAULT_DOCUMENT_TITLE } from '@/lib/constants.ts';
 import { MoveLeftIcon, SearchIcon } from 'lucide-react';
 import { Button } from '@/ui/components/ui/button.tsx';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { ROUTE } from '@/ui/routes/routes.ts';
 import PWABadge from '@/PWABadge.tsx';
 import { cn } from '@/lib/utils.ts';
@@ -24,6 +24,7 @@ type PageWrapperProps = PropsWithChildren &
     contentClassName?: string;
     customRightButton?: ReactNode;
     customLeftButton?: ReactNode;
+    onGoBack?: () => void;
   };
 
 export const PageWrapper: FC<PageWrapperProps> = ({
@@ -36,14 +37,24 @@ export const PageWrapper: FC<PageWrapperProps> = ({
   contentClassName = '',
   customRightButton,
   customLeftButton,
+  onGoBack,
   ...props
 }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = title;
   }, [title]);
 
   const goBack = () => {
-    window.history.back();
+    if (onGoBack) {
+      onGoBack();
+    } else if (location.key === 'default') {
+      navigate(ROUTE.HOME.ROOT);
+    } else {
+      window.history.back();
+    }
   };
 
   const leftButton =
@@ -68,7 +79,7 @@ export const PageWrapper: FC<PageWrapperProps> = ({
         asChild
         className="relative right-0"
       >
-        <NavLink viewTransition to={ROUTE.BOOKS}>
+        <NavLink viewTransition to={ROUTE.SEARCH.ROOT}>
           <SearchIcon />
         </NavLink>
       </Button>

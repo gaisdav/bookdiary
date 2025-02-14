@@ -1,26 +1,41 @@
-export enum ROUTE {
-  HOME = '/',
-  BOOKS = '/books',
-  BOOK = '/books/:bookId',
-  DIARY = '/diary',
-  MY_BOOKS = '/my-books',
-  FAVORITES = '/favorites',
-  WANT_TO_READ = '/want-to-read',
-  LIBRARY_READ_BOOK = '/library/read/:bookId',
-  LIBRARY_READING = '/library/reading',
-  LIBRARY_READING_BOOK = '/library/reading/:bookId',
-  LIBRARY_WANT_TO_READ_BOOK = '/library/want-to-read/:bookId',
-  PROFILE = '/profile',
-  SETTINGS = '/settings',
-  REVIEWS = '/reviews',
-  REVIEWS_BOOK = '/reviews/:bookId',
-  LOGIN = '/login',
-  REGISTRATION = '/registration',
-  FORGOT_PASSWORD = '/forgot-password',
-  UPDATE_PASSWORD = '/update-password',
-}
+export const ROUTE = {
+  HOME: { ROOT: '/' },
 
-export const dynamicRoute = (route: ROUTE, params: Record<string, string>) => {
+  SEARCH: { ROOT: '/search', BOOK: '/search/:bookId' },
+
+  DIARY: { ROOT: '/diary' },
+
+  MY_LIBRARY: {
+    MY_BOOKS: {
+      ROOT: '/my-books',
+      BOOK: '/my-books/:bookId',
+    },
+    WANT_TO_READ: {
+      ROOT: '/want-to-read',
+      BOOK: '/want-to-read/:bookId',
+    },
+    FAVORITES: {
+      ROOT: '/favorites',
+      BOOK: '/favorites/:bookId',
+    },
+  },
+
+  REVIEWS: { ROOT: '/reviews', BOOK: '/reviews/:bookId' },
+
+  PROFILE: {
+    ROOT: '/profile',
+    SETTINGS: '/profile/settings',
+  },
+
+  AUTH: {
+    LOGIN: '/login',
+    REGISTRATION: '/registration',
+    FORGOT_PASSWORD: '/forgot-password',
+    UPDATE_PASSWORD: '/update-password',
+  },
+} as const;
+
+export const dynamicRoute = (route: string, params: Record<string, string>) => {
   return Object.keys(params).reduce((acc, key) => {
     return acc.replace(`:${key}`, params[key]);
   }, route);

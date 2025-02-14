@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { initRouter } from '@/ui/routes/router.tsx';
-import { PageWrapper } from '@/ui/components/PageWrapper';
 import { useProfileStore } from './data/profile/useProfileStore';
 
 export const App: FC = () => {
@@ -11,9 +10,7 @@ export const App: FC = () => {
   return (
     <>
       {profileLoading ? (
-        <PageWrapper title="Initializing app..." showSearch={false}>
-          Initializing app...
-        </PageWrapper>
+        <div className="p-4">Initializing app...</div>
       ) : (
         <RouterProvider router={initRouter(profile)} />
       )}

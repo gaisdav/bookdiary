@@ -6,15 +6,15 @@ import { Link } from 'react-router-dom';
 const MyLibraryLinks = [
   {
     label: 'My books',
-    url: ROUTE.MY_BOOKS,
+    url: ROUTE.MY_LIBRARY.MY_BOOKS.ROOT,
   },
   {
     label: 'Favorites',
-    url: ROUTE.FAVORITES,
+    url: ROUTE.MY_LIBRARY.FAVORITES.ROOT,
   },
   {
     label: 'Want to read',
-    url: ROUTE.WANT_TO_READ,
+    url: ROUTE.MY_LIBRARY.WANT_TO_READ.ROOT,
   },
 ];
 
