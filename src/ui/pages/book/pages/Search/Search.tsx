@@ -7,6 +7,7 @@ import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useSearchParams } from 'react-router-dom';
 import { useBookStore } from '@/data/books/store/useBookStore.tsx';
 import { BookListItem } from '@/ui/components/BookListItem';
+import { useTranslation } from 'react-i18next';
 
 const BOOK_TITLE_FIELD = 'bookTitle';
 
@@ -20,6 +21,8 @@ function Search() {
   );
   const fetchList = useBookStore((state) => state.fetchPaginatedList);
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const { t } = useTranslation();
 
   const formRef = useRef<HTMLFormElement>(null);
   const bookTitleField = useRef<HTMLInputElement>(null);
@@ -79,7 +82,7 @@ function Search() {
     <PageWrapper
       onScroll={handleScroll}
       className={css.wrapper}
-      title="Search"
+      title={t('search.title')}
       showSearch={false}
       showBack
       customRightButton={
@@ -97,7 +100,7 @@ function Search() {
           <Input
             ref={bookTitleField}
             type="search"
-            placeholder="Book title"
+            placeholder={t('search.placeholder')}
             name={BOOK_TITLE_FIELD}
             autoFocus={true}
             required
@@ -108,20 +111,20 @@ function Search() {
     >
       <div>
         {firstPageIsLoading ? (
-          'Loading...'
+          t('common.loading')
         ) : Array.isArray(data?.items) ? (
           data?.items.length > 0 ? (
             <>
               {data?.items.map((book) => (
                 <BookListItem key={book.id} book={book} />
               ))}
-              {otherPagesAreLoading && <div>Loading...</div>}
+              {otherPagesAreLoading && <div>{t('common.loading')}</div>}
             </>
           ) : (
-            'No data'
+            t('search.empty')
           )
         ) : (
-          'Type something to search'
+          t('search.idle')
         )}
       </div>
     </PageWrapper>

@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from '@/ui/components/ui/select.tsx';
 import { useTranslation } from 'react-i18next';
+import { Label } from '@/ui/components/ui/label.tsx';
 
 export const Settings: FC = () => {
   const { switchTheme, theme } = useTheme();
@@ -47,8 +48,9 @@ export const Settings: FC = () => {
         </div>
       </div>
       <div className="flex flex-col gap-4 flex-1">
+        <Label htmlFor="languages">{t('settings.language')}</Label>
         <Select onValueChange={changeLanguage} value={i18n.language}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger id="languages" className="w-[180px]">
             <SelectValue placeholder={t('settings.language')} />
           </SelectTrigger>
           <SelectContent>

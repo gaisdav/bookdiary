@@ -52,6 +52,7 @@ import { convertJSONToHTML } from '@/lib/utils.ts';
 import { Progress } from '@/ui/components/Progress.tsx';
 import { TMyBookPage } from '@/ui/pages/book/pages/book/types.ts';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export type TBookProps = {
   parentRoute?: TMyBookPage;
@@ -76,10 +77,13 @@ export const Book: FC<TBookProps> = ({ parentRoute }) => {
   const resetBookStatus = useBookStore().resetBookStatus;
   const favoriteLoading = useBookStore().favoriteLoading;
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   if (isPending) {
-    return <PageWrapper title="Loading book...">Loading book...</PageWrapper>;
+    return (
+      <PageWrapper title={t('common.loading')}>Loading book...</PageWrapper>
+    );
   }
 
   if (!book) {
@@ -160,7 +164,7 @@ export const Book: FC<TBookProps> = ({ parentRoute }) => {
     }
   };
 
-  const title = book.title || 'Book';
+  const title = book.title || t('book.title');
 
   const goBack = () => {
     if (!parentRoute) return;
@@ -348,7 +352,7 @@ export const Book: FC<TBookProps> = ({ parentRoute }) => {
             {/*</div>*/}
             <DrawerFooter>
               <DrawerClose asChild>
-                <Button type="submit">Close</Button>
+                <Button type="submit">{t('common.close')}</Button>
               </DrawerClose>
             </DrawerFooter>
           </div>

@@ -5,7 +5,11 @@
       "404": "Page not found",
       "500": "Server error"
     },
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "no-results": "No results found",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "auth": {
     "create-account": "Create Account",
@@ -30,6 +34,18 @@
     "reviews": "Reviews",
     "diary": "Diary",
     "lists": "Lists"
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "search": {
+    "title": "Search",
+    "idle": "Type something to search",
+    "empty": "No results found",
+    "placeholder": "Book title or author"
+  },
+  "book": {
+    "title": "Book"
   },
   "settings": {
     "title": "Settings",

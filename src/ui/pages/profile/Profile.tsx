@@ -6,10 +6,13 @@ import { useProfileStore } from '@/data/profile/useProfileStore.tsx';
 import { Img } from '@/ui/components/Img';
 import { ROUTE } from '@/ui/routes/routes.ts';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Profile: FC = () => {
   const profile = useProfileStore().profile;
   const signOut = useProfileStore().signOut;
+
+  const { t } = useTranslation();
 
   if (!profile) {
     return (
@@ -21,7 +24,7 @@ const Profile: FC = () => {
 
   return (
     <PageWrapper
-      title="Profile"
+      title={t('profile.title')}
       showSearch={false}
       customRightButton={
         <Button variant="outline" size="icon" asChild>
@@ -39,7 +42,7 @@ const Profile: FC = () => {
         </div>
 
         <Button variant="outline" onClick={signOut}>
-          <LogOutIcon /> Sign out
+          <LogOutIcon /> {t('auth.sign-out')}
         </Button>
       </div>
     </PageWrapper>

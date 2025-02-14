@@ -5,12 +5,7 @@ import { PageType, TMyBooksPage } from '@/ui/pages/books/types.ts';
 import { BookCardItem } from '@/ui/components/BookCardItem';
 import { ROUTE } from '@/ui/routes/routes.ts';
 import { useNavigate } from 'react-router-dom';
-
-const header: Record<TMyBooksPage, string> = {
-  'my-books': 'My books',
-  'want-to-read': 'Want to read',
-  favorites: 'Favorites',
-};
+import { useTranslation } from 'react-i18next';
 
 const bookRoutes: Record<TMyBooksPage, string> = {
   'my-books': ROUTE.MY_LIBRARY.MY_BOOKS.BOOK,
@@ -23,6 +18,14 @@ export const Books: FC<PageType> = ({ type }) => {
   const favoriteBooks = useBookStore().favoriteBooks;
   const favoriteLoading = useBookStore().favoriteLoading;
   const loading = useBookStore().collectionLoading;
+
+  const { t } = useTranslation();
+
+  const header: Record<TMyBooksPage, string> = {
+    'my-books': t('my-library.my-books'),
+    favorites: t('my-library.favorites'),
+    'want-to-read': t('my-library.want-to-read'),
+  };
 
   const navigate = useNavigate();
 
